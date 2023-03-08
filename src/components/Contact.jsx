@@ -1,9 +1,19 @@
 const Contact = () => {
     return (
-        <div className="px-8 pt-24">
-        <h1 className="text-3xl">Contact</h1>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus ducimus eveniet fuga assumenda aliquid ad veniam vitae ullam. Labore consectetur nihil asperiores deleniti ducimus rem amet, quisquam, saepe vero harum quam excepturi aspernatur corporis obcaecati expedita ullam alias ipsum commodi totam at nobis eum. Nesciunt sapiente ut itaque voluptatem perferendis quasi quia cumque quae amet, praesentium a fugit temporibus qui, vel velit earum, non id enim voluptatibus assumenda omnis minima numquam adipisci? Saepe voluptates quibusdam vel dicta iste ut dolor impedit provident minus consequuntur incidunt perspiciatis, optio, aperiam nobis! Odit sunt quos quod! Repellendus, minima ea necessitatibus consequuntur rerum porro. Cumque et incidunt sint recusandae ex temporibus soluta, voluptatibus quibusdam! Saepe ipsum quia culpa, repudiandae et modi, consequuntur placeat expedita minima non quas nam quidem nihil id vel laboriosam, aliquid quis animi voluptate facilis eos suscipit facere explicabo? Rem sunt consequuntur distinctio officiis illo? Explicabo autem libero sunt doloribus. Eveniet ipsum est labore rem voluptate ipsam odit. Est beatae natus, accusamus voluptate molestiae ad fugiat vero itaque deserunt voluptas eaque, eveniet cum optio ducimus iusto tempore. Amet, facere animi dolorum hic sint labore corrupti saepe numquam atque eligendi assumenda illum itaque consequuntur dolor distinctio odit similique, quo porro et deserunt!
+      <div id='contact' className="container p-12 md:px-40 2xl:px-96 mx-auto ">
+        <div id='header-contact'>
+          <h1 className="text-2xl font-extrabold">CONTACT ME</h1>
+          <p className="font-extralight text-base">Required fields<span className="text-red-400"> *</span></p>
         </div>
+        <div id='form'>
+          <form>
+        <div className="flex flex-row items-start w-[100%] pt-8">
+          <input className="border-2 border-black p-2 mr-2" type='text' placeholder="First Name"></input>
+          <input className="border-2 border-black p-2 ml-2" type='text' placeholder="Last Name"></input>
+        </div>
+          </form>
+        </div>
+      </div>
     )
 }
 
