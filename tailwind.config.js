@@ -9,7 +9,7 @@ module.exports = {
       'background': '#0c0c0c',
       'altbackground': '#111111',
       'foreground': '#ffffff',
-      'altforeground': '#E9EAED',
+      'altforeground': '#CECECE',
       'primary': '#e5202b',      
       'altprimary': '#B71A22',
     },
