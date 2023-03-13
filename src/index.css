@@ -11,5 +11,5 @@
 }
 
 body {
-  @apply bg-dark;
+  @apply bg-background;
 }

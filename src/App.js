@@ -7,7 +7,7 @@ import Contact from './components/Contact'
 
 const App = () => {
   return (
-    <div className='App'>
+    <div className='App px-4 xl:px-28 2xl:px-96'>
       <Navbar />
       <Routes>
         <Route path='/' element={ <Home /> } />
