@@ -1,20 +1,20 @@
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Home from './components/Home'
-import About from './components/About'
 import Blog from './components/Blog'
-import Contact from './components/Contact'
+import Footer from './components/Footer'
 
 const App = () => {
   return (
-    <div className='App px-4 xl:px-28 2xl:px-96'>
+    <div>
       <Navbar />
+    <div className='px-4 xl:px-28 2xl:px-96'>
       <Routes>
         <Route path='/' element={ <Home /> } />
-        <Route path='about' element={ <About /> } />
         <Route path='blog' element={ <Blog /> } />
-        <Route path='contact' element={ <Contact /> } />
       </Routes>
+    </div>
+      <Footer />
     </div>
   );
 }

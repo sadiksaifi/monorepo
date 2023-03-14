@@ -1,7 +1,7 @@
 const SkillButton = (props) => {
   return (
     <div>
-      <button className='bg-neutral-800 text-foreground font-bold px-8 py-[0.7rem] rounded-sm' type='button'>{props.name}</button>
+      <button className='bg-altbackground hover:bg-primary text-sm text-foreground font-bold px-4 md:px-6 py-[0.6rem] md:py-[0.8rem] rounded-[0.2rem]' type='button'>{props.name}</button>
     </div>
   ) 
 }

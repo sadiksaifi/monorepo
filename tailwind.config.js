@@ -7,7 +7,7 @@ module.exports = {
     extend: {
     colors: {
       'background': '#0c0c0c',
-      'altbackground': '#111111',
+      'altbackground': '#1a1a1a',
       'foreground': '#ffffff',
       'altforeground': '#CECECE',
       'primary': '#e5202b',      

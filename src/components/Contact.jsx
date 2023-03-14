@@ -1,20 +1,31 @@
+import Dash from './Dash'
+import Button from './Button'
+
 const Contact = () => {
-    return (
-      <div className="container p-12 md:px-40 2xl:px-96 mx-auto ">
-        <div id='header-contact'>
-          <h1 className="text-2xl font-extrabold">CONTACT ME</h1>
-          <p className="font-extralight text-base">Required fields<span className="text-red-400"> *</span></p>
+  return (
+    <section id='contact' href='contact' className='flex flex-col w-full mt-20 item-center text-foreground'>
+      <h1 className='text-3xl md:text-4xl mx-auto font-extrabold uppercase tracking-[0.4rem]'>
+        Contact
+      </h1>
+      <Dash className='mx-auto my-6'/>
+      <p className="text-center text-sm text-altforeground">Feel free to Contact me by submitting the form below and I will get back to you as soon as possible</p>
+      <form className='flex flex-col gap-2 w-full md:w-[80%] mx-auto m-10 p-8 bg-altbackground rounded-xl'>
+        <div className="flex flex-col">
+          <label htmlFor='name' className='text-sm font-bold text-altforeground'>Name</label>
+          <input type='text' name='name' className='rounded-lg p-4 my-2 text-sm bg-background text-foreground font-extrabold' placeholder="Enter Your Name" />
         </div>
-        <div id='form'>
-          <form>
-        <div className="flex flex-row items-start w-[100%] pt-8">
-          <input className="border-2 border-black p-2 mr-2" type='text' placeholder="First Name"></input>
-          <input className="border-2 border-black p-2 ml-2" type='text' placeholder="Last Name"></input>
+        <div className="flex flex-col">
+          <label htmlFor='name' className='text-sm font-bold text-altforeground'>Email</label>
+          <input type='email' name='email' className='rounded-lg p-4 my-2 text-sm bg-background text-foreground font-extrabold' placeholder="Enter Your Email" />
         </div>
-          </form>
+        <div className="flex flex-col">
+          <label htmlFor='name' className='text-sm font-bold text-altforeground'>Message</label>
+          <textarea name='name' id='name' className='rounded-lg p-4 my-2 h-52 text-sm bg-background resize-none text-foreground font-extrabold' placeholder="Enter Your Message" />
         </div>
-      </div>
-    )
+        <Button content='Submit' type='button' className='py-4 bg-primary text-foreground hover:bg-altforeground hover:text-background' />
+      </form>
+    </section>
+  )
 }
 
 export default Contact
