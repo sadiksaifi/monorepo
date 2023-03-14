@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import {
   AiFillGithub,
   AiFillTwitterCircle,
-  AiFillInstagram,
+  AiFillLinkedin,
 } from 'react-icons/ai'
 import { HiMail } from 'react-icons/hi'
 import About from './About'
@@ -13,7 +13,7 @@ const Home = () => {
     <>
       <section
         id='home'
-        className='text-foreground flex flex-col justify-center items-center gap-8 text-center h-[90vh] pt-8 md:px-[5.5vw]'
+        className='text-foreground flex flex-col justify-center items-center gap-8 text-center h-[90vh] pt-16 md:px-[5.5vw]'
       >
         <h1 className='text-4xl md:text-5xl font-extrabold px-8 uppercase leading-[3rem] tracking-[0.2rem]'>
           Hey, I'm Sadik Saifi
@@ -39,13 +39,13 @@ const Home = () => {
             </Link>
           </li>
           <li className='hover:bg-primary hover:text-foreground p-4'>
-            <Link to='https://twitter.com/sadikeey' target='_blank'>
-              <AiFillTwitterCircle />
+            <Link to='https://linkedin.com/in/sadikeey' target='_blank'>
+              <AiFillLinkedin />
             </Link>
           </li>
           <li className='hover:bg-primary hover:text-foreground p-4'>
-            <Link to='https://instagram.com/sadikeey' target='_blank'>
-              <AiFillInstagram />
+            <Link to='https://twitter.com/sadikeey' target='_blank'>
+              <AiFillTwitterCircle />
             </Link>
           </li>
           <li className='hover:bg-primary hover:text-foreground p-4 hover:rounded-br-lg'>

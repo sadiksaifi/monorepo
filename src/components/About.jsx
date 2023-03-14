@@ -21,7 +21,7 @@ const About = () => {
         className='flex flex-col md:flex-row mt-8 md:mt-28 md:justify-evenly w-full'
       >
         <div id='about-main' className='md:pr-8 md:w-[50vw] my-8'>
-          <h1 className='text-3xl font-extrabold text-foreground mb-2'>
+          <h1 className='text-2xl font-extrabold text-foreground mb-2'>
             Get to know me!
           </h1>
           <Dash />
@@ -57,7 +57,7 @@ const About = () => {
           </p>
         </div>
         <div id='skills' className='md:pr-8 md:w-[50vw] my-8'>
-          <h1 className='text-3xl font-extrabold text-foreground mb-2'>
+          <h1 className='text-2xl font-extrabold text-foreground mb-2'>
             Tech Stack
           </h1>
           <Dash />
