@@ -30,7 +30,7 @@ const Navbar = () => {
         h-[10vh] w-full px-6 xl:px-28 2xl:px-96 z-50  backdrop-filter
         backdrop-blur-lg bg-opacity-50'>
         <Link to='/#home'>
-          <img className='w-10 fill-white' src='assets/logo.svg' alt='sdk-logo' />
+          <img className='w-10 fill-white' src='/assets/logo.svg' alt='sdk-logo' />
         </Link>
         <ul className='md:flex justify-between hidden text-sm font-bold text-foreground uppercase'>
           <li className='border-b-4 border-transparent hover:border-primary px-4 py-2'><Link to='/#home'>Home</Link></li>

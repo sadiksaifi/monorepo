@@ -4,6 +4,7 @@ import Home from './components/Home'
 import Blog from './components/Blog'
 import Footer from './components/Footer'
 import Pages from './components/Blog/Pages'
+import data from './components/Blog/data'
 
 const App = () => {
   return (
@@ -14,7 +15,15 @@ const App = () => {
           <Route exact path='/' element={<Home />} />
           <Route path='/blog'>
             <Route index element={<Blog />} />
-            <Route path=':id' element={<Pages />} />
+            {data.map((item, index) => (
+              <Route path={item.title.toLowerCase().replace(/[^\w\s]/gi, '').split(' ').join('-')}
+                key={index}
+                element={<Pages
+                img={item.img}
+                title={item.title}
+                desc={item.desc} />}
+              />
+            ))}
           </Route>
         </Routes>
       </div>
