@@ -19,9 +19,10 @@ const App = () => {
               <Route path={item.title.toLowerCase().replace(/[^\w\s]/gi, '').split(' ').join('-')}
                 key={index}
                 element={<Pages
-                img={item.img}
-                title={item.title}
-                desc={item.desc} />}
+                  img={item.img}
+                  title={item.title}
+                  desc={item.desc} 
+                 />}
               />
             ))}
           </Route>
