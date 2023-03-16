@@ -24,14 +24,16 @@ const Home = () => {
           stunning, user-friendly websites and web applications with expertise
           of web technologies, various programming languages and frameworks.
         </p>
-        <button
-          className='bg-primary text-foreground hover:bg-altprimary px-16 pt-[0.8rem]
-          md:px-20 py-[.5rem] md:px-20 md:py-4 rounded-lg text-sm md:text-lg 
-          font-bold uppercase mt-4 shadow-slate-50'
-          type='button'
-        >
-          Contact Me !
-        </button>
+        <Link to='#contact'>
+          <button
+            className='bg-primary text-foreground hover:bg-altprimary px-16 pt-[0.8rem]
+            md:px-20 py-[.5rem] md:px-20 md:py-4 rounded-lg text-sm md:text-lg 
+            font-bold uppercase mt-4 shadow-slate-50'
+            type='button'
+          >
+            Contact Me !
+          </button>
+        </Link>
         <ul className='hidden md:block absolute left-0 text-3xl text-altbackground bg-foreground rounded-r-lg'>
           <li className='hover:bg-primary hover:text-foreground p-4 hover:rounded-tr-lg'>
             <Link to='https://github.com/sadikeey' target='_blank'>
