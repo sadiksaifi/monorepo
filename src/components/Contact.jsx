@@ -41,7 +41,7 @@ const Contact = () => {
           <label htmlFor='message' className='text-sm font-bold text-altforeground'>Message<Required /></label>
           <textarea name='user_message' id='message' className='rounded-lg p-4 my-2 h-52 text-sm bg-background resize-none text-foreground font-extrabold' placeholder="Enter Your Message" required />
         </div>
-        <p className={isSubmitted ? 'block' : 'block'}>Message Sent !</p>
+        <p className={isSubmitted ? 'block' : 'hidden'}>Message Sent !</p>
         <Button content='Submit' type='submit' className='py-4 bg-primary text-foreground hover:bg-altforeground hover:text-background' />
       </form>
     </section>
