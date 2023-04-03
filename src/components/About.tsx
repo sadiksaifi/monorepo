@@ -2,7 +2,7 @@ import SkillButton from './SkillButton'
 import Dash from './Dash'
 import { Link } from 'react-router-dom'
 
-const About = () => {
+const About: React.FC = () => {
   return (
     <section
       id='about'
@@ -25,7 +25,7 @@ const About = () => {
             Get to know me!
           </h1>
           <Dash />
-          <p className='leading-8 text-sm mt-4 md:mt-6 md:text-xl mt-6 text-altforeground flex flex-col gap-4'>
+          <p className='leading-8 text-sm mt-6 md:mt-6 md:text-xl text-altforeground flex flex-col gap-4'>
             <span className='block'>
               I'm a{' '}
               <span className='font-bold text-foreground'>

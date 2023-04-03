@@ -1,4 +1,10 @@
-const Button = (props) => {
+interface IButtonProps {
+  content: string
+  type?: 'button' | 'submit' | 'reset'
+  className?: string
+}
+
+const Button: React.FC<IButtonProps> = (props) => {
   return (
     <>
       <button

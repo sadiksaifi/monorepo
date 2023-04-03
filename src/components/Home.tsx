@@ -8,7 +8,7 @@ import { HiMail } from 'react-icons/hi'
 import About from './About'
 import Contact from './Contact'
 
-const Home = () => {
+const Home: React.FC = () => {
   return (
     <>
       <section
@@ -18,7 +18,7 @@ const Home = () => {
         <h1 className='text-4xl md:text-5xl font-extrabold px-8 uppercase leading-[3rem] tracking-[0.2rem]'>
           Hey, I'm Sadik Saifi
         </h1>
-        <p className='leading-8 md:text-lg md:text-2xl text-altforeground'>
+        <p className='leading-8 md:text-xl text-altforeground'>
           A skilled{' '}
           <span className='text-primary font-bold'>Web Developer</span> creating
           stunning, user-friendly websites and web applications with expertise
@@ -27,7 +27,7 @@ const Home = () => {
         <Link to='#contact'>
           <button
             className='bg-primary text-foreground hover:bg-altprimary px-16 pt-[0.8rem]
-            md:px-20 py-[.5rem] md:px-20 md:py-4 rounded-lg text-sm md:text-lg 
+            md:px-20 py-[.5rem] md:py-4 rounded-lg text-sm md:text-lg 
             font-bold uppercase mt-4 shadow-slate-50'
             type='button'
           >

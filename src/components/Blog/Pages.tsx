@@ -1,5 +1,12 @@
 import Dash from "../Dash"
-const Pages = (props) => {
+
+interface IPagesProps {
+  img: string
+  title: string
+  desc: string
+}
+
+const Pages: React.FC<IPagesProps> = (props) => {
   return (
     <div id='post' className="text-foreground pt-16 md:pt-20 h-screen">
       <img src={props.img} alt="post img" className="w-full h-48 md:h-3/6 object-cover" />

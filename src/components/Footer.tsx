@@ -1,7 +1,7 @@
 import {AiOutlineCopyrightCircle} from 'react-icons/ai'
 import Dash from './Dash'
 
-const Footer = () => {
+const Footer: React.FC = () => {
   let year = new Date().getFullYear()
   return (
     <footer className='p-10 md:mt-28 text-altforeground text-sm w-[100%] text-center'>

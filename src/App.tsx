@@ -6,13 +6,14 @@ import Footer from './components/Footer'
 import Pages from './components/Blog/Pages'
 import data from './components/Blog/data'
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <>
       <Navbar />
       <main className='px-4 xl:px-28 2xl:px-96'>
         <Routes>
-          <Route exact path='/' element={<Home />} />
+          {/* <Route exact path='/' element={<Home />} /> */}
+          <Route path='/' element={<Home />} />
           <Route path='/blog'>
             <Route index element={<Blog />} />
             {data.map((item, index) => (

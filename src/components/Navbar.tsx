@@ -10,8 +10,8 @@ import {
 } from 'react-icons/ai'
 import { HiMail } from 'react-icons/hi'
 
-const Navbar = () => {
-  const [isOpen, setOpen] = useState(false)
+const Navbar: React.FC = () => {
+  const [isOpen, setOpen] = useState<boolean>(false)
   const location = useLocation();
 
   useEffect(() => {

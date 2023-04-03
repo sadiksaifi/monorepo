@@ -3,11 +3,11 @@ import Button from './Button'
 import emailjs from '@emailjs/browser'
 import { useRef, useState } from 'react'
 
-const Required = () => <span className='text-red-500 mx-1'>*</span>
+const Required: React.FC = () => <span className='text-red-500 mx-1'>*</span>
 
-const Contact = () => {
+const Contact: React.FC = () => {
   const form = useRef()
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
 
   const sendEmail = (e) => {
     e.preventDefault()
@@ -22,7 +22,7 @@ const Contact = () => {
   }
 
   return (
-    <section id='contact' href='contact' className='flex flex-col w-full mt-20 item-center text-foreground'>
+    <section id='contact' className='flex flex-col w-full mt-20 item-center text-foreground'>
       <h1 className='text-3xl md:text-4xl mx-auto font-extrabold uppercase tracking-[0.4rem]'>
         Contact
       </h1>

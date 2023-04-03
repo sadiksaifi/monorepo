@@ -1,4 +1,11 @@
-const data = [
+interface Idata {
+  key: string
+  title: string
+  img: string
+  desc: string
+}
+
+const data: Idata[] = [
   {
     key: '1',
     title: 'How to setup Git and GitHub',

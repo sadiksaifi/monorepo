@@ -1,6 +1,12 @@
 import { Link } from 'react-router-dom'
 
-const Card = (props) => {
+interface ICardProps {
+  title: string
+  desc: string
+  img: string
+}
+
+const Card: React.FC<ICardProps> = (props) => {
   const url = props.title.toLowerCase().replace(/[^\w\s]/gi, '').split(' ').join('-');
   const description = props.desc.substring(0, 100);
   return (

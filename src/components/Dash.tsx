@@ -1,4 +1,8 @@
-const Dash = (props) => {
+interface IDashProps {
+  className?: string
+}
+
+const Dash: React.FC<IDashProps> = (props) => {
   return (
     <div
       id='dash'
