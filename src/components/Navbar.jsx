@@ -26,7 +26,7 @@ const Navbar = () => {
 
   return (
     <header className='w-full flex justify-center'>
-      <div className='overflow-y-hidden fixed flex justify-between items-center bg-background 
+      <nav className='overflow-y-hidden fixed flex justify-between items-center bg-background 
         h-[10vh] w-full px-6 xl:px-28 2xl:px-96 z-50  backdrop-filter
         backdrop-blur-lg bg-opacity-50'>
         <Link to='/#home'>
@@ -43,8 +43,8 @@ const Navbar = () => {
         >
           {isOpen ? <AiOutlineClose /> : <AiOutlineMenu />}
         </div>
-      </div>
-      <div className={` fixed flex md:hidden flex-col justify-between bg-background 
+      </nav>
+      <nav className={` fixed flex md:hidden flex-col justify-between bg-background 
         top-[10vh] h-[90vh] p-10 pb-24 pt-20 z-40 w-[75vw] ease-in-out backdrop-filter 
         backdrop-blur-lg bg-opacity-50 duration-500 ${isOpen ? 'right-0' : 'right-[-100vw]'} `}
         onClick={() => setOpen(!isOpen)}
@@ -61,7 +61,7 @@ const Navbar = () => {
           <li className='hover:text-primary p-4'><Link to='https://twitter.com/sadikeey' target='_blank'><AiFillTwitterCircle /></Link></li>
           <li className='hover:text-primary p-4'><Link to='mailto:sadiksaifi205@gmail.com' target='_blank'><HiMail /></Link></li>
         </ul>
-      </div>
+      </nav>
     </header>
   )
 }

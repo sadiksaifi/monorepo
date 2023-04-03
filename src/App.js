@@ -8,9 +8,9 @@ import data from './components/Blog/data'
 
 const App = () => {
   return (
-    <div>
+    <>
       <Navbar />
-      <div className='px-4 xl:px-28 2xl:px-96'>
+      <main className='px-4 xl:px-28 2xl:px-96'>
         <Routes>
           <Route exact path='/' element={<Home />} />
           <Route path='/blog'>
@@ -27,9 +27,9 @@ const App = () => {
             ))}
           </Route>
         </Routes>
-      </div>
+      </main>
       <Footer />
-    </div>
+    </>
   );
 }
 
