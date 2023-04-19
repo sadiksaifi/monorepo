@@ -1,5 +1,5 @@
-import SkillButton from './SkillButton'
-import Dash from './Dash'
+import SkillButton from '../../components/SkillButton'
+import Dash from '../../components/Dash'
 import { Link } from 'react-router-dom'
 
 const About: React.FC = () => {
@@ -46,12 +46,12 @@ const About: React.FC = () => {
               I'm open to Job opportunities where I can contribute, learn and
               grow. If you have a good opportunity that matches my skills and
               experience then don't hesitate to{' '}
-              <a
+              <Link
                 className='text-foreground font-bold hover:text-primary'
-                href='#contact'
+                to='#contact'
               >
                 contact me
-              </a>
+              </Link>
               .
             </span>
           </p>

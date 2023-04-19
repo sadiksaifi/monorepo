@@ -56,14 +56,14 @@ const Home: React.FC = () => {
             </Link>
           </li>
         </ul>
-        <a href='#about'>
+        <Link to='#about'>
           <div
             id='mouse'
             className='hidden md:block absolute bottom-4 w-[1px] px-[10px] py-[1px] h-[35px] border-2 border-altforeground hover:border-primary rounded-[25px] box-content opacity-75'
           >
             <div className='w-[3px] h-[10px] rounded-[25%] mt-2 bg-altforeground hover:bg-primary animate-bounce'></div>
           </div>
-        </a>
+        </Link>
       </section>
       <About />
       <Contact />

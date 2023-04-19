@@ -1,6 +1,6 @@
-import Dash from "../Dash"
-import Card from "./Card"
-import data from './data.js'
+import Dash from '../../components/Dash'
+import blogData from '../../data/blogData'
+import { Link } from 'react-router-dom'
 
 const Blog: React.FC = () => {
   return (
@@ -9,14 +9,7 @@ const Blog: React.FC = () => {
       <Dash className='my-2' />
       <p className='mt-4 text-red-400 text-sm md:text-lg'>* Blog section is still in progress.</p>
       <div className="m-4">
-        {data.map((item, index) => (
-          <Card 
-            key={index}
-            img={item.img}
-            title={item.title}
-            desc={item.desc}
-          />
-        ))}
+        <Link to ='/blog/1'>First Post</Link>
       </div>
     </div>
   )
