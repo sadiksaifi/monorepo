@@ -1,9 +1,4 @@
-interface IBlogData {
-  id: number
-  title: string
-  img: string
-  desc: string
-}
+import { IBlogData } from "../types/data"
 
 const blogData: IBlogData[] = [
   {

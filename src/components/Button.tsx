@@ -1,17 +1,13 @@
-interface IButtonProps {
-  content: string
-  type?: 'button' | 'submit' | 'reset'
-  className?: string
-}
+import { IButtonProps } from "../types/components"
 
-const Button: React.FC<IButtonProps> = (props) => {
+const Button: React.FC<IButtonProps> = ({ content, type, className }) => {
   return (
     <>
       <button
-        className={`px-16 rounded-lg text-sm md:text-lg font-bold uppercase mt-4 ${props.className}`}
-        type={props.type}
+        className={`px-16 rounded-lg text-sm md:text-lg font-bold uppercase mt-4 ${className}`}
+        type={type}
       >
-        {props.content}
+        {content}
       </button>
     </>
   )
