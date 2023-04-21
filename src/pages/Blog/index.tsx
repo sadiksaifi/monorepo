@@ -1,5 +1,5 @@
 import Dash from '../../components/Dash'
-import blogData from '../../data/blogData'
+import blog from '../../data/blog'
 import { Link } from 'react-router-dom'
 
 const Blog: React.FC = () => {
