@@ -64,12 +64,12 @@ const Navbar: React.FC = () => {
             )
           })}
         </ul>
-        <div
+        <button
           className='block md:hidden cursor-pointer text-3xl font-extrabold z-1 text-foreground'
           onClick={() => setOpen(!isOpen)}
         >
           {isOpen ? <AiOutlineClose /> : <AiOutlineMenu />}
-        </div>
+        </button>
       </nav>
       <nav
         className={` fixed flex md:hidden flex-col justify-between bg-background 

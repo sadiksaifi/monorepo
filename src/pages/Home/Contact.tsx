@@ -29,7 +29,7 @@ const Contact: React.FC = () => {
       setIsSubmitted(!isSubmitted)
       e.currentTarget.reset()
     } catch (error) {
-      // console.error('Failed to send email:', error)
+      console.error('Failed to send email:', error)
     }
 
   }

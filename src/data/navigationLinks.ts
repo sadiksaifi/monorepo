@@ -14,7 +14,7 @@ const navigationLinks: INavigationLinks[] = [
   {
     id: 3,
     name: 'Blog',
-    path: '/blog#main',
+    path: 'https://blog.sadiksaifi.dev',
   },
   {
     id: 4,

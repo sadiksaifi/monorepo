@@ -1,6 +1,22 @@
 import SkillButton from '../../components/SkillButton'
 import Dash from '../../components/Dash'
 import { Link } from 'react-router-dom'
+import navigationLinks from '../../data/navigationLinks'
+
+const skillButtonItems = [
+  'React',
+  'TypeScript',
+  'Redux',
+  'Tailwind',
+  'JavaScript',
+  'Node.Js',
+  'Express.Js',
+  'MongoDB',
+  'HTML',
+  'CSS',
+  'Git',
+  'Github',
+]
 
 const About: React.FC = () => {
   return (
@@ -13,70 +29,36 @@ const About: React.FC = () => {
       </h1>
       <Dash />
       <p className='leading-8 text-sm mt-4 md:mt-6 md:text-xl text-altforeground text-center md:px-[7vw]'>
-        Here you will find more information about me, what I do, and my current
-        skills mostly in terms of programming and technology
+        Here you will find more information about me, what I do, and my current skills mostly in terms of programming and technology
       </p>
       <div
         id='about-info'
         className='flex flex-col md:flex-row mt-8 md:mt-28 md:justify-evenly w-full'
       >
-        <div id='about-main' className='md:pr-8 md:w-[50vw] my-8'>
+        <article id='about-main' className='md:pr-8 md:w-[50vw] my-8'>
           <h1 className='text-2xl font-extrabold text-foreground mb-2'>
             Get to know me!
           </h1>
           <Dash />
           <p className='leading-8 text-sm mt-6 md:mt-6 md:text-xl text-altforeground flex flex-col gap-4'>
             <span className='block'>
-              I'm a{' '}
-              <span className='font-bold text-foreground'>
-                Frontend Web Developer
-              </span>{' '}
-              building the Front-end of Websites and Web Applications that leads
-              to the success of the overall product. Check out usefull articles
-              in the{' '}
-              <Link
-                className='font-bold text-foreground hover:text-primary'
-                to='/blog'
-              >
-                Blog
-              </Link>{' '}
-              section.
-            </span>{' '}
+              I'm a <span className='font-bold text-foreground'> Frontend Web Developer</span> ,building the Front-end of Websites and Web Applications that leads to the success of the overall product. Check out usefull articles in the <Link className='font-bold text-foreground hover:text-primary' to={navigationLinks[0].path}> Blog</Link> page.</span>
             <span>
               I'm open to Job opportunities where I can contribute, learn and
               grow. If you have a good opportunity that matches my skills and
-              experience then don't hesitate to{' '}
-              <Link
-                className='text-foreground font-bold hover:text-primary'
-                to='#contact'
-              >
-                contact me
-              </Link>
-              .
-            </span>
-          </p>
-        </div>
-        <div id='skills' className='md:pr-8 md:w-[50vw] my-8'>
+              experience then don't hesitate to <Link className='text-foreground font-bold hover:text-primary' to={navigationLinks[3].path}> contact me</Link>.</span></p>
+        </article>
+        <article id='skills' className='md:pr-8 md:w-[50vw] my-8'>
           <h1 className='text-2xl font-extrabold text-foreground mb-2'>
             Tech Stack
           </h1>
           <Dash />
-          <div className='flex flex-wrap gap-4 mt-8'>
-            <SkillButton name='HTML' />
-            <SkillButton name='CSS' />
-            <SkillButton name='JavaScript' />
-            <SkillButton name='TypeScript' />
-            <SkillButton name='React' />
-            <SkillButton name='Tailwind' />
-            <SkillButton name='StyledComponets' />
-            <SkillButton name='Bootstrap' />
-            <SkillButton name='Git' />
-            <SkillButton name='Github' />
-            <SkillButton name='Linux' />
-            <SkillButton name='Vim' />
-            <SkillButton name='Emacs' />
-          </div>
-        </div>
+          <button className='flex flex-wrap gap-4 mt-8'>
+            {skillButtonItems.map((item) => (
+              <SkillButton key={item} name={item} />
+            ))}
+          </button>
+        </article>
       </div>
     </section>
   )

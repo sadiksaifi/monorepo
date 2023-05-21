@@ -1,3 +1,5 @@
+import { AiFillGithub, AiFillLinkedin, AiFillTwitterCircle } from 'react-icons/ai'
+import { HiMail } from 'react-icons/hi'
 import { Link } from 'react-router-dom'
 
 const Hero: React.FC = () => {
@@ -26,36 +28,34 @@ const Hero: React.FC = () => {
           </button>
         </Link>
         <ul className='hidden md:block absolute left-0 text-3xl text-altbackground bg-foreground rounded-r-lg'>
-          {/* <li className='hover:bg-primary hover:text-foreground p-4 hover:rounded-tr-lg'> */}
-          {/*   <Link to='https://github.com/sadikeey' target='_blank'> */}
-          {/*     <AiFillGithub /> */}
-          {/*   </Link> */}
-          {/* </li> */}
-          {/* <li className='hover:bg-primary hover:text-foreground p-4'> */}
-          {/*   <Link to='https://linkedin.com/in/sadikeey' target='_blank'> */}
-          {/*     <AiFillLinkedin /> */}
-          {/*   </Link> */}
-          {/* </li> */}
-          {/* <li className='hover:bg-primary hover:text-foreground p-4'> */}
-          {/*   <Link to='https://twitter.com/sadikeey' target='_blank'> */}
-          {/*     <AiFillTwitterCircle /> */}
-          {/*   </Link> */}
-          {/* </li> */}
-          {/* <li className='hover:bg-primary hover:text-foreground p-4 hover:rounded-br-lg'> */}
-          {/*   <Link to='mailto:sadiksaifi205@gmail.com' target='_blank'> */}
-          {/*     <HiMail /> */}
-          {/*   </Link> */}
-          {/* </li> */}
-        {
-        }
+          <li className='hover:bg-primary hover:text-foreground p-4 hover:rounded-tr-lg'>
+            <Link to='https://github.com/sadikeey' target='_blank'>
+              <AiFillGithub />
+            </Link>
+          </li>
+          <li className='hover:bg-primary hover:text-foreground p-4'>
+            <Link to='https://linkedin.com/in/sadikeey' target='_blank'>
+              <AiFillLinkedin />
+            </Link>
+          </li>
+          <li className='hover:bg-primary hover:text-foreground p-4'>
+            <Link to='https://twitter.com/sadikeey' target='_blank'>
+              <AiFillTwitterCircle />
+            </Link>
+          </li>
+          <li className='hover:bg-primary hover:text-foreground p-4 hover:rounded-br-lg'>
+            <Link to='mailto:sadiksaifi205@gmail.com' target='_blank'>
+              <HiMail />
+            </Link>
+          </li>
         </ul>
         <Link to='#about'>
-          <div
+          <button
             id='mouse'
             className='hidden md:block absolute bottom-4 w-[1px] px-[10px] py-[1px] h-[35px] border-2 border-altforeground hover:border-primary rounded-[25px] box-content opacity-75'
           >
             <div className='w-[3px] h-[10px] rounded-[25%] mt-2 bg-altforeground hover:bg-primary animate-bounce'></div>
-          </div>
+          </button>
         </Link>
       </section>
   )
