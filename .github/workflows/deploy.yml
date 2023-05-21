@@ -29,5 +29,5 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
-          source: 'dist/*'
+          source: 'build/*'
           target: '/var/www/sadiksaifi.dev'
