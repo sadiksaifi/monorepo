@@ -8,6 +8,11 @@ const Required: React.FC = () => <span className='text-red-500 mx-1'>*</span>
 
 /* Contact form */
 const Contact: React.FC = () => {
+  /* Emailjs env's */
+  const emailjs_serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID as string
+  const emailjs_templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string
+  const emailjs_userId = import.meta.env.VITE_EMAILJS_USER_ID as string
+
   const formRef = useRef<HTMLFormElement>()
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
 
@@ -21,10 +26,10 @@ const Contact: React.FC = () => {
     /* Send email */
     try {
       await emailjs.sendForm(
-        'service_rd8i839',
-        'template_rrl7mbq',
+        emailjs_serviceId,
+        emailjs_templateId,
         formRef.current as HTMLFormElement,
-        'VWnoOerrYn4GOnO12'
+        emailjs_userId,
       )
       setIsSubmitted(!isSubmitted)
       e.currentTarget.reset()

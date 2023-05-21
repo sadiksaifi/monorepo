@@ -53,11 +53,11 @@ const About: React.FC = () => {
             Tech Stack
           </h1>
           <Dash />
-          <button className='flex flex-wrap gap-4 mt-8'>
+          <div className='flex flex-wrap gap-4 mt-8'>
             {skillButtonItems.map((item) => (
               <SkillButton key={item} name={item} />
             ))}
-          </button>
+          </div>
         </article>
       </div>
     </section>
