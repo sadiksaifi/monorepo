@@ -10,25 +10,25 @@ const socialMediaNavigationLinks: ISocialMediaNavigationLink[] = [
   {
     id: 1,
     name: 'Github',
-    path: 'https://github.com/sadikeey',
+    path: 'https://github.com/sadiksaifi',
     socialMediaIcon: AiFillGithub,
   },
   {
     id: 2,
     name: 'Linkedin',
-    path: 'https://linkedin.com/in/sadikeey',
+    path: 'https://linkedin.com/in/sadiksaifi',
     socialMediaIcon: AiFillLinkedin,
   },
   {
     id: 3,
     name: 'Twitter',
-    path: 'https://twitter.com/sadikeey',
+    path: 'https://twitter.com/thesadiksaifi',
     socialMediaIcon: AiFillTwitterCircle,
   },
   {
     id: 4,
     name: 'Email',
-    path: 'mailto:sadiksaifi205@gmail.com',
+    path: 'mailto:thesadiksaifi@gmail.com',
     socialMediaIcon: HiMail,
   },
 ]
