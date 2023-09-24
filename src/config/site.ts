@@ -4,7 +4,7 @@ export const siteConfig = {
   ogImage: "https://sadiksaifi.dev/og.jpg",
   description: "Sadik Saifi - Web Developer",
   links: {
-    twitter: "https://twitter.com/thesadiksaifi",
+    x: "https://twitter.com/thesadiksaifi",
     github: "https://github.com/sadiksaifi",
     linkedin: "https://www.linkedin.com/in/sadiksaifi",
     mail: "mailto:thesadiksaifi@gmail.com",

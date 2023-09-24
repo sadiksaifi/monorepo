@@ -26,6 +26,19 @@ export default function Navbar() {
           flex items-center space-x-4"
         >
           <div className="flex items-center">
+            <Link href={siteConfig.links.x} target="_blank" rel="noreferrer">
+              <div
+                className={cn(
+                  buttonVariants({
+                    variant: "ghost",
+                  }),
+                  "w-9 px-0",
+                )}
+              >
+                <Icons.X className="h-4 w-4 fill-current" />
+                <span className="sr-only">Twitter</span>
+              </div>
+            </Link>
             <Link
               href={siteConfig.links.github}
               target="_blank"
@@ -39,25 +52,8 @@ export default function Navbar() {
                   "w-9 px-0",
                 )}
               >
-                <Icons.gitHub className="h-4 w-4" />
+                <Icons.GitHub className="h-4 w-4" />
                 <span className="sr-only">GitHub</span>
-              </div>
-            </Link>
-            <Link
-              href={siteConfig.links.twitter}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <div
-                className={cn(
-                  buttonVariants({
-                    variant: "ghost",
-                  }),
-                  "w-9 px-0",
-                )}
-              >
-                <Icons.twitter className="h-4 w-4 fill-current" />
-                <span className="sr-only">Twitter</span>
               </div>
             </Link>
             <ThemeSwitcher />

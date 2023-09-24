@@ -63,10 +63,10 @@ const Sidebar: FC = () => {
           <SheetClose asChild>
             <div className="flex gap-6">
               <Link target="_blank" href={siteConfig.links.github}>
-                <Icons.gitHub className="h-6 w-6" />
+                <Icons.GitHub className="h-6 w-6" />
               </Link>
-              <Link target="_blank" href={siteConfig.links.twitter}>
-                <Icons.twitter className="h-6 w-6 fill-current" />
+              <Link target="_blank" href={siteConfig.links.x}>
+                <Icons.X className="h-6 w-6 fill-current" />
               </Link>
               <Link target="_blank" href={siteConfig.links.linkedin}>
                 <Linkedin />
