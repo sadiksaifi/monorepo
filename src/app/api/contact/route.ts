@@ -44,5 +44,7 @@ export async function POST(req: Request) {
     if (error instanceof Error) {
       return new Response(error.message, { status: 500 });
     }
+    // Return a default response if none of the conditions are met
+    return new Response("Internal Server Error", { status: 500 });
   }
 }
