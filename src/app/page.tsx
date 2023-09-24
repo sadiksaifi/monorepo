@@ -97,7 +97,7 @@ export default function Home() {
       </section>
       <section
         id="contact-form"
-        className="flex flex-col gap-24 justify-center items-center h-[calc(100vh-3.5rem)]"
+        className="flex flex-col gap-24 justify-center items-center h-[calc(100vh-3.5rem)] mt-40 xl:mt-0"
       >
         <div className="flex justify-center items-center flex-col gap-4">
           <div className="flex flex-col gap-3 items-center justify-center">
