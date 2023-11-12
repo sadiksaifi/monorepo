@@ -62,13 +62,13 @@ export default function Home() {
               <Separator className="h-1.5 rounded-full w-14" />
             </div>
             <p className="text-[max(40px, min(4vw, 60px))] tracking-[-0.01] text-muted-foreground">
-              I&apos; m a web developer based in India, I have a serious passion
+              I&apos;m a web developer based in India, I have a serious passion
               for web development and I love to create websites and web
               applications that are user-friendly and easy to use using the
               latest technologies and best practices.
             </p>
             <p className="text-[max(40px, min(4vw, 60px))] tracking-[-0.01] text-muted-foreground">
-              I&apos; m open to any kind of web development opportunity, or if
+              I&apos;m open to any kind of web development opportunity, or if
               you have any questions, feel free to contact me.
             </p>
           </div>
