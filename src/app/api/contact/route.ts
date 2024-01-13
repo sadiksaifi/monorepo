@@ -25,7 +25,7 @@ export async function POST(req: Request) {
 
     await resend.emails.send({
       from: "Sadik <info@sadiksaifi.dev>",
-      to: "thesadiksaifi@gmail.com",
+      to: process.env.TO_EMAIL!,
       subject: `New message from ${name}`,
       text: message,
       react: EmailTemplate({ name: name, email: email, message: message }),
