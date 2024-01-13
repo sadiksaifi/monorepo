@@ -70,6 +70,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -79,6 +80,11 @@
   .container {
     @apply px-4;
   }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 3rem;
 }
 
 /* Scrollbar */

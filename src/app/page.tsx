@@ -1,8 +1,40 @@
 import ContactForm from "@/components/contact-form";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+
+const techStackList = [
+  "Next.Js",
+  "React",
+  "Typescript",
+  "Javascript",
+  "Astro",
+  "SolidJS",
+  "Redux",
+  "TailwindCSS",
+  "Radix UI",
+  "HTML/CSS",
+  "GoLang",
+  "NodeJS",
+  "MySql",
+  "PostgreSQL",
+];
+
+const TechStackLabel: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+  children,
+  className,
+}) => (
+  <div
+    className={cn(
+      buttonVariants({ variant: "outline" }),
+      "cursor-pointer",
+      className,
+    )}
+  >
+    {children}
+  </div>
+);
 
 export default function Home() {
   return (
@@ -80,17 +112,9 @@ export default function Home() {
               <Separator className="h-1.5 rounded-full w-14" />
             </div>
             <div className="text-[max(40px, min(4vw, 60px))] justify-center xl:justify-start mt-1.5 tracking-[-0.01] text-muted-foreground flex gap-3 flex-wrap">
-              <Button variant="outline">Next.Js</Button>
-              <Button variant="outline">React</Button>
-              <Button variant="outline">Typescript</Button>
-              <Button variant="outline">Javascript</Button>
-              <Button variant="outline">Astro</Button>
-              <Button variant="outline">Redux</Button>
-              <Button variant="outline">TailwindCSS</Button>
-              <Button variant="outline">Radix UI</Button>
-              <Button variant="outline">HTML/CSS</Button>
-              <Button variant="outline">NodeJS</Button>
-              <Button variant="outline">MySql</Button>
+              {techStackList.map((tech, index) => (
+                <TechStackLabel key={index}>{tech}</TechStackLabel>
+              ))}
             </div>
           </div>
         </article>

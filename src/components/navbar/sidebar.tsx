@@ -37,7 +37,7 @@ const Sidebar: FC = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button className="px-2" variant="ghost">
+        <Button aria-label="menu" className="px-2" variant="ghost">
           <Menu />
         </Button>
       </SheetTrigger>
