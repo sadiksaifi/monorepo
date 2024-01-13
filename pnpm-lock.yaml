@@ -41,6 +41,9 @@ dependencies:
   '@vercel/analytics':
     specifier: ^1.1.1
     version: 1.1.1
+  '@vercel/speed-insights':
+    specifier: ^1.0.3
+    version: 1.0.3
   autoprefixer:
     specifier: 10.4.15
     version: 10.4.15(postcss@8.4.30)
@@ -1103,6 +1106,11 @@ packages:
     resolution: {integrity: sha512-+NqgNmSabg3IFfxYhrWCfB/H+RCUOCR5ExRudNG2+pcRehq628DJB5e1u1xqwpLtn4pAYii4D98w7kofORAGQA==}
     dependencies:
       server-only: 0.0.1
+    dev: false
+
+  /@vercel/speed-insights@1.0.3:
+    resolution: {integrity: sha512-bKIt0HDdF6hP2bJZyS+za3k6sKeAXNRLSIUbwVwvyvKdsHBWS6ILBvmD1wXHZZyTqjU1TP7dTE/F6lHM6rBdKA==}
+    requiresBuild: true
     dev: false
 
   /abbrev@1.1.1:
