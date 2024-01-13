@@ -56,17 +56,15 @@ export default function Home() {
             expertise of web technologies, various programming languages and
             frameworks.
           </p>
-          <div className="flex gap-4 items-center">
-            <Link
-              href="#contact"
-              className={cn(
-                buttonVariants(),
-                "bg-gradient-to-r from-primary to-muted-foreground",
-              )}
-            >
-              Contact Me!
-            </Link>
-          </div>
+          <Link
+            href="#contact"
+            className={cn(
+              buttonVariants(),
+              "bg-gradient-to-r from-primary to-muted-foreground",
+            )}
+          >
+            Contact Me!
+          </Link>
         </article>
       </section>
       <section
