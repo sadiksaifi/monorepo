@@ -11,7 +11,7 @@ export const siteConfig = {
     navitems: [
       {
         name: "Home",
-        uri: "/",
+        uri: "#",
       },
       {
         name: "Blog",
