@@ -11,12 +11,10 @@ export default function Navbar() {
   return (
     <header className="supports-backdrop-blur:bg-background/60 sticky top-0 z-50 w-full border-b bg-background/50 backdrop-blur">
       <nav className="container flex xl:justify-between h-14 items-center">
-        <div className="lg:hidden">
-          <Sidebar />
-        </div>
+        <Sidebar />
         <Link
           href="/"
-          className="text-sm px-2 xl:px-0 font-medium transition-colors hover:text-primary"
+          className="px-2 xl:px-0 font-medium transition-colors hover:text-primary"
         >
           Sadik Saifi
         </Link>

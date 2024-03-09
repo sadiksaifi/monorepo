@@ -119,12 +119,12 @@ export default function Home() {
       </section>
       <section
         id="contact-form"
-        className="flex flex-col gap-24 justify-center items-center h-[calc(100vh-3.5rem)] mt-40 xl:mt-0"
+        className="flex flex-col lg:gap-24 gap-14 justify-center items-center h-[calc(100vh-9rem)] mt-40 xl:mt-0"
       >
         <div className="flex justify-center items-center flex-col gap-4">
           <div className="flex flex-col gap-3 items-center justify-center">
             <h2 className="font-bold tracking-tighter text-4xl relative bg-gradient-to-r from-primary to-muted-foreground bg-clip-text text-transparent">
-              Contact Me
+              Contact Me!
             </h2>
             <Separator className="h-1.5 rounded-full w-14" />
           </div>
