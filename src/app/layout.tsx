@@ -7,12 +7,13 @@ import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/toaster";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { siteConfig } from "@/config/site";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Sadik Saifi - Web Developer",
-  description: "I'm Sadik Saifi, a web developer.",
+  title: siteConfig.title,
+  description: siteConfig.description,
 };
 
 export default function RootLayout({
@@ -29,12 +30,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <>
-            <Navbar />
-            {children}
-            <Footer />
-            <Toaster />
-          </>
+          <Navbar />
+          {children}
+          <Footer />
+          <Toaster />
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />

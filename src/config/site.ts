@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "Sadik Saifi",
   url: "https://sadiksaifi.dev",
   ogImage: "https://sadiksaifi.dev/og.jpg",
-  description: "Sadik Saifi - Web Developer",
+  description: "Sadik Saifi | Full Stack Engineer",
   links: {
     x: "https://twitter.com/thesadiksaifi",
     github: "https://github.com/sadiksaifi",
