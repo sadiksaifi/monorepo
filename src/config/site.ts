@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "Sadik Saifi",
+  title: "Sadik Saifi",
   url: "https://sadiksaifi.dev",
   ogImage: "https://sadiksaifi.dev/og.jpg",
   description: "Sadik Saifi | Full Stack Engineer",
