@@ -12,9 +12,8 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(req: Request) {
   try {
     const contactForm: TContactForm = await req.json();
-    const validatedContactForm = ContactFormSchema.parse(contactForm);
-    const { name, email, message } = validatedContactForm;
-    if (!validatedContactForm) {
+    const contactFormData = ContactFormSchema.parse(contactForm);
+    if (!contactFormData) {
       return NextResponse.json(
         {
           message: "Invalid payload",
@@ -23,28 +22,41 @@ export async function POST(req: Request) {
       );
     }
 
-    await resend.emails.send({
-      from: "Sadik <info@sadiksaifi.dev>",
+    const res = await resend.emails.send({
+      from: process.env.FROM_EMAIL!,
       to: process.env.TO_EMAIL!,
-      subject: `New message from ${name}`,
-      text: message,
-      react: EmailTemplate({ name: name, email: email, message: message }),
+      subject: `New message from ${contactFormData.name}`,
+      text: contactFormData.message,
+      react: EmailTemplate({
+        name: contactFormData.name,
+        email: contactFormData.email,
+        message: contactFormData.message,
+      }),
     });
+
+    if (!res.id) {
+      throw new Error("Failed to send email");
+    }
 
     return NextResponse.json(
       {
-        message: `Hey ${name}, your message was sent successfully!`,
+        message: `Hey ${contactFormData.name}, your message was sent successfully!`,
       },
       { status: 200 },
     );
   } catch (error) {
+    console.error(error);
     if (error instanceof ZodError) {
-      return new Response("Invalid payload", { status: 400 });
+      return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+    }
+    if (error instanceof Error && Resend) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
     if (error instanceof Error) {
-      return new Response(error.message, { status: 500 });
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
+
     // Return a default response if none of the conditions are met
-    return new Response("Internal Server Error", { status: 500 });
+    return NextResponse.json("Internal Server Error", { status: 500 });
   }
 }
