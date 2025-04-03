@@ -11,7 +11,7 @@
     "portfolio": "pnpm --filter portfolio",
     "blog": "pnpm --filter blog",
     "ui": "pnpm --filter ui",
-    "core": "pnpm --filter core"
+    "lib": "pnpm --filter lib"
   },
   "workspaces": [
     "apps/*",

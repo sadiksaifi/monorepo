@@ -19,7 +19,7 @@ import {
 } from "@/lib/validations/contact-form";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import axios, { AxiosResponse } from "axios";
+import { fetcho } from "@repo/lib";
 
 const ContactForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -34,25 +34,29 @@ const ContactForm = () => {
   const { toast } = useToast();
 
   async function onSubmit(values: TContactForm) {
-    setIsSubmitting(true);
-    const res: AxiosResponse<{
-      message: string;
-    }> = await axios.post("/api/contact", values, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const { data } = res;
-    if (res.status === 200) {
+    try {
+      setIsSubmitting(true);
+
+      const res = await fetcho<{
+        message: string;
+      }>("/api/contact", {
+        method: "POST",
+        body: JSON.stringify(values),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const { data } = res;
       toast({
         title: "Success",
         description: data.message,
       });
       setIsSubmitting(false);
       form.reset();
-    } else {
+    } catch (error) {
       toast({
-        title: "Failed",
+        title: "Error",
         description: "Something went wrong, please try again later",
       });
       setIsSubmitting(false);

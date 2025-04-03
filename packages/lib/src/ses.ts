@@ -57,4 +57,9 @@ class EmailService {
   }
 }
 
-export default EmailService;
+const sendEmail = async (params: EmailSendParams) => {
+  const emailService = new EmailService();
+  return emailService.send(params);
+};
+
+export { EmailService, sendEmail };
