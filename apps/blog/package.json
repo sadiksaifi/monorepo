@@ -1,5 +1,5 @@
 {
-  "name": "@repo/blog",
+  "name": "blog",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -8,7 +8,8 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "check-types": "astro check"
+    "lint": "astro check",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

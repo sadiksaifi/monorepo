@@ -1,0 +1,25 @@
+/* Scrollbar */
+body::-webkit-scrollbar {
+  width: 0.25rem;
+  height: 0.25rem;
+}
+
+body::-webkit-scrollbar-thumb {
+  border-radius: 0.25rem;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: hsl(240 4.8% 80.9%);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: hsl(240 3.8% 66.1%);
+}
+
+.dark body::-webkit-scrollbar-track {
+  background-color: hsl(240 3.7% 15.9%);
+}
+
+.dark body::-webkit-scrollbar-thumb {
+  background-color: hsl(240 5% 64.9%);
+}

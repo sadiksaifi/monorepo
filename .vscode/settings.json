@@ -1,0 +1,39 @@
+{
+  "files.readonlyInclude": {
+    "**/routeTree.gen.ts": true,
+    "pnpm-lock.yaml": true,
+    "bun.lock": true
+  },
+  "files.watcherExclude": {
+    "**/routeTree.gen.ts": true,
+    "pnpm-lock.yaml": true,
+    "bun.lock": true
+  },
+  "search.exclude": {
+    "**/routeTree.gen.ts": true,
+    "pnpm-lock.yaml": true,
+    "bun.lock": true
+  },
+
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "package.json": "jsconfig*, vitest.config.*, cypress.config.*, playwright.config.*, package-lock.json, pnpm*, .yarnrc*, yarn*, .eslint*, eslint*, .prettier*, prettier*, .editorconfig, .gitattributes, bun.lock, drizzle.config.ts, tsconfig.*, components.json, app.config.ts, .npmrc, turbo.json, next.config.ts, postcss.config.mjs, astro.config.mjs, tailwind.config.*, vite.config.*, .git*",
+    "Dockerfile": "docker-compose.yml, .dockerignore, Dockerfile.*",
+    ".env*": ".env, .env.local, .env.development, .env.production, .env.test, next-env.d.ts, vite-env.d.ts",
+    "README.md": "CHANGELOG.md, CONTRIBUTING.md, ISSUE_TEMPLATE.md, PULL_REQUEST_TEMPLATE.md, SECURITY.md",
+  },
+
+  // always choose typescript from node_modules
+  "typescript.tsdk": "./node_modules/typescript/lib",
+
+  // use LF line endings
+  "files.eol": "\n",
+
+  // set prettier as default formatter for json, ts, tsx, js, jsx, html, css
+  "[json][jsonc][typescript][typescriptreact][javascript][javascriptreact][html][css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
