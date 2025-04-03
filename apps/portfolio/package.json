@@ -1,5 +1,5 @@
 {
-  "name": "portfolio",
+  "name": "@repo/portfolio",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,6 +12,8 @@
     "format:fix": "prettier --ignore-path .gitignore --write \"**/*.{js,jsx,ts,tsx,css,scss,json,md}\""
   },
   "dependencies": {
+    "@repo/ui": "workspace:*",
+    "@repo/core": "workspace:*",
     "@hookform/resolvers": "^3.3.1",
     "@radix-ui/react-dialog": "^1.0.4",
     "@radix-ui/react-dropdown-menu": "^2.0.5",

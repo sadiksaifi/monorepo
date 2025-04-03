@@ -5,16 +5,17 @@
   "license": "MIT",
   "author": "Sadik Saifi",
   "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
     "portfolio": "pnpm --filter portfolio",
     "blog": "pnpm --filter blog",
     "ui": "pnpm --filter ui",
     "core": "pnpm --filter core"
   },
   "workspaces": [
-    "portfolio",
-    "blog",
-    "ui",
-    "core"
+    "apps/*",
+    "packages/*"
   ],
   "devDependencies": {
     "concurrently": "^9.1.0",

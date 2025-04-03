@@ -1,6 +1,8 @@
 {
-  "name": "@pnpmworkspace/api",
+  "name": "@repo/core",
+  "version": "0.0.1",
   "type": "module",
+  "private": true,
   "scripts": {
     "dev": "tsx --watch src/main.ts",
     "build": "tsup",
@@ -12,6 +14,9 @@
     "db:reset": "prisma migrate reset",
     "db:studio": "prisma studio",
     "typecheck": "tsc --noEmit"
+  },
+  "exports": {
+    "./utils": "./src/utils/index.ts"
   },
   "dependencies": {
     "@aws-sdk/client-ses": "^3.693.0",

@@ -1,5 +1,5 @@
 {
-  "name": "ui",
+  "name": "@repo/ui",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,6 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "check-types": "tsc --noEmit"
+  },
+  "exports": {
+    "./button": "./src/components/ui/button.tsx"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
