@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "ui": "pnpm dlx shadcn@canary",
     "check-types": "tsc --noEmit"
   },
   "exports": {
@@ -16,7 +17,7 @@
     "./hooks": "./src/hooks/index.tsx"
   },
   "dependencies": {
-    "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-slot": "^1.1.2",
     "@tailwindcss/vite": "^4.1.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
