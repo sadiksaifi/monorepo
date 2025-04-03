@@ -5,12 +5,14 @@
   "license": "MIT",
   "author": "Sadik Saifi",
   "scripts": {
-    "dev:portfolio": "pnpm --filter portfolio dev",
-    "dev:blog": "pnpm --filter blog dev"
+    "portfolio": "pnpm --filter portfolio",
+    "blog": "pnpm --filter blog",
+    "ui": "pnpm --filter ui"
   },
   "workspaces": [
     "portfolio",
-    "blog"
+    "blog",
+    "ui"
   ],
   "devDependencies": {
     "concurrently": "^9.1.0"

@@ -32,8 +32,9 @@
 /**/yarn-error.log*
 
 # local env files
-/**/.env*.local
 /**/.env
+/**/*.local
+/**/*.production
 
 # vercel
 /**/.vercel
@@ -45,4 +46,12 @@
 # Ignore temporary files created by some editors
 *~
 \#*\#
-/**/.idea/
+/**/.vscode/*
+/**/!.vscode/extensions.json
+/**/.idea
+/**/.DS_Store
+/**/*.suo
+/**/*.ntvs*
+/**/*.njsproj
+/**/*.sln
+/**/*.sw?
