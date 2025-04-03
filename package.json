@@ -15,7 +15,8 @@
     "ui"
   ],
   "devDependencies": {
-    "concurrently": "^9.1.0"
+    "concurrently": "^9.1.0",
+    "turbo": "^2.4.4"
   },
   "engines": {
     "node": "^22.11.0",
