@@ -1,0 +1,42 @@
+---
+import type { CollectionEntry } from "astro:content";
+import FormattedDate from "../components/FormattedDate.astro";
+import RootLayout from "@/layouts/RootLayout.astro";
+import Back from "@/components/back.astro";
+import Badge from "@/components/Badge.astro";
+import { Image } from "astro:assets";
+
+type Props = CollectionEntry<"blog">["data"];
+
+const { title, description, tags, pubDate, image } = Astro.props;
+---
+
+<RootLayout title={title} description={description} image={image.src}>
+  <div class="flex justify-between items-start">
+    <Back />
+    <div
+      class="date text-muted-foreground flex flex-col justify-center items-end gap-2"
+    >
+      <p>Published on <FormattedDate date={pubDate} /></p>
+    </div>
+  </div>
+  <article>
+    <div class="prose dark:prose-invert">
+      <div class="title">
+        <Image
+          src={image}
+          alt={title}
+          class="rounded object-cover shadow-xl"
+          width={1024}
+          height={1024 / 2}
+          format="webp"
+        />
+        <h1 class="mb-2">{title}</h1>
+        <span class="-ml-2 flex items-center gap-1"
+          >{tags.map((tag) => <Badge>{tag}</Badge>)}</span
+        >
+      </div>
+      <slot />
+    </div>
+  </article>
+</RootLayout>

@@ -1,0 +1,29 @@
+---
+import { cn } from "@/lib/utils";
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"a">;
+
+const { class: className } = Astro.props;
+---
+
+<a
+  href="/"
+  class={cn(
+    "flex items-center w-fit gap-0.5 text-muted-foreground -ml-1 relative hover:after:absolute after:h-[0.5px] after:bg-white hover:after:w-[calc(100%-4px)] after:bottom-0 after:left-[6px]",
+    className,
+  )}
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg
+  >
+  back
+</a>

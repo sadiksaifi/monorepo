@@ -1,0 +1,124 @@
+---
+import { SITE_TITLE } from "../consts";
+---
+
+<header class="border-b">
+  <nav class="container h-16 flex justify-between items-center">
+    <a href="/" id="site-title" class="text-xl font-semibold uppercase">
+      {SITE_TITLE}
+    </a>
+    <div class="flex items-center gap-4">
+      <button
+        id="theme-toggle"
+        aria-label="Toggle theme"
+        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-6 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground"
+        ,
+      >
+        <svg
+          id="theme-toggle-light-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-sun-icon lucide-sun"
+          ><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path
+            d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path
+            d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path
+            d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path
+            d="m19.07 4.93-1.41 1.41"></path></svg
+        >
+
+        <svg
+          id="theme-toggle-dark-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-moon-icon lucide-moon"
+          ><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg
+        >
+      </button>
+      <a
+        href="/rss.xml"
+        target="_blank"
+        aria-label="RSS feed"
+        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-6 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-rss"
+          ><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"
+          ></path><circle cx="5" cy="19" r="1"></circle></svg
+        >
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function initializeTheme() {
+    const theme =
+      localStorage.getItem("theme") ??
+      (window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light");
+
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    return theme;
+  }
+
+  function setupThemeToggle() {
+    const themeToggleBtn = document.getElementById("theme-toggle");
+    const darkIcon = document.getElementById("theme-toggle-dark-icon");
+    const lightIcon = document.getElementById("theme-toggle-light-icon");
+
+    if (!themeToggleBtn || !darkIcon || !lightIcon) return;
+
+    function updateThemeToggleIcon(theme: string) {
+      if (theme === "dark") {
+        darkIcon?.classList.add("hidden");
+        lightIcon?.classList.remove("hidden");
+      } else {
+        lightIcon?.classList.add("hidden");
+        darkIcon?.classList.remove("hidden");
+      }
+    }
+
+    // Initialize the icon based on current theme
+    updateThemeToggleIcon(initializeTheme());
+
+    // Handle click events
+    themeToggleBtn.addEventListener("click", () => {
+      const isDark = document.documentElement.classList.toggle("dark");
+      const newTheme = isDark ? "dark" : "light";
+      localStorage.setItem("theme", newTheme);
+      updateThemeToggleIcon(newTheme);
+    });
+  }
+
+  // Run setup on page load
+  setupThemeToggle();
+
+  // Handle view transitions
+  document.addEventListener("astro:after-swap", () => {
+    setupThemeToggle();
+  });
+</script>

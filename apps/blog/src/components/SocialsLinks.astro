@@ -1,0 +1,35 @@
+---
+import { cn } from "@/lib/utils";
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"div">;
+
+const { class: className, ...props } = Astro.props;
+---
+
+<div class={cn("items-center gap-2 flex", className)} {...props}>
+  <a href="https://x.com/thesadiksaifi" target="_blank">
+    <span class="sr-only">Follow Sadik Saifi on X</span>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      enable-background="new 0 0 72 72"
+      viewBox="0 0 72 72"
+      id="twitter-x"
+      fill="currentColor"
+      width="16"
+      height="16"
+      ><switch
+        ><g
+          ><path
+            d="M42.5,31.2L66,6h-6L39.8,27.6L24,6H4l24.6,33.6L4,66
+h6l21.3-22.8L48,66h20L42.5,31.2z M12.9,10h8l38.1,52h-8L12.9,10z"
+          ></path></g
+        ></switch
+      ></svg
+    >
+  </a>
+  |
+  <a href="https://github.com/sadiksaifi" target="_blank">Github</a>
+  |
+  <a href="https://www.sadiksaifi.dev" target="_blank">Website</a>
+</div>

@@ -8,12 +8,14 @@
 # testing
 /**/coverage
 
-# next.js
+# build
 /**/.next/
 /**/out/
+/**/.astro/
 
 # production
 /**/build
+/**/dist/
 
 # Ignore OS generated files
 /**/.DS_Store
@@ -24,6 +26,7 @@
 /**/*.key
 
 # debug
+/**/pnpm-debug.log*
 /**/npm-debug.log*
 /**/yarn-debug.log*
 /**/yarn-error.log*
@@ -42,3 +45,4 @@
 # Ignore temporary files created by some editors
 *~
 \#*\#
+/**/.idea/
