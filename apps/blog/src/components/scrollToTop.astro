@@ -18,25 +18,37 @@
   </svg>
 </button>
 
-<script>
-  const scrollButton = document.getElementById("scroll-to-top");
+<script is:inline>
+  function setupScrollButton() {
+    const scrollButton = document.getElementById("scroll-to-top");
 
-  function toggleScrollButton() {
-    if (window.scrollY > 200) {
-      scrollButton?.classList.remove("opacity-0", "pointer-events-none");
-      scrollButton?.classList.add("opacity-100", "pointer-events-auto");
-    } else {
-      scrollButton?.classList.remove("opacity-100", "pointer-events-auto");
-      scrollButton?.classList.add("opacity-0", "pointer-events-none");
+    function toggleScrollButton() {
+      if (window.scrollY > 200) {
+        scrollButton?.classList.remove("opacity-0", "pointer-events-none");
+        scrollButton?.classList.add("opacity-100", "pointer-events-auto");
+      } else {
+        scrollButton?.classList.remove("opacity-100", "pointer-events-auto");
+        scrollButton?.classList.add("opacity-0", "pointer-events-none");
+      }
     }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // Initial check
+    toggleScrollButton();
+
+    // Add event listeners
+    scrollButton?.addEventListener("click", scrollToTop);
+    window.addEventListener("scroll", toggleScrollButton);
+
+    // Clean up function
+    document.addEventListener('astro:after-swap', function() {
+      setupScrollButton();
+    });
   }
 
-  // Initial check
-  toggleScrollButton();
-
-  scrollButton?.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-
-  window.addEventListener("scroll", toggleScrollButton);
+  // Initial setup
+  setupScrollButton();
 </script>

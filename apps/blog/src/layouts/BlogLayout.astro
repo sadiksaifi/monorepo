@@ -14,28 +14,36 @@ const { title, description, tags, pubDate, image } = Astro.props;
 <RootLayout title={title} description={description} image={image.src}>
   <div class="flex justify-between items-start">
     <Back />
-    <div
-      class="date text-muted-foreground flex flex-col justify-center items-end gap-2"
-    >
+    <div class="date text-muted-foreground flex flex-col justify-center items-end gap-2">
       <p>Published on <FormattedDate date={pubDate} /></p>
     </div>
   </div>
   <article>
     <div class="prose dark:prose-invert">
-      <div class="title">
+      <div>
+        <div
+          class="skeleton my-6 size-full skeleton aspect-video rounded bg-muted animate-pulse bg-gradient-to-r from-muted to-muted/80"
+          aria-label="loading image"
+          role="img"
+        >
+        </div>
         <Image
           src={image}
           alt={title}
-          class="rounded object-cover shadow-xl"
-          width={1024}
-          height={1024 / 2}
+          class="opacity-0 size-0 rounded object-cover shadow-xl aspect-video transition-opacity duration-300"
+          width="640"
+          height="360"
+          loading="lazy"
           format="webp"
+          decoding="async"
+          onload="document.querySelector('.skeleton').classList.add('hidden'); this.classList.remove('opacity-0'); this.classList.remove('size-0')"
+          onerror="this.classList.add('hidden'); document.querySelector('.skeleton').classList.remove('hidden'); this.classList.remove('size-0')"
         />
-        <h1 class="mb-2">{title}</h1>
-        <span class="-ml-2 flex items-center gap-1"
-          >{tags.map((tag) => <Badge>{tag}</Badge>)}</span
-        >
       </div>
+      <h1 class="mb-2">{title}</h1>
+      <span class="-ml-2 flex items-center gap-1"
+        >{tags.map((tag) => <Badge>{tag}</Badge>)}</span
+      >
       <slot />
     </div>
   </article>
