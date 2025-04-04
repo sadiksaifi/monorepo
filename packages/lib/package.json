@@ -7,9 +7,7 @@
     "check-types": "tsc --noEmit"
   },
   "exports": {
-    ".": "./src/index.ts",
-    "./auth": "./src/auth/index.ts",
-    "./db": "./src/db/index.ts"
+    "./*": "./src/*.ts"
   },
   "dependencies": {
     "@aws-sdk/client-ses": "^3.693.0",

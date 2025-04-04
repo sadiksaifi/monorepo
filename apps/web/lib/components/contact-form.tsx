@@ -13,19 +13,16 @@ import {
 } from "@workspace/ui/components/form";
 import { Input } from "@workspace/ui/components/input";
 import { Textarea } from "@workspace/ui/components/textarea";
-import {
-  ContactFormSchema,
-  TContactForm,
-} from "@/lib/validations/contact-form";
-import { useState } from "react";
+import { contactFormSchema, ContactForm } from "@/lib/validations/contact-form";
 import { Loader2 } from "lucide-react";
+import { sendEmail } from "../server/send-email";
+import { useTransition } from "react";
 import { toast } from "sonner";
-import { fetcho } from "@workspace/lib";
 
 const ContactForm = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const form = useForm<TContactForm>({
-    resolver: zodResolver(ContactFormSchema),
+  const [isPending, startTransition] = useTransition();
+  const form = useForm<ContactForm>({
+    resolver: zodResolver(contactFormSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -33,42 +30,27 @@ const ContactForm = () => {
     },
   });
 
-  async function onSubmit(values: TContactForm) {
-    try {
-      setIsSubmitting(true);
-
-      const res = await fetcho<{
-        message: string;
-      }>("/api/contact", {
-        method: "POST",
-        body: JSON.stringify(values),
-        headers: {
-          "Content-Type": "application/json",
-        },
+  const onSubmit = async (data: ContactForm) => {
+    startTransition(async () => {
+      const { error } = await sendEmail(data);
+      if (error) {
+        toast.error("Failed to send email", {
+          description: "Please try after some time.",
+        });
+      }
+      toast.success("Message sent successfully", {
+        description: "We will get back to you soon.",
       });
-
-      const { data } = res;
-      toast.success("Success", {
-        description: data.message,
-        position: "top-right",
-      });
-      setIsSubmitting(false);
       form.reset();
-    } catch (error) {
-      console.log(error);
-      toast.error("Error", {
-        description: "Something went wrong, please try again later",
-      });
-      setIsSubmitting(false);
-    }
-  }
+    });
+  };
 
   return (
     <Form {...form}>
       <form
         id="contact"
-        onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8 p-8 w-[90%] rounded-lg border xl:w-[75%]"
+        onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormField
           control={form.control}
@@ -113,8 +95,8 @@ const ContactForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">
-          {isSubmitting && <Loader2 className="animate-spin size-4" />}
+        <Button type="submit" disabled={isPending}>
+          {isPending && <Loader2 className="animate-spin size-4" />}
           Submit
         </Button>
       </form>
