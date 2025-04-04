@@ -11,7 +11,8 @@
     "blog": "pnpm --filter blog",
     "ui": "pnpm --filter ui",
     "lib": "pnpm --filter lib",
-    "txnl": "pnpm --filter transactional"
+    "data": "pnpm --filter data",
+    "transactional": "pnpm --filter transactional"
   },
   "workspaces": [
     "apps/*",

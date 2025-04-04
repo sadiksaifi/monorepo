@@ -13,7 +13,9 @@ import {
 } from "@workspace/ui/components/form";
 import { Input } from "@workspace/ui/components/input";
 import { Textarea } from "@workspace/ui/components/textarea";
-import { contactFormSchema, ContactForm as TContactForm } from "@/lib/validations/contact-form";
+import { contactFormSchema } from "@/lib/validations/contact-form";
+import type { ContactForm as TContactForm } from "@/lib/validations/contact-form";
+
 import { Loader2 } from "lucide-react";
 import { sendEmail } from "../server/send-email";
 import { useTransition } from "react";

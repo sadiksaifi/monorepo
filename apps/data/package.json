@@ -2,6 +2,9 @@
   "name": "data",
   "version": "1.0.0",
   "description": "",
+  "scripts": {
+    "dev": "npx live-server --port=3000 --no-browser --entry-file=index.html"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
