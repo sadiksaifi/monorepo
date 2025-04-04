@@ -41,3 +41,12 @@ monorepo/
     ├── typescript-config
     └── ui
 ```
+
+## License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contributing
+Contributions are welcome! Please read the [CONTRIBUTING](CONTRIBUTING.md) file for details.
+
+## Contact
+You can reach me at [mail@sadiksaifi.dev](mailto:mail@sadiksaifi.dev) for any questions or feedback.
