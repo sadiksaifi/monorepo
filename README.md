@@ -1,31 +1,43 @@
-# shadcn/ui monorepo template
+# Monorepo
 
-This template is for creating a monorepo with shadcn/ui.
+This is a monorepo for my personal projects. It uses [pnpm](https://pnpm.io/) as the package manager and [turborepo](https://turbo.build/repo) for build orchestration.
 
-## Usage
+## Prerequisites
+- [Node.js](https://nodejs.org/en/download/) (v20 or later)
+- [pnpm](https://pnpm.io/) (v10 or later)
+- [Turbo](https://turbo.build/repo/docs/getting-started) (v2 or later)
+- [Git](https://git-scm.com/downloads) (v2 or later)
+
+## Getting Started
+
+Install the dependencies:
 
 ```bash
-pnpm dlx shadcn@latest init
+pnpm install
 ```
-
-## Adding components
-
-To add components to your app, run the following command at the root of your `web` app:
+Run the development server:
 
 ```bash
-pnpm dlx shadcn@latest add button -c apps/web
+turbo dev
+```
+Run the build:
+
+```bash
+turbo build
 ```
 
-This will place the ui components in the `packages/ui/src/components` directory.
+## Project Structure
+The monorepo is structured as follows:
 
-## Tailwind
-
-Your `tailwind.config.ts` and `globals.css` are already set up to use the components from the `ui` package.
-
-## Using components
-
-To use the components in your app, import them from the `ui` package.
-
-```tsx
-import { Button } from "@workspace/ui/components/button"
+```bash
+monorepo/
+├── apps
+│   ├── blog # Blog website
+│   ├── data # Assets
+│   └── web # Portfolio website
+└── packages
+    ├── eslint-config
+    ├── lib
+    ├── typescript-config
+    └── ui
 ```
