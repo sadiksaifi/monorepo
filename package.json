@@ -10,7 +10,8 @@
     "web": "pnpm --filter web",
     "blog": "pnpm --filter blog",
     "ui": "pnpm --filter ui",
-    "lib": "pnpm --filter lib"
+    "lib": "pnpm --filter lib",
+    "txnl": "pnpm --filter transactional"
   },
   "workspaces": [
     "apps/*",
@@ -30,6 +31,7 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "core-js-pure",
+      "esbuild",
       "sharp"
     ]
   }
