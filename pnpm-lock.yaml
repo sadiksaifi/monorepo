@@ -104,6 +104,9 @@ importers:
       '@workspace/lib':
         specifier: workspace:*
         version: link:../../packages/lib
+      '@workspace/transactional':
+        specifier: workspace:*
+        version: link:../../packages/transactional
       '@workspace/ui':
         specifier: workspace:*
         version: link:../../packages/ui

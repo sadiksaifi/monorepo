@@ -1,9 +1,8 @@
 "use server";
 
 import { Resend } from "resend";
-import { EmailTemplate } from "../components/email-template";
-import { z } from "zod";
 import { contactFormSchema } from "../validations/contact-form";
+import ContactFormEmail from "@workspace/transactional/emails/contact-form";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -13,18 +12,14 @@ export async function sendEmail(formData: unknown) {
     console.log(formDataError);
     return { error: formDataError, data: null };
   }
-  const { name, email, message } = values;
+  const { name, message } = values;
 
   const { data, error } = await resend.emails.send({
     from: `${process.env.FROM_EMAIL!}`,
     to: process.env.TO_EMAIL!,
     subject: `New message from ${name}`,
     text: message,
-    react: EmailTemplate({
-      name: name,
-      email: `${name} <${email}>`,
-      message: message,
-    }),
+    react: ContactFormEmail(values),
   });
 
   if (error) {

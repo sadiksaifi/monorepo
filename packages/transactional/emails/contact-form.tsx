@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   Body,
   Button,
@@ -28,7 +27,12 @@ const ContactFormEmail = ({
           <Container className="bg-white mx-auto my-0 max-w-[560px]">
             <Section className="pt-[32px] px-[32px] pb-[24px]">
               <Heading className="mb-[12px]">
-                return <Img src="" alt="sdk-logo" width="60" height="60" />;
+                <Img
+                  src="https://www.sadiksaifi.dev/static/logo.png"
+                  alt="sdk-logo"
+                  width="60"
+                  height="60"
+                />
                 <Text className="text-[24px] font-bold text-[#1d1d1f] mt-[16px]">
                   New Message
                 </Text>
