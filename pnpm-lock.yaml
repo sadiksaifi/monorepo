@@ -88,6 +88,8 @@ importers:
         specifier: ^20.17.10
         version: 20.17.19
 
+  apps/data: {}
+
   apps/web:
     dependencies:
       '@hookform/resolvers':
