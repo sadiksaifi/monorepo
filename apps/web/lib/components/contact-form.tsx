@@ -13,7 +13,7 @@ import {
 } from "@workspace/ui/components/form";
 import { Input } from "@workspace/ui/components/input";
 import { Textarea } from "@workspace/ui/components/textarea";
-import { contactFormSchema, ContactForm } from "@/lib/validations/contact-form";
+import { contactFormSchema, ContactForm as TContactForm } from "@/lib/validations/contact-form";
 import { Loader2 } from "lucide-react";
 import { sendEmail } from "../server/send-email";
 import { useTransition } from "react";
@@ -21,7 +21,7 @@ import { toast } from "sonner";
 
 const ContactForm = () => {
   const [isPending, startTransition] = useTransition();
-  const form = useForm<ContactForm>({
+  const form = useForm<TContactForm>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
       name: "",
@@ -30,7 +30,7 @@ const ContactForm = () => {
     },
   });
 
-  const onSubmit = async (data: ContactForm) => {
+  const onSubmit = async (data: TContactForm) => {
     startTransition(async () => {
       const { error } = await sendEmail(data);
       if (error) {
