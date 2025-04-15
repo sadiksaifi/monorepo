@@ -1,30 +1,56 @@
-import {
-  SendEmailCommandInput,
-  SES,
-  SESClientConfig,
-} from "@aws-sdk/client-ses";
-
-type EmailSendParams = {
+import { SendEmailCommandInput, SES, SESClientConfig } from "@aws-sdk/client-ses";
+import { tryCatch } from "./try-catch";
+import { error } from "console";
+export type EmailSendParams = {
   recipient: string;
   subject: string;
   message: string;
 };
 
+export type EmailServiceConfig = {
+  senderAddress: string;
+  senderName: string;
+  replyTo: string;
+  accessKeyId: string;
+  secretAccessKey: string;
+  region: string;
+};
+
 class EmailService {
-  #AWS_SES_SENDER_ADDRESS = process.env.AWS_SES_SENDER_ADDRESS!;
-  #AWS_SES_SENDER_NAME = process.env.AWS_SES_SENDER_NAME!;
-  #AWS_SES_REPLY_TO = process.env.AWS_SES_REPLY_TO!;
-  #AWS_SES_ACCESS_KEY_ID = process.env.AWS_SES_ACCESS_ID!;
-  #AWS_SES_SECRET_ACCESS_KEY = process.env.AWS_SES_SECRET_ACCESS_KEY!;
-  #AWS_SES_REGION = process.env.AWS_SES_REGION!;
-  #AWS_SES_CONFIG: SESClientConfig = {
-    credentials: {
-      accessKeyId: this.#AWS_SES_ACCESS_KEY_ID,
-      secretAccessKey: this.#AWS_SES_SECRET_ACCESS_KEY,
-    },
-    region: this.#AWS_SES_REGION,
-  };
-  #AWS_SES = new SES(this.#AWS_SES_CONFIG);
+  #AWS_SES_SENDER_ADDRESS: string;
+  #AWS_SES_SENDER_NAME: string;
+  #AWS_SES_REPLY_TO: string;
+  #AWS_SES_ACCESS_KEY_ID: string;
+  #AWS_SES_SECRET_ACCESS_KEY: string;
+  #AWS_SES_REGION: string;
+  #AWS_SES_CONFIG: SESClientConfig;
+  #AWS_SES: SES;
+
+  constructor({
+    senderAddress,
+    senderName,
+    replyTo,
+    accessKeyId,
+    secretAccessKey,
+    region,
+  }: EmailServiceConfig) {
+    this.#AWS_SES_SENDER_ADDRESS = senderAddress;
+    this.#AWS_SES_SENDER_NAME = senderName;
+    this.#AWS_SES_REPLY_TO = replyTo;
+    this.#AWS_SES_ACCESS_KEY_ID = accessKeyId;
+    this.#AWS_SES_SECRET_ACCESS_KEY = secretAccessKey;
+    this.#AWS_SES_REGION = region;
+
+    this.#AWS_SES_CONFIG = {
+      credentials: {
+        accessKeyId: this.#AWS_SES_ACCESS_KEY_ID,
+        secretAccessKey: this.#AWS_SES_SECRET_ACCESS_KEY,
+      },
+      region: this.#AWS_SES_REGION,
+    };
+
+    this.#AWS_SES = new SES(this.#AWS_SES_CONFIG);
+  }
 
   async send({ recipient, subject, message }: EmailSendParams) {
     const params: SendEmailCommandInput = {
@@ -47,19 +73,14 @@ class EmailService {
       },
     };
 
-    try {
-      await this.#AWS_SES.sendEmail(params);
-      return true;
-    } catch (e) {
-      console.log(e);
-      return false;
-    }
+    console.log("Sending email...", this.#AWS_SES_REGION);
+    const res = await tryCatch(this.#AWS_SES.sendEmail(params));
+    console.log("Email sent successfully!", res);
+    return {
+      error: res.error,
+      data: res.data?.MessageId,
+    };
   }
 }
 
-const sendEmail = async (params: EmailSendParams) => {
-  const emailService = new EmailService();
-  return emailService.send(params);
-};
-
-export { EmailService, sendEmail };
+export default EmailService;
