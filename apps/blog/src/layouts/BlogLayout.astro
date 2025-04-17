@@ -41,7 +41,7 @@ const { title, description, tags, pubDate, image } = Astro.props;
         />
       </div>
       <h1 class="mb-2">{title}</h1>
-      <span class="-ml-2 flex items-center gap-1"
+      <span class="-ml-2 flex flex-wrap items-center gap-1"
         >{tags.map((tag) => <Badge>{tag}</Badge>)}</span
       >
       <slot />
