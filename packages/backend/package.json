@@ -1,38 +1,26 @@
 {
   "name": "@workspace/backend",
+  "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/app.ts",
+    "build": "nitro build",
+    "dev": "nitro dev",
+    "prepare": "nitro prepare",
+    "preview": "node .output/server/index.mjs",
     "typecheck": "tsc --noEmit",
-    "start": "node dist/app.js",
-    "format": "prettier --write .",
     "db": "drizzle-kit",
     "auth:generate": "pnpm dlx @better-auth/cli@latest generate --config ./src/lib/auth.ts --y --output ./src/lib/schema/auth.schema.ts && prettier --write ./src/lib/schema/auth.schema.ts"
   },
   "exports": {
-    "./router": "./src/lib/router.ts",
-    "./trpc": "./src/lib/trpc.ts"
-  },
-  "dependencies": {
-    "@workspace/typescript-config": "workspace:*",
-    "@workspace/lib": "workspace:*",
-    "better-auth": "^1.2.7",
-    "@hono/node-server": "^1.14.1",
-    "@hono/trpc-server": "^0.3.4",
-    "@trpc/server": "^11.1.0",
-    "dotenv": "^16.4.5",
-    "hono": "^4.7.7",
-    "superjson": "^2.2.2",
-    "zod": "^3.24.2",
-    "drizzle-orm": "^0.42.0",
-    "@neondatabase/serverless": "^1.0.0",
-    "pg": "^8.14.1"
+    "./trpc": "./src/lib/trpc.ts",
+    "./router": "./src/lib/trpc-router.ts"
   },
   "devDependencies": {
-    "prettier": "^3.5.1",
-    "@types/node": "^20.11.17",
-    "drizzle-kit": "^0.31.0",
-    "@types/pg": "^8.11.13",
-    "tsx": "^4.7.1"
+    "nitropack": "latest"
+  },
+  "dependencies": {
+    "@falcondev-oss/nitro-trpc-event-handler": "^0.1.1",
+    "@trpc/server": "^11.1.0",
+    "superjson": "^2.2.2"
   }
 }

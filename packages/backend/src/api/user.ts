@@ -1,9 +1,6 @@
-/**
- * This a minimal tRPC server
- */
 import { z } from "zod";
 import { fakeDb } from "../lib/fake-db";
-import { publicProcedure } from "../lib/tprc";
+import { publicProcedure } from "../lib/trpc";
 import type { TRPCRouterRecord } from "@trpc/server";
 
 export const user = {

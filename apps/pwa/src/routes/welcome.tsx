@@ -8,13 +8,7 @@ export const Route = createFileRoute("/welcome")({
 
 function RouteComponent() {
   const trpc = useTRPC();
-  const {data} = useQuery(trpc.user.list.queryOptions())
+  const { data, isPending } = useQuery(trpc.user.list.queryOptions());
 
-  console.log(data);
-
-  return (
-    <div>
-      {JSON.stringify(data)}
-    </div>
-  );
+  return <div>{isPending ? "Loading..." : JSON.stringify(data)}</div>;
 }

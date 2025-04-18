@@ -1,8 +1,3 @@
-```
-npm install
-npm run dev
-```
+# Nitro starter
 
-```
-open http://localhost:3000
-```
+Look at the [nitro quick start](https://nitro.unjs.io/guide#quick-start) to learn more how to get started.

@@ -2,7 +2,7 @@ import { createTRPCContext, createTRPCOptionsProxy } from "@trpc/tanstack-react-
 import { QueryClient } from "@tanstack/react-query";
 import superjson from "superjson";
 import { createTRPCClient, httpBatchLink } from "@trpc/client";
-import type { TRPCRouter } from "@workspace/backend/router";
+import type { TRPCRouter } from "../../../../packages/nitro-app/server/lib/trpc-router";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,7 +15,7 @@ export const trpcClient = createTRPCClient<TRPCRouter>({
   links: [
     httpBatchLink({
       url: import.meta.env.BACKEND_URL ?? "http://localhost:3000/trpc",
-      transformer: superjson,
+      // transformer: superjson,
     }),
   ],
 });

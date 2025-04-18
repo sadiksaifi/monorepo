@@ -1,13 +1,3 @@
 {
-  "extends": "@workspace/typescript-config/base.json",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    },
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "extends": "./.nitro/types/tsconfig.json"
 }
