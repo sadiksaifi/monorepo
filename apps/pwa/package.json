@@ -21,6 +21,7 @@
     "@trpc/tanstack-react-query": "^11.1.0",
     "@workspace/backend": "workspace:*",
     "@workspace/ui": "workspace:*",
+    "@workspace/assets": "workspace:*",
     "better-auth": "^1.2.7",
     "lucide-react": "^0.475.0",
     "react": "^19.0.0",

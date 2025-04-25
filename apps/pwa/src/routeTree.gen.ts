@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as AppImport } from './routes/_app'
 import { Route as AppIndexImport } from './routes/_app/index'
+import { Route as AppDashboardImport } from './routes/_app/dashboard'
 import { Route as publicHealthcheckImport } from './routes/(public)/healthcheck'
 import { Route as publicAuthRouteImport } from './routes/(public)/auth/route'
 import { Route as publicAuthVerifyAccountImport } from './routes/(public)/auth/verify-account'
@@ -30,6 +31,12 @@ const AppRoute = AppImport.update({
 const AppIndexRoute = AppIndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+
+const AppDashboardRoute = AppDashboardImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => AppRoute,
 } as any)
 
@@ -94,6 +101,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof publicHealthcheckImport
       parentRoute: typeof rootRoute
     }
+    '/_app/dashboard': {
+      id: '/_app/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AppDashboardImport
+      parentRoute: typeof AppImport
+    }
     '/_app/': {
       id: '/_app/'
       path: '/'
@@ -135,10 +149,12 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AppRouteChildren {
+  AppDashboardRoute: typeof AppDashboardRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppDashboardRoute: AppDashboardRoute,
   AppIndexRoute: AppIndexRoute,
 }
 
@@ -166,6 +182,7 @@ export interface FileRoutesByFullPath {
   '': typeof AppRouteWithChildren
   '/auth': typeof publicAuthRouteRouteWithChildren
   '/healthcheck': typeof publicHealthcheckRoute
+  '/dashboard': typeof AppDashboardRoute
   '/': typeof AppIndexRoute
   '/auth/forget-password': typeof publicAuthForgetPasswordRoute
   '/auth/sign-in': typeof publicAuthSignInRoute
@@ -176,6 +193,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/auth': typeof publicAuthRouteRouteWithChildren
   '/healthcheck': typeof publicHealthcheckRoute
+  '/dashboard': typeof AppDashboardRoute
   '/': typeof AppIndexRoute
   '/auth/forget-password': typeof publicAuthForgetPasswordRoute
   '/auth/sign-in': typeof publicAuthSignInRoute
@@ -188,6 +206,7 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteWithChildren
   '/(public)/auth': typeof publicAuthRouteRouteWithChildren
   '/(public)/healthcheck': typeof publicHealthcheckRoute
+  '/_app/dashboard': typeof AppDashboardRoute
   '/_app/': typeof AppIndexRoute
   '/(public)/auth/forget-password': typeof publicAuthForgetPasswordRoute
   '/(public)/auth/sign-in': typeof publicAuthSignInRoute
@@ -201,6 +220,7 @@ export interface FileRouteTypes {
     | ''
     | '/auth'
     | '/healthcheck'
+    | '/dashboard'
     | '/'
     | '/auth/forget-password'
     | '/auth/sign-in'
@@ -210,6 +230,7 @@ export interface FileRouteTypes {
   to:
     | '/auth'
     | '/healthcheck'
+    | '/dashboard'
     | '/'
     | '/auth/forget-password'
     | '/auth/sign-in'
@@ -220,6 +241,7 @@ export interface FileRouteTypes {
     | '/_app'
     | '/(public)/auth'
     | '/(public)/healthcheck'
+    | '/_app/dashboard'
     | '/_app/'
     | '/(public)/auth/forget-password'
     | '/(public)/auth/sign-in'
@@ -258,6 +280,7 @@ export const routeTree = rootRoute
     "/_app": {
       "filePath": "_app.tsx",
       "children": [
+        "/_app/dashboard",
         "/_app/"
       ]
     },
@@ -272,6 +295,10 @@ export const routeTree = rootRoute
     },
     "/(public)/healthcheck": {
       "filePath": "(public)/healthcheck.tsx"
+    },
+    "/_app/dashboard": {
+      "filePath": "_app/dashboard.tsx",
+      "parent": "/_app"
     },
     "/_app/": {
       "filePath": "_app/index.tsx",

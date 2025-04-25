@@ -1,29 +1,7 @@
-import { authClient } from "@/lib/auth-client";
-import {
-  createFileRoute,
-  Link,
-  LinkProps,
-  Outlet,
-  redirect,
-  useRouter,
-} from "@tanstack/react-router";
-import { Button, buttonVariants } from "@workspace/ui/components/button";
-import { cn } from "@workspace/ui/lib/utils";
-
-const links: { label: string; to: LinkProps["to"] }[] = [
-  {
-    label: "Home",
-    to: "/",
-  },
-  {
-    label: "Sign In",
-    to: "/auth/sign-in",
-  },
-  {
-    label: "Sign Up",
-    to: "/auth/sign-up",
-  },
-];
+import { AppHeader } from "@/lib/components/app-header";
+import { AppSidebar } from "@/lib/components/app-sidebar";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { SidebarInset, SidebarProvider } from "@workspace/ui/components/sidebar";
 
 export const Route = createFileRoute("/_app")({
   component: RouteComponent,
@@ -38,31 +16,22 @@ export const Route = createFileRoute("/_app")({
 });
 
 function RouteComponent() {
-  const router = useRouter();
+  const { user } = Route.useLoaderData();
   return (
-    <>
-      <div className="flex justify-between items-center h-14 border-b px-6">
-        <div className="flex gap-2 justify-center w-full items-center">
-          {links.map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              className={cn(buttonVariants({ variant: "link" }))}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-        <Button
-          onClick={() => {
-            authClient.signOut();
-            router.navigate({ to: "/auth/sign-in" });
-          }}
-        >
-          Sign Out
-        </Button>
-      </div>
-      <Outlet />;
-    </>
+    <SidebarProvider>
+      <AppSidebar
+        user={{
+          name: user!.name,
+          email: user!.email,
+          avatar: user!.image!,
+        }}
+      />
+      <SidebarInset>
+        <AppHeader />
+        <main className="p-4 min-h-[calc(100vh-4rem)]">
+          <Outlet />
+        </main>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
