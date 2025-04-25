@@ -23,7 +23,7 @@ function RootRouteComponent() {
   return (
     <Provider>
       <Outlet />
-      <TanStackRouterDevtools position="bottom-right" />
+      {/* <TanStackRouterDevtools position="bottom-right" /> */}
     </Provider>
   );
 }

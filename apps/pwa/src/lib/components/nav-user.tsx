@@ -95,13 +95,13 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem asChild>
-                <Link to="/account">
+                <Link to="/profile">
                   <BadgeCheck />
-                  Account
+                  Profile
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link to="/notification">
+                <Link to="/test/notifications">
                   <Bell />
                   Notifications
                 </Link>

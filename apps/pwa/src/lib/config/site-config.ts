@@ -1,6 +1,6 @@
 export const siteConfig = {
   title: "SDK PWA",
-  subtitle: "PWA for SDK",
+  subtitle: "PWA",
   author: "Sadik Saifi",
   email: "mail@sadiksaifi.dev",
   url: "https://pwa.sadiksaifi.dev",
