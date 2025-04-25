@@ -13,9 +13,14 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as AppImport } from './routes/_app'
 import { Route as AppIndexImport } from './routes/_app/index'
-import { Route as AppDashboardImport } from './routes/_app/dashboard'
+import { Route as AppProfileImport } from './routes/_app/profile'
+import { Route as AppHomeImport } from './routes/_app/home'
+import { Route as AppFriendsImport } from './routes/_app/friends'
+import { Route as AppDiscoverImport } from './routes/_app/discover'
+import { Route as AppChatImport } from './routes/_app/chat'
 import { Route as publicHealthcheckImport } from './routes/(public)/healthcheck'
 import { Route as publicAuthRouteImport } from './routes/(public)/auth/route'
+import { Route as AppTestNotificationsImport } from './routes/_app/test/notifications'
 import { Route as publicAuthVerifyAccountImport } from './routes/(public)/auth/verify-account'
 import { Route as publicAuthSignUpImport } from './routes/(public)/auth/sign-up'
 import { Route as publicAuthSignInImport } from './routes/(public)/auth/sign-in'
@@ -34,9 +39,33 @@ const AppIndexRoute = AppIndexImport.update({
   getParentRoute: () => AppRoute,
 } as any)
 
-const AppDashboardRoute = AppDashboardImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const AppProfileRoute = AppProfileImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AppRoute,
+} as any)
+
+const AppHomeRoute = AppHomeImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => AppRoute,
+} as any)
+
+const AppFriendsRoute = AppFriendsImport.update({
+  id: '/friends',
+  path: '/friends',
+  getParentRoute: () => AppRoute,
+} as any)
+
+const AppDiscoverRoute = AppDiscoverImport.update({
+  id: '/discover',
+  path: '/discover',
+  getParentRoute: () => AppRoute,
+} as any)
+
+const AppChatRoute = AppChatImport.update({
+  id: '/chat',
+  path: '/chat',
   getParentRoute: () => AppRoute,
 } as any)
 
@@ -50,6 +79,12 @@ const publicAuthRouteRoute = publicAuthRouteImport.update({
   id: '/(public)/auth',
   path: '/auth',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AppTestNotificationsRoute = AppTestNotificationsImport.update({
+  id: '/test/notifications',
+  path: '/test/notifications',
+  getParentRoute: () => AppRoute,
 } as any)
 
 const publicAuthVerifyAccountRoute = publicAuthVerifyAccountImport.update({
@@ -101,11 +136,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof publicHealthcheckImport
       parentRoute: typeof rootRoute
     }
-    '/_app/dashboard': {
-      id: '/_app/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AppDashboardImport
+    '/_app/chat': {
+      id: '/_app/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof AppChatImport
+      parentRoute: typeof AppImport
+    }
+    '/_app/discover': {
+      id: '/_app/discover'
+      path: '/discover'
+      fullPath: '/discover'
+      preLoaderRoute: typeof AppDiscoverImport
+      parentRoute: typeof AppImport
+    }
+    '/_app/friends': {
+      id: '/_app/friends'
+      path: '/friends'
+      fullPath: '/friends'
+      preLoaderRoute: typeof AppFriendsImport
+      parentRoute: typeof AppImport
+    }
+    '/_app/home': {
+      id: '/_app/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof AppHomeImport
+      parentRoute: typeof AppImport
+    }
+    '/_app/profile': {
+      id: '/_app/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AppProfileImport
       parentRoute: typeof AppImport
     }
     '/_app/': {
@@ -143,19 +206,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof publicAuthVerifyAccountImport
       parentRoute: typeof publicAuthRouteImport
     }
+    '/_app/test/notifications': {
+      id: '/_app/test/notifications'
+      path: '/test/notifications'
+      fullPath: '/test/notifications'
+      preLoaderRoute: typeof AppTestNotificationsImport
+      parentRoute: typeof AppImport
+    }
   }
 }
 
 // Create and export the route tree
 
 interface AppRouteChildren {
-  AppDashboardRoute: typeof AppDashboardRoute
+  AppChatRoute: typeof AppChatRoute
+  AppDiscoverRoute: typeof AppDiscoverRoute
+  AppFriendsRoute: typeof AppFriendsRoute
+  AppHomeRoute: typeof AppHomeRoute
+  AppProfileRoute: typeof AppProfileRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppTestNotificationsRoute: typeof AppTestNotificationsRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
-  AppDashboardRoute: AppDashboardRoute,
+  AppChatRoute: AppChatRoute,
+  AppDiscoverRoute: AppDiscoverRoute,
+  AppFriendsRoute: AppFriendsRoute,
+  AppHomeRoute: AppHomeRoute,
+  AppProfileRoute: AppProfileRoute,
   AppIndexRoute: AppIndexRoute,
+  AppTestNotificationsRoute: AppTestNotificationsRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -182,23 +262,33 @@ export interface FileRoutesByFullPath {
   '': typeof AppRouteWithChildren
   '/auth': typeof publicAuthRouteRouteWithChildren
   '/healthcheck': typeof publicHealthcheckRoute
-  '/dashboard': typeof AppDashboardRoute
+  '/chat': typeof AppChatRoute
+  '/discover': typeof AppDiscoverRoute
+  '/friends': typeof AppFriendsRoute
+  '/home': typeof AppHomeRoute
+  '/profile': typeof AppProfileRoute
   '/': typeof AppIndexRoute
   '/auth/forget-password': typeof publicAuthForgetPasswordRoute
   '/auth/sign-in': typeof publicAuthSignInRoute
   '/auth/sign-up': typeof publicAuthSignUpRoute
   '/auth/verify-account': typeof publicAuthVerifyAccountRoute
+  '/test/notifications': typeof AppTestNotificationsRoute
 }
 
 export interface FileRoutesByTo {
   '/auth': typeof publicAuthRouteRouteWithChildren
   '/healthcheck': typeof publicHealthcheckRoute
-  '/dashboard': typeof AppDashboardRoute
+  '/chat': typeof AppChatRoute
+  '/discover': typeof AppDiscoverRoute
+  '/friends': typeof AppFriendsRoute
+  '/home': typeof AppHomeRoute
+  '/profile': typeof AppProfileRoute
   '/': typeof AppIndexRoute
   '/auth/forget-password': typeof publicAuthForgetPasswordRoute
   '/auth/sign-in': typeof publicAuthSignInRoute
   '/auth/sign-up': typeof publicAuthSignUpRoute
   '/auth/verify-account': typeof publicAuthVerifyAccountRoute
+  '/test/notifications': typeof AppTestNotificationsRoute
 }
 
 export interface FileRoutesById {
@@ -206,12 +296,17 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteWithChildren
   '/(public)/auth': typeof publicAuthRouteRouteWithChildren
   '/(public)/healthcheck': typeof publicHealthcheckRoute
-  '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/chat': typeof AppChatRoute
+  '/_app/discover': typeof AppDiscoverRoute
+  '/_app/friends': typeof AppFriendsRoute
+  '/_app/home': typeof AppHomeRoute
+  '/_app/profile': typeof AppProfileRoute
   '/_app/': typeof AppIndexRoute
   '/(public)/auth/forget-password': typeof publicAuthForgetPasswordRoute
   '/(public)/auth/sign-in': typeof publicAuthSignInRoute
   '/(public)/auth/sign-up': typeof publicAuthSignUpRoute
   '/(public)/auth/verify-account': typeof publicAuthVerifyAccountRoute
+  '/_app/test/notifications': typeof AppTestNotificationsRoute
 }
 
 export interface FileRouteTypes {
@@ -220,33 +315,48 @@ export interface FileRouteTypes {
     | ''
     | '/auth'
     | '/healthcheck'
-    | '/dashboard'
+    | '/chat'
+    | '/discover'
+    | '/friends'
+    | '/home'
+    | '/profile'
     | '/'
     | '/auth/forget-password'
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/auth/verify-account'
+    | '/test/notifications'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/auth'
     | '/healthcheck'
-    | '/dashboard'
+    | '/chat'
+    | '/discover'
+    | '/friends'
+    | '/home'
+    | '/profile'
     | '/'
     | '/auth/forget-password'
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/auth/verify-account'
+    | '/test/notifications'
   id:
     | '__root__'
     | '/_app'
     | '/(public)/auth'
     | '/(public)/healthcheck'
-    | '/_app/dashboard'
+    | '/_app/chat'
+    | '/_app/discover'
+    | '/_app/friends'
+    | '/_app/home'
+    | '/_app/profile'
     | '/_app/'
     | '/(public)/auth/forget-password'
     | '/(public)/auth/sign-in'
     | '/(public)/auth/sign-up'
     | '/(public)/auth/verify-account'
+    | '/_app/test/notifications'
   fileRoutesById: FileRoutesById
 }
 
@@ -280,8 +390,13 @@ export const routeTree = rootRoute
     "/_app": {
       "filePath": "_app.tsx",
       "children": [
-        "/_app/dashboard",
-        "/_app/"
+        "/_app/chat",
+        "/_app/discover",
+        "/_app/friends",
+        "/_app/home",
+        "/_app/profile",
+        "/_app/",
+        "/_app/test/notifications"
       ]
     },
     "/(public)/auth": {
@@ -296,8 +411,24 @@ export const routeTree = rootRoute
     "/(public)/healthcheck": {
       "filePath": "(public)/healthcheck.tsx"
     },
-    "/_app/dashboard": {
-      "filePath": "_app/dashboard.tsx",
+    "/_app/chat": {
+      "filePath": "_app/chat.tsx",
+      "parent": "/_app"
+    },
+    "/_app/discover": {
+      "filePath": "_app/discover.tsx",
+      "parent": "/_app"
+    },
+    "/_app/friends": {
+      "filePath": "_app/friends.tsx",
+      "parent": "/_app"
+    },
+    "/_app/home": {
+      "filePath": "_app/home.tsx",
+      "parent": "/_app"
+    },
+    "/_app/profile": {
+      "filePath": "_app/profile.tsx",
       "parent": "/_app"
     },
     "/_app/": {
@@ -319,6 +450,10 @@ export const routeTree = rootRoute
     "/(public)/auth/verify-account": {
       "filePath": "(public)/auth/verify-account.tsx",
       "parent": "/(public)/auth"
+    },
+    "/_app/test/notifications": {
+      "filePath": "_app/test/notifications.tsx",
+      "parent": "/_app"
     }
   }
 }
