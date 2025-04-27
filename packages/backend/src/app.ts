@@ -1,10 +1,10 @@
-import { serve } from "@hono/node-server";
-import { Hono } from "hono";
-import { trpcServer } from "@hono/trpc-server";
-import { cors } from "hono/cors";
-import { router } from "./lib/router";
 import env from "@/env";
+import { serve } from "@hono/node-server";
+import { trpcServer } from "@hono/trpc-server";
+import { Hono } from "hono";
+import { cors } from "hono/cors";
 import { auth } from "./lib/auth";
+import { router } from "./lib/router";
 
 const app = new Hono<{
   Variables: {
@@ -24,12 +24,12 @@ app.use(
     credentials: true,
   }),
 );
-app.get("/healthcheck", (c) => {
-  return c.json({
-    status: "ok",
-    timestamp: new Date().toISOString(),
-  });
-});
+const healthcheck = {
+  status: "ok",
+  timestamp: new Date().toISOString(),
+};
+app.get("/", c => c.json(healthcheck));
+app.get("/healthcheck", c => c.json(healthcheck));
 
 app.use("*", async (c, next) => {
   const session = await auth.api.getSession({ headers: c.req.raw.headers });
@@ -53,7 +53,9 @@ app.get("/session", async (c) => {
   const session = c.get("session");
   const user = c.get("user");
 
-  if (!user) return c.body(null, 401);
+  if (!user) {
+    return c.body(null, 401);
+  }
 
   return c.json({
     session,
@@ -74,6 +76,7 @@ serve(
     port: Number(env.PORT),
   },
   (info) => {
+    // eslint-disable-next-line no-console
     console.log(`Server is running on http://localhost:${info.port}`);
   },
 );

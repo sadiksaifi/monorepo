@@ -1,9 +1,9 @@
+import env from "@/env";
+import { db } from "@/lib/db";
+import { verifyAccountTemplate } from "@/lib/email-templates/verify";
+import { sendEmail } from "@/lib/utils/email";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { db } from "@/lib/db";
-import env from "@/env";
-import { sendEmail } from "./utils/email";
-import { verifyAccountTemplate } from "./email-templates/verify";
 import { openAPI } from "better-auth/plugins";
 
 export const auth = betterAuth({

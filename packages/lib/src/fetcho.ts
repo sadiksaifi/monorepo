@@ -20,6 +20,6 @@ export async function fetcho<T>(
     res.data = (await res.text()) as T;
     return res;
   }
-  res.data = await res.json();
+  res.data = (await res.json()) as T;
   return res;
 }

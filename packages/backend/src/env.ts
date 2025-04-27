@@ -1,4 +1,5 @@
 import "dotenv/config";
+
 const envVars = [
   "PORT",
   "BETTER_AUTH_SECRET",
@@ -17,7 +18,7 @@ const envVars = [
 
 type EnvVars = Record<(typeof envVars)[number], string>;
 
-const validateEnv = (): EnvVars => {
+function validateEnv(): EnvVars {
   const env = process.env;
   const validatedEnv = {} as EnvVars;
 
@@ -30,7 +31,7 @@ const validateEnv = (): EnvVars => {
   }
 
   return validatedEnv;
-};
+}
 
 const env = validateEnv();
 

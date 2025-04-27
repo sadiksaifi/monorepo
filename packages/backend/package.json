@@ -1,38 +1,44 @@
 {
   "name": "@workspace/backend",
   "type": "module",
-  "scripts": {
-    "dev": "tsx watch src/app.ts",
-    "typecheck": "tsc --noEmit",
-    "start": "node dist/app.js",
-    "format": "prettier --write .",
-    "db": "drizzle-kit",
-    "auth:generate": "pnpm dlx @better-auth/cli@latest generate --config ./src/lib/auth.ts --y --output ./src/lib/schema/auth.schema.ts && prettier --write ./src/lib/schema/auth.schema.ts"
-  },
   "exports": {
     "./router": "./src/lib/router.ts",
     "./trpc": "./src/lib/trpc.ts"
   },
+  "scripts": {
+    "dev": "tsx watch src/app.ts",
+    "build": "tsc && tsc-alias",
+    "start": "node dist/app.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "db": "drizzle-kit",
+    "auth:generate": "pnpm dlx @better-auth/cli@latest generate --config ./src/lib/auth.ts --y --output ./src/lib/schema/auth.schema.ts && prettier --write ./src/lib/schema/auth.schema.ts"
+  },
   "dependencies": {
-    "@workspace/typescript-config": "workspace:*",
-    "@workspace/lib": "workspace:*",
-    "better-auth": "^1.2.7",
+    "@aws-sdk/client-ses": "^3.693.0",
     "@hono/node-server": "^1.14.1",
     "@hono/trpc-server": "^0.3.4",
-    "@trpc/server": "^11.1.0",
-    "dotenv": "^16.4.5",
-    "hono": "^4.7.7",
-    "superjson": "^2.2.2",
-    "zod": "^3.24.2",
-    "drizzle-orm": "^0.42.0",
     "@neondatabase/serverless": "^1.0.0",
-    "pg": "^8.14.1"
+    "@trpc/server": "^11.1.0",
+    "@workspace/lib": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "better-auth": "^1.2.7",
+    "drizzle-orm": "^0.42.0",
+    "hono": "^4.7.7",
+    "pg": "^8.14.1",
+    "superjson": "^2.2.2",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
-    "prettier": "^3.5.1",
+    "@antfu/eslint-config": "^4.12.0",
     "@types/node": "^20.11.17",
-    "drizzle-kit": "^0.31.0",
     "@types/pg": "^8.11.13",
+    "dotenv": "^16.5.0",
+    "drizzle-kit": "^0.31.0",
+    "eslint": "^9.25.1",
+    "eslint-plugin-format": "^1.0.1",
+    "prettier": "^3.5.1",
+    "tsc-alias": "^1.8.15",
     "tsx": "^4.7.1"
   }
 }

@@ -1,12 +1,22 @@
 {
   "extends": "@workspace/typescript-config/base.json",
   "compilerOptions": {
+    "target": "ESNext",
+    "lib": ["ESNext"],
     "baseUrl": ".",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "paths": {
       "@/*": ["./src/*"]
     },
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "types": ["node"],
+    "declaration": false,
+    "declarationMap": false,
+    "outDir": "./dist",
+    "allowSyntheticDefaultImports": true
+  },
+  "tsc-alias": {
+    "resolveFullPaths": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

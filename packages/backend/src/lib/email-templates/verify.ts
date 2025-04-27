@@ -1,8 +1,8 @@
 /* eslint-disable no-irregular-whitespace */
-type VerifyEmailParams = {
+interface VerifyEmailParams {
   name: string;
   verificationLink: string;
-};
+}
 
 const metadata = {
   logoUrl: "https://www.sadiksaifi.dev/static/logo.jpeg",

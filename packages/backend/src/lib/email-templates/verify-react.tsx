@@ -1,4 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+/* eslint-disable eslint-comments/no-unlimited-disable */
+/* eslint-disable */
 // @ts-nocheck
 
 import {
@@ -16,10 +17,10 @@ import {
   Text,
 } from "@react-email/components";
 
-const WelcomeEmail = ({
+function WelcomeEmail({
   username = "Valued Customer",
   verificationUrl = "https://kin-technology-crm.com/verify",
-}) => {
+}) {
   return (
     <Html>
       <Head />
@@ -131,7 +132,7 @@ const WelcomeEmail = ({
       </Tailwind>
     </Html>
   );
-};
+}
 
 WelcomeEmail.PreviewProps = {
   username: "John Doe",
