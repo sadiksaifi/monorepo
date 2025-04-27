@@ -1,6 +1,6 @@
 import { Provider } from "@/lib/provider";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+// import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { trpcClient } from "../lib/trpc-client";
 import { QueryClient } from "@tanstack/react-query";
 import { getUser } from "@/lib/utils/get-user";

@@ -8,7 +8,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 
 // Constants for mobile app layout
-const MOBILE_APP_HEADER_HEIGHT = "4rem"; // 64px
+// const MOBILE_APP_HEADER_HEIGHT = "4rem"; // 64px
 const MOBILE_APP_BOTTOM_BAR_HEIGHT = "5rem"; // 80px (original height)
 const MOBILE_APP_BOTTOM_BAR_HEIGHT_FLOATING = "3.5rem"; // 56px (adjusted for floating variant)
 

@@ -1,18 +1,20 @@
-import { SendEmailCommandInput, SES, type SESClientConfig } from "@aws-sdk/client-ses";
-export type EmailSendParams = {
+import type { SendEmailCommandInput, SESClientConfig } from "@aws-sdk/client-ses";
+import { SES } from "@aws-sdk/client-ses";
+
+export interface EmailSendParams {
   recipient: string;
   subject: string;
   message: string;
-};
+}
 
-export type EmailServiceConfig = {
+export interface EmailServiceConfig {
   senderAddress: string;
   senderName: string;
   replyTo: string;
   accessKeyId: string;
   secretAccessKey: string;
   region: string;
-};
+}
 
 class EmailService {
   #AWS_SES_SENDER_ADDRESS: string;
