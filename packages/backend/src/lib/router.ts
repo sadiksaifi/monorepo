@@ -1,5 +1,5 @@
-import * as api from "../routes";
-import { createTRPCRouter } from "./tprc";
+import * as routes from "../server";
+import { createTRPCRouter } from "./trpc";
 
-export const router = createTRPCRouter(api);
-export type TRPCRouter = typeof router;
+export const appRouter = createTRPCRouter(routes);
+export type TRPCRouter = typeof appRouter;
