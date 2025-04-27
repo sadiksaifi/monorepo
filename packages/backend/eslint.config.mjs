@@ -1,21 +1,16 @@
-import antfu from "@antfu/eslint-config";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import { FlatCompat } from "@eslint/eslintrc";
 
-export default antfu(
-  {
-    type: "app",
-    typescript: true,
-    formatters: true,
-    stylistic: {
-      indent: 2,
-      semi: true,
-      quotes: "double",
-    },
-    ignores: ["**/.drizzle/*", "dist/*", "dist-drizzle/*"],
-  },
-  {
-    rules: {
-      "no-console": ["warn"],
-      "antfu/no-top-level-await": ["off"],
-    },
-  },
-);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
+
+const eslintConfig = [
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+];
+
+export default eslintConfig;

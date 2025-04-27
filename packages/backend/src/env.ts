@@ -1,5 +1,3 @@
-import "dotenv/config";
-
 const envVars = [
   "PORT",
   "BETTER_AUTH_SECRET",
@@ -19,7 +17,6 @@ const envVars = [
 type EnvVars = Record<(typeof envVars)[number], string>;
 
 function validateEnv(): EnvVars {
-  // eslint-disable-next-line node/prefer-global/process
   const env = process.env;
   const validatedEnv = {} as EnvVars;
 
