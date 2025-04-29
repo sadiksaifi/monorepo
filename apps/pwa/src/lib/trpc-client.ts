@@ -2,7 +2,7 @@ import { createTRPCContext, createTRPCOptionsProxy } from "@trpc/tanstack-react-
 import { QueryClient } from "@tanstack/react-query";
 import superjson from "superjson";
 import { createTRPCClient, httpBatchLink } from "@trpc/client";
-import type { TRPCRouter } from "@workspace/backend/router";
+import type { TRPCRouter } from "@workspace/backend/trpc/router";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -14,7 +14,7 @@ export const queryClient = new QueryClient({
 export const trpcClient = createTRPCClient<TRPCRouter>({
   links: [
     httpBatchLink({
-      url: import.meta.env.BACKEND_URL ?? "http://localhost:3000/api/trpc",
+      url: import.meta.env.BACKEND_URL ?? "http://localhost:5173/api/trpc",
       transformer: superjson,
     }),
   ],
