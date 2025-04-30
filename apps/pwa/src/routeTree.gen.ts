@@ -15,14 +15,17 @@ import { Route as AppImport } from './routes/_app'
 import { Route as AppIndexImport } from './routes/_app/index'
 import { Route as AppProfileImport } from './routes/_app/profile'
 import { Route as AppHomeImport } from './routes/_app/home'
-import { Route as AppFriendsImport } from './routes/_app/friends'
 import { Route as AppDiscoverImport } from './routes/_app/discover'
 import { Route as publicHealthcheckImport } from './routes/(public)/healthcheck'
+import { Route as AppFriendsRouteImport } from './routes/_app/friends/route'
 import { Route as publicAuthRouteImport } from './routes/(public)/auth/route'
 import { Route as AppRtcIndexImport } from './routes/_app/rtc/index'
+import { Route as AppFriendsIndexImport } from './routes/_app/friends/index'
 import { Route as AppChatIndexImport } from './routes/_app/chat/index'
 import { Route as AppTestNotificationsImport } from './routes/_app/test/notifications'
 import { Route as AppRtcSplatImport } from './routes/_app/rtc/$'
+import { Route as AppFriendsRequestsImport } from './routes/_app/friends/requests'
+import { Route as AppFriendsAddImport } from './routes/_app/friends/add'
 import { Route as AppChatSplatImport } from './routes/_app/chat/$'
 import { Route as publicAuthVerifyAccountImport } from './routes/(public)/auth/verify-account'
 import { Route as publicAuthSignUpImport } from './routes/(public)/auth/sign-up'
@@ -54,12 +57,6 @@ const AppHomeRoute = AppHomeImport.update({
   getParentRoute: () => AppRoute,
 } as any)
 
-const AppFriendsRoute = AppFriendsImport.update({
-  id: '/friends',
-  path: '/friends',
-  getParentRoute: () => AppRoute,
-} as any)
-
 const AppDiscoverRoute = AppDiscoverImport.update({
   id: '/discover',
   path: '/discover',
@@ -72,6 +69,12 @@ const publicHealthcheckRoute = publicHealthcheckImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AppFriendsRouteRoute = AppFriendsRouteImport.update({
+  id: '/friends',
+  path: '/friends',
+  getParentRoute: () => AppRoute,
+} as any)
+
 const publicAuthRouteRoute = publicAuthRouteImport.update({
   id: '/(public)/auth',
   path: '/auth',
@@ -82,6 +85,12 @@ const AppRtcIndexRoute = AppRtcIndexImport.update({
   id: '/rtc/',
   path: '/rtc/',
   getParentRoute: () => AppRoute,
+} as any)
+
+const AppFriendsIndexRoute = AppFriendsIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppFriendsRouteRoute,
 } as any)
 
 const AppChatIndexRoute = AppChatIndexImport.update({
@@ -100,6 +109,18 @@ const AppRtcSplatRoute = AppRtcSplatImport.update({
   id: '/rtc/$',
   path: '/rtc/$',
   getParentRoute: () => AppRoute,
+} as any)
+
+const AppFriendsRequestsRoute = AppFriendsRequestsImport.update({
+  id: '/requests',
+  path: '/requests',
+  getParentRoute: () => AppFriendsRouteRoute,
+} as any)
+
+const AppFriendsAddRoute = AppFriendsAddImport.update({
+  id: '/add',
+  path: '/add',
+  getParentRoute: () => AppFriendsRouteRoute,
 } as any)
 
 const AppChatSplatRoute = AppChatSplatImport.update({
@@ -150,6 +171,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof publicAuthRouteImport
       parentRoute: typeof rootRoute
     }
+    '/_app/friends': {
+      id: '/_app/friends'
+      path: '/friends'
+      fullPath: '/friends'
+      preLoaderRoute: typeof AppFriendsRouteImport
+      parentRoute: typeof AppImport
+    }
     '/(public)/healthcheck': {
       id: '/(public)/healthcheck'
       path: '/healthcheck'
@@ -162,13 +190,6 @@ declare module '@tanstack/react-router' {
       path: '/discover'
       fullPath: '/discover'
       preLoaderRoute: typeof AppDiscoverImport
-      parentRoute: typeof AppImport
-    }
-    '/_app/friends': {
-      id: '/_app/friends'
-      path: '/friends'
-      fullPath: '/friends'
-      preLoaderRoute: typeof AppFriendsImport
       parentRoute: typeof AppImport
     }
     '/_app/home': {
@@ -227,6 +248,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppChatSplatImport
       parentRoute: typeof AppImport
     }
+    '/_app/friends/add': {
+      id: '/_app/friends/add'
+      path: '/add'
+      fullPath: '/friends/add'
+      preLoaderRoute: typeof AppFriendsAddImport
+      parentRoute: typeof AppFriendsRouteImport
+    }
+    '/_app/friends/requests': {
+      id: '/_app/friends/requests'
+      path: '/requests'
+      fullPath: '/friends/requests'
+      preLoaderRoute: typeof AppFriendsRequestsImport
+      parentRoute: typeof AppFriendsRouteImport
+    }
     '/_app/rtc/$': {
       id: '/_app/rtc/$'
       path: '/rtc/$'
@@ -248,6 +283,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppChatIndexImport
       parentRoute: typeof AppImport
     }
+    '/_app/friends/': {
+      id: '/_app/friends/'
+      path: '/'
+      fullPath: '/friends/'
+      preLoaderRoute: typeof AppFriendsIndexImport
+      parentRoute: typeof AppFriendsRouteImport
+    }
     '/_app/rtc/': {
       id: '/_app/rtc/'
       path: '/rtc'
@@ -260,9 +302,25 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
+interface AppFriendsRouteRouteChildren {
+  AppFriendsAddRoute: typeof AppFriendsAddRoute
+  AppFriendsRequestsRoute: typeof AppFriendsRequestsRoute
+  AppFriendsIndexRoute: typeof AppFriendsIndexRoute
+}
+
+const AppFriendsRouteRouteChildren: AppFriendsRouteRouteChildren = {
+  AppFriendsAddRoute: AppFriendsAddRoute,
+  AppFriendsRequestsRoute: AppFriendsRequestsRoute,
+  AppFriendsIndexRoute: AppFriendsIndexRoute,
+}
+
+const AppFriendsRouteRouteWithChildren = AppFriendsRouteRoute._addFileChildren(
+  AppFriendsRouteRouteChildren,
+)
+
 interface AppRouteChildren {
+  AppFriendsRouteRoute: typeof AppFriendsRouteRouteWithChildren
   AppDiscoverRoute: typeof AppDiscoverRoute
-  AppFriendsRoute: typeof AppFriendsRoute
   AppHomeRoute: typeof AppHomeRoute
   AppProfileRoute: typeof AppProfileRoute
   AppIndexRoute: typeof AppIndexRoute
@@ -274,8 +332,8 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppFriendsRouteRoute: AppFriendsRouteRouteWithChildren,
   AppDiscoverRoute: AppDiscoverRoute,
-  AppFriendsRoute: AppFriendsRoute,
   AppHomeRoute: AppHomeRoute,
   AppProfileRoute: AppProfileRoute,
   AppIndexRoute: AppIndexRoute,
@@ -309,9 +367,9 @@ const publicAuthRouteRouteWithChildren = publicAuthRouteRoute._addFileChildren(
 export interface FileRoutesByFullPath {
   '': typeof AppRouteWithChildren
   '/auth': typeof publicAuthRouteRouteWithChildren
+  '/friends': typeof AppFriendsRouteRouteWithChildren
   '/healthcheck': typeof publicHealthcheckRoute
   '/discover': typeof AppDiscoverRoute
-  '/friends': typeof AppFriendsRoute
   '/home': typeof AppHomeRoute
   '/profile': typeof AppProfileRoute
   '/': typeof AppIndexRoute
@@ -320,9 +378,12 @@ export interface FileRoutesByFullPath {
   '/auth/sign-up': typeof publicAuthSignUpRoute
   '/auth/verify-account': typeof publicAuthVerifyAccountRoute
   '/chat/$': typeof AppChatSplatRoute
+  '/friends/add': typeof AppFriendsAddRoute
+  '/friends/requests': typeof AppFriendsRequestsRoute
   '/rtc/$': typeof AppRtcSplatRoute
   '/test/notifications': typeof AppTestNotificationsRoute
   '/chat': typeof AppChatIndexRoute
+  '/friends/': typeof AppFriendsIndexRoute
   '/rtc': typeof AppRtcIndexRoute
 }
 
@@ -330,7 +391,6 @@ export interface FileRoutesByTo {
   '/auth': typeof publicAuthRouteRouteWithChildren
   '/healthcheck': typeof publicHealthcheckRoute
   '/discover': typeof AppDiscoverRoute
-  '/friends': typeof AppFriendsRoute
   '/home': typeof AppHomeRoute
   '/profile': typeof AppProfileRoute
   '/': typeof AppIndexRoute
@@ -339,9 +399,12 @@ export interface FileRoutesByTo {
   '/auth/sign-up': typeof publicAuthSignUpRoute
   '/auth/verify-account': typeof publicAuthVerifyAccountRoute
   '/chat/$': typeof AppChatSplatRoute
+  '/friends/add': typeof AppFriendsAddRoute
+  '/friends/requests': typeof AppFriendsRequestsRoute
   '/rtc/$': typeof AppRtcSplatRoute
   '/test/notifications': typeof AppTestNotificationsRoute
   '/chat': typeof AppChatIndexRoute
+  '/friends': typeof AppFriendsIndexRoute
   '/rtc': typeof AppRtcIndexRoute
 }
 
@@ -349,9 +412,9 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_app': typeof AppRouteWithChildren
   '/(public)/auth': typeof publicAuthRouteRouteWithChildren
+  '/_app/friends': typeof AppFriendsRouteRouteWithChildren
   '/(public)/healthcheck': typeof publicHealthcheckRoute
   '/_app/discover': typeof AppDiscoverRoute
-  '/_app/friends': typeof AppFriendsRoute
   '/_app/home': typeof AppHomeRoute
   '/_app/profile': typeof AppProfileRoute
   '/_app/': typeof AppIndexRoute
@@ -360,9 +423,12 @@ export interface FileRoutesById {
   '/(public)/auth/sign-up': typeof publicAuthSignUpRoute
   '/(public)/auth/verify-account': typeof publicAuthVerifyAccountRoute
   '/_app/chat/$': typeof AppChatSplatRoute
+  '/_app/friends/add': typeof AppFriendsAddRoute
+  '/_app/friends/requests': typeof AppFriendsRequestsRoute
   '/_app/rtc/$': typeof AppRtcSplatRoute
   '/_app/test/notifications': typeof AppTestNotificationsRoute
   '/_app/chat/': typeof AppChatIndexRoute
+  '/_app/friends/': typeof AppFriendsIndexRoute
   '/_app/rtc/': typeof AppRtcIndexRoute
 }
 
@@ -371,9 +437,9 @@ export interface FileRouteTypes {
   fullPaths:
     | ''
     | '/auth'
+    | '/friends'
     | '/healthcheck'
     | '/discover'
-    | '/friends'
     | '/home'
     | '/profile'
     | '/'
@@ -382,16 +448,18 @@ export interface FileRouteTypes {
     | '/auth/sign-up'
     | '/auth/verify-account'
     | '/chat/$'
+    | '/friends/add'
+    | '/friends/requests'
     | '/rtc/$'
     | '/test/notifications'
     | '/chat'
+    | '/friends/'
     | '/rtc'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/auth'
     | '/healthcheck'
     | '/discover'
-    | '/friends'
     | '/home'
     | '/profile'
     | '/'
@@ -400,17 +468,20 @@ export interface FileRouteTypes {
     | '/auth/sign-up'
     | '/auth/verify-account'
     | '/chat/$'
+    | '/friends/add'
+    | '/friends/requests'
     | '/rtc/$'
     | '/test/notifications'
     | '/chat'
+    | '/friends'
     | '/rtc'
   id:
     | '__root__'
     | '/_app'
     | '/(public)/auth'
+    | '/_app/friends'
     | '/(public)/healthcheck'
     | '/_app/discover'
-    | '/_app/friends'
     | '/_app/home'
     | '/_app/profile'
     | '/_app/'
@@ -419,9 +490,12 @@ export interface FileRouteTypes {
     | '/(public)/auth/sign-up'
     | '/(public)/auth/verify-account'
     | '/_app/chat/$'
+    | '/_app/friends/add'
+    | '/_app/friends/requests'
     | '/_app/rtc/$'
     | '/_app/test/notifications'
     | '/_app/chat/'
+    | '/_app/friends/'
     | '/_app/rtc/'
   fileRoutesById: FileRoutesById
 }
@@ -456,8 +530,8 @@ export const routeTree = rootRoute
     "/_app": {
       "filePath": "_app.tsx",
       "children": [
-        "/_app/discover",
         "/_app/friends",
+        "/_app/discover",
         "/_app/home",
         "/_app/profile",
         "/_app/",
@@ -477,15 +551,20 @@ export const routeTree = rootRoute
         "/(public)/auth/verify-account"
       ]
     },
+    "/_app/friends": {
+      "filePath": "_app/friends/route.tsx",
+      "parent": "/_app",
+      "children": [
+        "/_app/friends/add",
+        "/_app/friends/requests",
+        "/_app/friends/"
+      ]
+    },
     "/(public)/healthcheck": {
       "filePath": "(public)/healthcheck.tsx"
     },
     "/_app/discover": {
       "filePath": "_app/discover.tsx",
-      "parent": "/_app"
-    },
-    "/_app/friends": {
-      "filePath": "_app/friends.tsx",
       "parent": "/_app"
     },
     "/_app/home": {
@@ -520,6 +599,14 @@ export const routeTree = rootRoute
       "filePath": "_app/chat/$.tsx",
       "parent": "/_app"
     },
+    "/_app/friends/add": {
+      "filePath": "_app/friends/add.tsx",
+      "parent": "/_app/friends"
+    },
+    "/_app/friends/requests": {
+      "filePath": "_app/friends/requests.tsx",
+      "parent": "/_app/friends"
+    },
     "/_app/rtc/$": {
       "filePath": "_app/rtc/$.tsx",
       "parent": "/_app"
@@ -531,6 +618,10 @@ export const routeTree = rootRoute
     "/_app/chat/": {
       "filePath": "_app/chat/index.tsx",
       "parent": "/_app"
+    },
+    "/_app/friends/": {
+      "filePath": "_app/friends/index.tsx",
+      "parent": "/_app/friends"
     },
     "/_app/rtc/": {
       "filePath": "_app/rtc/index.tsx",

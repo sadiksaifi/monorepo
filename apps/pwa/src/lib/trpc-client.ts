@@ -16,6 +16,12 @@ export const trpcClient = createTRPCClient<TRPCRouter>({
     httpBatchLink({
       url: import.meta.env.BACKEND_URL ?? "http://localhost:3000/api/trpc",
       transformer: superjson,
+      fetch(url, options) {
+        return fetch(url, {
+          ...options,
+          credentials: "include",
+        });
+      },
     }),
   ],
 });

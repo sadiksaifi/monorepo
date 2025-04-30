@@ -1,12 +1,14 @@
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { appRouter } from "@workspace/backend/trpc/router";
 import { withCorsHeaders, createCorsPreflightResponse } from "../../../utils/cors";
+import { createContext } from "@workspace/backend/trpc/context";
 
 const trpcHandler = (req: Request) =>
   fetchRequestHandler({
     endpoint: "/api/trpc",
     req,
     router: appRouter,
+    createContext: () => createContext(req),
     onError:
       process.env.NODE_ENV === "development"
         ? ({ path, error }) => {

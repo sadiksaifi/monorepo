@@ -78,8 +78,6 @@ function SignUpPage() {
         toast.error(error.message);
         throw error;
       }
-    },
-    onSuccess: () => {
       redirect({ to: "/auth/verify-account" });
     },
   });

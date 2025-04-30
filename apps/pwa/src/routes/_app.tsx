@@ -77,9 +77,7 @@ function RouteComponent() {
           />
           <SidebarInset>
             <AppHeader />
-            <main className="p-4 min-h-[calc(100vh-4rem)]">
-              <Outlet />
-            </main>
+            <Outlet />
           </SidebarInset>
         </SidebarProvider>
       )}
