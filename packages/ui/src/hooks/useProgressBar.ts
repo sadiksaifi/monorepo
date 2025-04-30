@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-type UseProgressBarOptions = {
+export type UseProgressBarOptions = {
   minLoadingTime?: number; // Minimum loading time in milliseconds
   initialProgress?: number; // Initial progress percentage
   maxProgress?: number; // Maximum progress percentage

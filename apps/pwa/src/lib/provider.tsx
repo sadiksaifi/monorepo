@@ -3,6 +3,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@workspace/ui/components/sonner";
 import { ThemeProvider } from "@workspace/ui/components/theme-provider/vite";
 import { SocketProvider } from "./socket-provider";
+import { RouterLoader } from "./components/router-loader";
 
 export function Provider({ children }: { children: React.ReactNode }) {
   return (
@@ -12,6 +13,7 @@ export function Provider({ children }: { children: React.ReactNode }) {
           <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             {children}
             <Toaster />
+            <RouterLoader />
           </ThemeProvider>
         </SocketProvider>
       </QueryClientProvider>
