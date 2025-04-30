@@ -1,5 +1,13 @@
 import { LinkProps } from "@tanstack/react-router";
-import { Home, MessageCircle, Search, User, Users, type LucideIcon } from "lucide-react";
+import {
+  Home,
+  MessageCircle,
+  Search,
+  User,
+  Users,
+  Video,
+  type LucideIcon,
+} from "lucide-react";
 type NavMenuItems = {
   title: string;
   url: LinkProps["to"];
@@ -26,6 +34,11 @@ export const navItems: NavMenuItems[] = [
     title: "Discover",
     url: "/discover",
     icon: Search,
+  },
+  {
+    title: "RTC",
+    url: "/rtc",
+    icon: Video,
   },
   {
     title: "Chat",
