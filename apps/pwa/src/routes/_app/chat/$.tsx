@@ -1,20 +1,24 @@
+import { authClient } from "@/lib/auth-client";
 import { useTRPC } from "@/lib/trpc-client";
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "@workspace/ui/components/avatar";
 import { Button } from "@workspace/ui/components/button";
 import { Input } from "@workspace/ui/components/input";
 import { Airplay, Phone, Send, Video } from "lucide-react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/_app/chat/$")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const params = Route.useParams();
+  const { _splat } = Route.useParams();
+  const roomId = _splat;
   const trpc = useTRPC();
-  const address = params._splat;
-  const friendId = address?.split("--")[0];
+  const { data: session } = authClient.useSession();
+  const userId = session?.user.id;
+  const friendId = roomId?.split("--")?.find((id) => id !== userId);
   const { data: friend } = useQuery(
     trpc.friend.getById.queryOptions({ friendId: friendId ?? "" }),
   );
@@ -22,6 +26,13 @@ function RouteComponent() {
     .split(" ")
     .map((name) => name[0])
     .join("");
+  const router = useRouter();
+  const wip = () => {
+    toast.error("Coming soon!", {
+      description: "Please be patient, we are working on it.",
+    });
+  };
+
   return (
     <div className="flex flex-col">
       <div className="flex justify-between items-center px-4 border-b h-[var(--app-header-height)]">
@@ -36,13 +47,22 @@ function RouteComponent() {
           </div>
         </div>
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" onClick={wip}>
             <Phone className="size-5" />
           </Button>
-          <Button variant="ghost" size="icon">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() =>
+              router.navigate({
+                to: "/rtc",
+                search: { roomId: roomId ?? "" },
+              })
+            }
+          >
             <Video className="size-6" />
           </Button>
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" onClick={wip}>
             <Airplay className="size-5" />
           </Button>
         </div>

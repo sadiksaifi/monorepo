@@ -1,5 +1,6 @@
 import { authClient } from "@/lib/auth-client";
 import { useTRPC } from "@/lib/trpc-client";
+import { roomIdConstructor } from "@/lib/utils/rtc";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "@workspace/ui/components/avatar";
@@ -28,12 +29,16 @@ function RouteComponent() {
               .split(" ")
               .map((name) => name[0])
               .join("");
+            const roomId = roomIdConstructor({
+              friendId: friend.id,
+              userId: session?.user.id ?? "",
+            });
             return (
               <Link
                 key={friend.id}
                 to="/chat/$"
                 params={{
-                  _splat: `${friend.id}--${session?.user.id}`,
+                  _splat: roomId,
                 }}
                 className={cn(
                   "grid grid-cols-12 items-center p-2 border-b py-3",
