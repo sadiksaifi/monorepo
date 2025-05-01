@@ -38,6 +38,17 @@ export const friend = {
     return friends;
   }),
 
+  getById: protectedProcedure.input(friendIdSchema).query(async ({ ctx, input }) => {
+    const { user: sessionUser } = ctx.session;
+    const { friendId } = input;
+
+    const friend = await db.query.user.findFirst({
+      where: eq(user.id, friendId),
+    });
+
+    return friend;
+  }),
+
   // Get all incoming friend requests
   getIncomingRequests: protectedProcedure.query(async ({ ctx }) => {
     const { user: sessionUser } = ctx.session;
