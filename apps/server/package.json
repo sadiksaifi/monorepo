@@ -1,0 +1,43 @@
+{
+  "name": "server",
+  "version": "0.1.0",
+  "private": true,
+  "exports": {
+    "./router": "./src/lib/router.ts",
+    "./trpc": "./src/lib/trpc.ts"
+  },
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "dev:server": "tsx watch server.ts",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "db": "drizzle-kit",
+    "auth:generate": "pnpm dlx @better-auth/cli@latest generate --config ./src/lib/auth.ts --y --output ./src/lib/schema/auth.schema.ts && prettier --write ./src/lib/schema/auth.schema.ts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-ses": "^3.693.0",
+    "@trpc/server": "^11.1.0",
+    "@workspace/backend": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "better-auth": "^1.2.7",
+    "drizzle-orm": "^0.42.0",
+    "next": "15.3.1",
+    "postgres": "^3.4.5",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
+    "superjson": "^2.2.2",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/node": "^20",
+    "dotenv": "^16.5.0",
+    "drizzle-kit": "^0.31.0",
+    "eslint": "^9",
+    "eslint-config-next": "15.3.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.8.2"
+  }
+}

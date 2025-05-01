@@ -41,6 +41,12 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --app-header-height: 4rem;
+  --page-header-height: 7.5rem;
+  --tab-navigation-height: 1.875rem;
+  --tab-navigation-content-height: calc(
+    var(--tab-navigation-height) + var(--app-header-height) + var(--page-header-height)
+  );
 }
 
 .dark {
@@ -78,7 +84,7 @@
   --sidebar-ring: oklch(0.439 0 0);
 }
 
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -115,6 +121,10 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --height-app-header: var(--app-header-height);
+  --height-page-header: var(--page-header-height);
+  --height-tab-navigation: var(--tab-navigation-height);
+  --height-tab-navigation-content: var(--tab-navigation-content-height);
 }
 
 @layer base {

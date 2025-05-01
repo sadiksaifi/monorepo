@@ -1,10 +1,11 @@
-import env from "@/env";
-import { db } from "@/lib/db";
-import { verifyAccountTemplate } from "@/lib/email-templates/verify";
-import { sendEmail } from "@/lib/utils/email";
+import env from "../env";
+import { db } from "../lib/db";
+import { verifyAccountTemplate } from "../lib/email-templates/verify";
+import { sendEmail } from "../lib/utils/email";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { openAPI } from "better-auth/plugins";
+import { username } from "better-auth/plugins";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -46,5 +47,17 @@ export const auth = betterAuth({
       autoSignInAfterVerification: true,
     },
   },
-  plugins: [openAPI()],
+  plugins: [
+    openAPI(),
+    username({
+      minUsernameLength: 3,
+      maxUsernameLength: 20,
+      usernameValidator: (username) => {
+        if (username === "admin") {
+          return false;
+        }
+        return true;
+      },
+    }),
+  ],
 });

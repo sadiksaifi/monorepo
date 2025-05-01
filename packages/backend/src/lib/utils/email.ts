@@ -1,6 +1,6 @@
-import type { EmailSendParams } from "@/lib/ses";
-import env from "@/env";
-import EmailService from "@/lib/ses";
+import type { EmailSendParams } from "../../lib/ses";
+import env from "../../env";
+import EmailService from "../../lib/ses";
 
 export async function sendEmail(params: EmailSendParams) {
   const emailService = new EmailService({

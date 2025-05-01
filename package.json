@@ -10,7 +10,9 @@
     "data": "pnpm --filter data",
     "transactional": "pnpm --filter transactional",
     "pwa": "pnpm --filter pwa",
-    "backend": "pnpm --filter backend"
+    "server": "pnpm --filter server",
+    "backend": "pnpm --filter backend",
+    "socket": "pnpm --filter socket"
   },
   "workspaces": [
     "apps/*",

@@ -26,7 +26,11 @@ export const AppHeader: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 
   return (
     <header
-      className={cn("flex h-16 shrink-0 items-center gap-2 border-b", className)}
+      className={cn(
+        "flex shrink-0 items-center gap-2 border-b",
+        "h-app-header",
+        className,
+      )}
       {...props}
     >
       <div className="flex items-center px-4">
@@ -39,7 +43,7 @@ export const AppHeader: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
                 className="text-foreground md:text-muted-foreground"
                 asChild
               >
-                <Link to="/dashboard">{siteConfig.title}</Link>
+                <Link to="/home">{siteConfig.title}</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             {pathParts.map((item, index) => {

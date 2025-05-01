@@ -45,6 +45,10 @@ const formSchema = z
   .object({
     name: z.string().min(1, { message: "Name is required" }),
     email: z.string().email().min(1, { message: "Email is required" }),
+    username: z
+      .string()
+      .min(3, { message: "Username must be at least 3 characters long" })
+      .max(20, { message: "Username must be less than 20 characters long" }),
     password: passwordSchema,
     confirmPassword: passwordSchema,
   })
@@ -60,6 +64,7 @@ function SignUpPage() {
     defaultValues: {
       name: "",
       email: "",
+      username: "",
       password: "",
       confirmPassword: "",
     },
@@ -72,14 +77,13 @@ function SignUpPage() {
         email: val.email,
         name: val.name,
         password: val.password,
+        username: val.username,
         callbackURL: CLIENT_ORIGIN,
       });
       if (error) {
         toast.error(error.message);
         throw error;
       }
-    },
-    onSuccess: () => {
       redirect({ to: "/auth/verify-account" });
     },
   });
@@ -132,6 +136,19 @@ function SignUpPage() {
                           <FormLabel>Email</FormLabel>
                           <FormControl>
                             <Input placeholder="mail@example.com" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="username"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Username</FormLabel>
+                          <FormControl>
+                            <Input placeholder="username" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
