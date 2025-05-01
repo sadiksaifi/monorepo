@@ -9,15 +9,15 @@ import {
 } from "@tanstack/react-router";
 import { cn } from "@workspace/ui/lib/utils";
 
-export const Route = createFileRoute("/_app/friends")({
+export const Route = createFileRoute("/_app/profile")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
   const navigation: { label: string; to: LinkProps["to"] }[] = [
-    { label: "All Friends", to: "/friends" },
-    { label: "Add Friend", to: "/friends/add" },
-    { label: "Friend Requests", to: "/friends/requests" },
+    { label: "Profile", to: "/profile" },
+    { label: "Appearance", to: "/profile/appearence" },
+    { label: "Settings", to: "/profile/settings" },
   ];
   const pathname = useRouterState().location.pathname;
 
@@ -25,10 +25,10 @@ function RouteComponent() {
     <>
       <Page.HeaderComponent
         headerProps={{
-          title: "Friends",
+          title: "Profile",
         }}
         descriptionProps={{
-          description: "Manage your friends and requests.",
+          description: "Manage your profile and settings.",
         }}
       />
       <TabNavigation.Root>

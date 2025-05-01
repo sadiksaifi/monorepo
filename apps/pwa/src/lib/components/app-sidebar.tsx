@@ -9,15 +9,9 @@ import {
 import { CompanyBranding } from "./company-branding";
 import { NavMain } from "@/lib/components/nav-main";
 import { NavUser } from "@/lib/components/nav-user";
-interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
-  user: {
-    name: string;
-    email: string;
-    avatar: string;
-  };
-}
+type AppSidebarProps = React.ComponentProps<typeof Sidebar>;
 
-export function AppSidebar({ user, ...props }: AppSidebarProps) {
+export function AppSidebar(props: AppSidebarProps) {
   return (
     <Sidebar collapsible="icon" variant="sidebar" {...props}>
       <SidebarHeader>
@@ -27,7 +21,7 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
         <NavMain />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={user} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   );

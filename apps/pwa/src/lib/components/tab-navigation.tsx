@@ -73,7 +73,7 @@ const TabNavigationList = React.forwardRef<
   <NavigationMenuPrimitives.List
     ref={ref}
     className={cn(
-      "flex items-center justify-start whitespace-nowrap border-b [scrollbar-width:none] [&::-webkit-scrollbar]:hidden border-border",
+      "flex px-4 items-center justify-start whitespace-nowrap border-b [scrollbar-width:none] [&::-webkit-scrollbar]:hidden border-border",
       className,
     )}
     {...props}

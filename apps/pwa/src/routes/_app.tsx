@@ -68,13 +68,7 @@ function RouteComponent() {
         <MobileAppLayout bottomBarVariant="default" headerRightSlot={NotificationBell} />
       ) : (
         <SidebarProvider>
-          <AppSidebar
-            user={{
-              name: user.name,
-              email: user.email,
-              avatar: user.image || "",
-            }}
-          />
+          <AppSidebar />
           <SidebarInset>
             <AppHeader />
             <Outlet />
