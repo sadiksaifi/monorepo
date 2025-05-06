@@ -12,7 +12,8 @@
     "pwa": "pnpm --filter pwa",
     "server": "pnpm --filter server",
     "backend": "pnpm --filter backend",
-    "socket": "pnpm --filter socket"
+    "socket": "pnpm --filter socket",
+    "qcg": "pnpm --filter qr-code-generator"
   },
   "workspaces": [
     "apps/*",
