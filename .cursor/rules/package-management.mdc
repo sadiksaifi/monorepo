@@ -1,0 +1,70 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Package Management Guide
+
+## Workspace Structure
+
+This monorepo uses pnpm workspaces for package management. The workspace configuration is defined in [pnpm-workspace.yaml](mdc:pnpm-workspace.yaml).
+
+## Package Types
+
+### Apps
+Located in `apps/` directory:
+- Standalone applications
+- Each app has its own `package.json`
+- Can depend on shared packages
+- Example: [web/package.json](mdc:apps/web/package.json)
+
+### Shared Packages
+Located in `packages/` directory:
+- Reusable libraries and configurations
+- Each package has its own `package.json`
+- Can depend on other shared packages
+- Example: [ui/package.json](mdc:packages/ui/package.json)
+
+## Common Commands
+
+### Installing Dependencies
+```bash
+# Install all workspace dependencies
+pnpm install
+
+# Add dependency to specific workspace
+pnpm add <package> --filter <workspace-name>
+
+# Add dev dependency to specific workspace
+pnpm add -D <package> --filter <workspace-name>
+
+# Add workspace dependency
+pnpm add <workspace-name> --filter <target-workspace>
+```
+
+### Running Scripts
+```bash
+# Run script in all workspaces
+pnpm -r <script>
+
+# Run script in specific workspace
+pnpm --filter <workspace-name> <script>
+
+# Run script in workspaces that depend on a package
+pnpm --filter "...<workspace-name>" <script>
+```
+
+## Version Management
+
+- Use semantic versioning
+- Update versions in `package.json` files
+- Use `pnpm version` to manage versions
+- Consider using changesets for versioning
+
+## Best Practices
+
+1. Keep dependencies up to date
+2. Use workspace dependencies when possible
+3. Avoid duplicate dependencies
+4. Use exact versions for critical dependencies
+5. Document package-specific setup in READMEs

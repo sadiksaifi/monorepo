@@ -1,10 +1,5 @@
 import type { TRPCRouterRecord } from "@trpc/server";
-import { protectedProcedure, publicProcedure } from "@workspace/backend/trpc/setup";
-
-/**
- * This a minimal tRPC server
- */
-import { z } from "zod";
+import { protectedProcedure } from "@workspace/backend/trpc/setup";
 
 export const user = {
   session: protectedProcedure.query(async ({ ctx }) => {

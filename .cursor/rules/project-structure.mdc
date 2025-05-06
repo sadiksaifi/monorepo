@@ -1,0 +1,120 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Project Structure
+
+This monorepo contains multiple applications and shared packages managed with pnpm workspaces and Turborepo.
+
+## Project Tree
+```
+.
+├── apps
+│   ├── blog
+│   ├── data
+│   ├── pwa
+│   ├── qr-code-generator
+│   ├── server
+│   ├── socket
+│   └── web
+├── CONTRIBUTING.md
+├── LICENSE
+├── package.json
+├── packages
+│   ├── assets
+│   ├── backend
+│   ├── eslint-config
+│   ├── lib
+│   ├── transactional
+│   ├── typescript-config
+│   └── ui
+├── pnpm-lock.yaml
+├── pnpm-workspace.yaml
+├── README.md
+├── tsconfig.json
+└── turbo.json
+```
+
+## Applications (`/apps`)
+
+### Web Applications
+- `blog` - Blogging website built with Astro
+  - Features: Markdown support, SEO optimization, responsive design
+  - Tech Stack: Astro, TypeScript, TailwindCSS
+
+- `data` - Static data website
+  - Purpose: Serves as a data visualization and information hub
+  - Tech Stack: React, TypeScript, TailwindCSS
+
+- `pwa` - Progressive Web App
+  - Features: Offline support, push notifications, installable
+  - Tech Stack: React, Vite, TypeScript, TailwindCSS
+
+- `qr-code-generator` - QR Code Generator Web App
+  - Features: Custom QR code generation, styling options
+  - Tech Stack: React, Vite, TypeScript, TailwindCSS
+
+- `web` - Personal Portfolio Website
+  - Features: Responsive design, dark mode, animations
+  - Tech Stack: Next.js, TypeScript, TailwindCSS
+
+### Backend Services
+- `server` - Next.js API Server
+  - Features: tRPC integration, API routes, authentication
+  - Tech Stack: Next.js, tRPC, TypeScript, Prisma
+
+- `socket` - WebSocket Server
+  - Features: Real-time communication, event handling
+  - Tech Stack: Socket.IO, TypeScript, Node.js
+
+## Shared Packages (`/packages`)
+
+### Core Packages
+- `backend` - Backend Package
+  - Purpose: Centralized tRPC routers and backend logic
+  - Tech Stack: tRPC, TypeScript, Prisma
+
+- `lib` - Common Libraries
+  - Purpose: Shared utilities, hooks, and functions
+  - Tech Stack: TypeScript, React
+
+### UI and Styling
+- `ui` - Shadcn UI Package
+  - Purpose: Reusable UI components and design system
+  - Tech Stack: Shadcn UI, React, TailwindCSS
+
+- `assets` - Static Assets
+  - Purpose: Centralized storage for images, videos, and other media
+  - Contents: Images, videos, GIFs, icons
+
+### Configuration
+- `eslint-config` - ESLint Configuration
+  - Purpose: Shared ESLint rules and configurations
+  - Tech Stack: ESLint, TypeScript
+
+- `typescript-config` - TypeScript Configuration
+  - Purpose: Shared TypeScript configurations
+  - Tech Stack: TypeScript
+
+### Communication
+- `transactional` - Email Templates
+  - Purpose: React email templates for transactional emails
+  - Tech Stack: React Email, Resend
+
+## Root Configuration Files
+- `package.json` - Root package configuration
+- `pnpm-workspace.yaml` - PNPM workspace configuration
+- `pnpm-lock.yaml` - PNPM lock file
+- `turbo.json` - Turborepo configuration
+- `tsconfig.json` - Root TypeScript configuration
+- `CONTRIBUTING.md` - Contribution guidelines
+- `LICENSE` - Project license
+- `README.md` - Project documentation
+
+## Development Guidelines
+1. Use pnpm as the package manager
+2. Follow the monorepo structure for new packages/apps
+3. Share common code through packages
+4. Maintain consistent TypeScript configurations
+5. Follow the established coding standards

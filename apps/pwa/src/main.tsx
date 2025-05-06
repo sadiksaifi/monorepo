@@ -3,7 +3,8 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { registerSW } from "virtual:pwa-register";
-import { trpcClient } from "./lib/trpc-client";
+import { queryClient, trpcClient } from "./lib/trpc-client";
+import { routeTree } from "./routeTree.gen";
 
 // add this to prompt for a refresh
 const updateSW = registerSW({
@@ -14,16 +15,14 @@ const updateSW = registerSW({
   },
 });
 
-
-// Import the generated route tree
-import { routeTree } from "./routeTree.gen";
-
 // Create a new router instance
-const router = createRouter({ routeTree,
+const router = createRouter({
+  routeTree,
   context: {
     trpc: trpcClient,
+    queryClient: queryClient,
   },
- });
+});
 
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {

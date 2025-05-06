@@ -8,7 +8,7 @@ import { getUser } from "@/lib/utils/get-user";
 type RouterAppContext = {
   trpc: typeof trpcClient;
   queryClient: QueryClient;
-  user: Awaited<ReturnType<typeof getUser>>;
+  // user: Awaited<ReturnType<typeof getUser>>;
 };
 
 export const Route = createRootRouteWithContext<RouterAppContext>()({

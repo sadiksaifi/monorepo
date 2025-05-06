@@ -58,8 +58,8 @@ function RouteComponent() {
   const [isEditing, setIsEditing] = useState<Record<string, boolean>>({});
 
   const form = useForm<ProfileFormValues>({
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    resolver: async (values, context, options) => {
+    // resolver: async (values, context, options) => {
+    resolver: async (values) => {
       // Only validate fields that are being edited
       const fieldsToValidate = Object.keys(isEditing).reduce((acc, field) => {
         const key = field as keyof ProfileFormValues;

@@ -1,0 +1,33 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Development Guidelines
+
+This is the main entry point for development guidelines. For detailed information, please refer to the following files:
+
+- [Technology Stack](mdc:tech-stack.mdc) - Overview of technologies and tools used
+- [Code Style](mdc:code-style.mdc) - Coding standards and best practices
+- [UI and Styling](mdc:ui-styling.mdc) - UI components and styling guidelines
+- [Monorepo and Project Structure](mdc:monorepo.mdc) - Monorepo management and project organization
+- [Backend and Database](mdc:backend.mdc) - Backend development and database guidelines
+
+## Key Conventions
+
+- Use descriptive and meaningful commit messages
+- Ensure code is clean, well-documented, and follows the project's coding standards
+- Implement error handling and logging consistently across the application
+
+## Follow Official Documentation
+
+- Adhere to the official documentation for each technology used
+- For Next.js, focus on data fetching methods and routing conventions
+- Stay updated with the latest best practices and updates, especially for Next.js, Tanstack start, Vite
+
+## Output Expectations
+
+- Code Examples: Provide code snippets that align with the guidelines above
+- Explanations: Include brief explanations to clarify complex implementations when necessary
+- Clarity and Correctness: Ensure all code is clear, correct, and ready for use in a production environment
+- Best Practices: Demonstrate adherence to best practices in performance, security, and maintainability

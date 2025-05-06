@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { createTRPCRouter, protectedProcedure } from "../lib/trpc/setup";
+import { protectedProcedure } from "../lib/trpc/setup";
 import { db } from "../lib/db";
 import { eq, and, desc } from "drizzle-orm";
 import { user, friendship, friendRequest } from "../lib/schema";
@@ -39,8 +39,8 @@ export const friend = {
   }),
 
   getById: protectedProcedure.input(friendIdSchema).query(async ({ ctx, input }) => {
-    const { user: sessionUser } = ctx.session;
     const { friendId } = input;
+    console.log(ctx.session.user.id);
 
     const friend = await db.query.user.findFirst({
       where: eq(user.id, friendId),

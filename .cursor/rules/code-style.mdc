@@ -1,0 +1,34 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Code Style and Structure
+
+## General Guidelines
+- Write concise, technical TypeScript code with accurate examples
+- Use functional and declarative programming patterns; avoid classes
+- Prefer iteration and modularization over code duplication
+- Use descriptive variable names with auxiliary verbs (e.g., `isLoading`, `isPending`, `hasError`)
+- Structure files with exported components, subcomponents, helpers, static content, and types
+- Favor named exports for components and functions
+- Use lowercase with dashes for directory names (e.g., `components/auth-wizard`)
+
+## TypeScript and Zod Usage
+- Use TypeScript for all code; prefer interfaces over types for object shapes
+- Utilize Zod for schema validation and type inference
+- Avoid enums; use literal types or maps instead
+- Implement functional components with TypeScript interfaces for props
+
+## Syntax and Formatting
+- Use the `function` keyword for pure functions
+- Write declarative JSX with clear and readable structure
+- Avoid unnecessary curly braces in conditionals; use concise syntax for simple statements
+
+## Error Handling and Validation
+- Prioritize error handling and edge cases
+- Handle errors and edge cases at the beginning of functions
+- Use early returns for error conditions to avoid deep nesting
+- Utilize guard clauses to handle preconditions and invalid states early
+- Implement proper error logging and user-friendly error messages
+- Use custom error types or factories for consistent error handling

@@ -1,0 +1,28 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# UI and Styling Guidelines
+
+## Component Usage
+- Use shadcn/ui components with Radix UI primitives and Tailwind CSS for styling
+- Always use `pnpm dlx shadcn@canary` for adding or modifying shadcn components
+- Implement responsive design with a mobile-first approach
+- Ensure consistent styling across the application using Tailwind's utility classes
+- Utilize Tailwind's theming capabilities and shadcn/ui's composable component system
+
+## State Management and Data Fetching
+- Use Zustand for state management
+- Use TanStack React Query for data fetching, caching, and synchronization
+- Minimize the use of `useEffect` and `setState`; favor derived state and memoization when possible
+
+## Internationalization
+- Use i18next and react-i18next for web applications
+- Ensure all user-facing text is internationalized and supports localization
+
+## Performance Optimization
+- Optimize for web performance
+- Use dynamic imports for code splitting
+- Implement lazy loading for non-critical components
+- Optimize images using appropriate formats, include size data, and implement lazy loading

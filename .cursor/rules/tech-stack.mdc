@@ -1,0 +1,36 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Technology Stack
+
+## Core Technologies
+- TypeScript and JavaScript
+- React and React ecosystem
+
+## Frontend Frameworks
+- Next.js (App Router, Server Components)
+- Vite
+- Tanstack Start
+
+## Styling and UI
+- Tailwind CSS
+- shadcn/ui (with Radix UI primitives)
+
+## State Management and Data
+- Zustand for state management
+- TanStack React Query for data fetching
+- Tanstack Table for data tables
+- Tanstack Router for routing
+
+## Backend and Database
+- tRPC for type-safe APIs
+- Custom authentication with better-auth
+- Drizzle ORM for database operations
+- PostgreSQL for database storage
+- Zod for schema validation
+
+## Infrastructure and Tooling
+- Turbo for monorepo management
+- i18next (react-i18next) for internationalization

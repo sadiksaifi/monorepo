@@ -1,0 +1,31 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Backend and Database Guidelines
+
+## API Development
+- Use Zod schemas to validate data exchanged with the backend
+- Implement tRPC for type-safe API development between frontend and backend
+- Follow tRPC best practices for router organization and procedure definitions
+
+## Database Management
+- Use Drizzle ORM for database schema management and type-safe database access
+- Implement proper environment configuration for database access
+- Follow separation of concerns in schema organization
+- Keep database credentials, API keys, and other secrets secure and never commit them to the repository
+
+## Testing and Quality Assurance
+- Write unit and integration tests for critical components
+- Use testing libraries compatible with React like vitest
+- Ensure code coverage and quality metrics meet the project's requirements
+- Run typecheck and lint commands locally before submitting code
+- Follow the established patterns for testing components and utilities
+
+## CI/CD and Code Quality
+- Follow GitHub workflow for automated testing and linting
+- Ensure all pull requests pass the CI pipeline before merging
+- Use Turbo for caching to speed up CI/CD pipelines
+- Maintain consistent code quality through automated linting and type checking
+- Follow the pull request template for proper documentation of changes

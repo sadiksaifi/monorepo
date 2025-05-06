@@ -1,0 +1,35 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Monorepo and Project Structure
+
+## Monorepo Management
+- Follow best practices using Turbo for monorepo setups
+- Ensure packages are properly isolated and dependencies are correctly managed
+- Use shared configurations and scripts where appropriate
+- Utilize the workspace structure as defined in the root `package.json` and `pnpm-workspace.yaml`
+
+## Terminal Operations
+- Always run `pwd` before executing any terminal command to verify your current directory position
+- Working in the correct directory is crucial in a monorepo structure
+- When navigating between workspaces, confirm your location before running package or build commands
+- For workspace-specific commands, first navigate to the appropriate directory
+- Remember that certain commands may need to be run from the monorepo root, while others from specific packages
+- Use relative paths when appropriate to maintain context of your working directory
+
+## Project Structure
+- Follow the established project structure with separate packages for shared code and applications
+- Use pnpm as the package manager (version 10.7.1 or higher)
+- Ensure Node.js version 20 or higher is used
+- Use environment variables consistently across the monorepo with proper validation
+- Follow Turbo best practices for pipeline configuration and caching
+
+## Environment Configuration
+- Use environment variables for all configuration values that may change between environments
+- Ensure all environment variables are properly validated at runtime
+- Follow security best practices for handling sensitive information
+- Use environment-specific configuration files (.env.local, .env.development, etc.)
+- Document required environment variables in README files and in code comments
+- Keep database credentials, API keys, and other secrets secure and never commit them to the repository
