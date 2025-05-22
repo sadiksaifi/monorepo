@@ -5,12 +5,16 @@ import { Loader } from "lucide-react";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 import { CLIENT_ORIGIN } from "@/lib/utils/constants";
+import { SocialProviderList } from "better-auth/social-providers";
+
+type Provider = SocialProviderList[1];
+
 import Icons from "@/lib/components/icons";
 export const SocialSignin = () => {
-  const { mutate: mutateGithub, isPending: isPendingGithub } = useMutation({
-    mutationFn: async () => {
+  const { mutate: mutateGithub, isPending: isSocialPending } = useMutation({
+    mutationFn: async (provider: Provider) => {
       const { error } = await authClient.signIn.social({
-        provider: "github",
+        provider,
         callbackURL: CLIENT_ORIGIN,
       });
       if (error) {
@@ -33,10 +37,10 @@ export const SocialSignin = () => {
         variant="outline"
         className="w-full"
         type="button"
-        onClick={() => mutateGithub()}
-        disabled={isPendingGithub}
+        onClick={() => mutateGithub("github")}
+        disabled={isSocialPending}
       >
-        {isPendingGithub ? (
+        {isSocialPending ? (
           <Loader className="size-4 animate-spin" />
         ) : (
           <Icons.Github className="size-4" />
@@ -47,9 +51,14 @@ export const SocialSignin = () => {
         variant="outline"
         className="w-full"
         type="button"
-        onClick={comingSoonLogin}
+        onClick={() => mutateGithub("google")}
+        disabled={isSocialPending}
       >
-        <Icons.Google className="size-4" />
+        {isSocialPending ? (
+          <Loader className="size-4 animate-spin" />
+        ) : (
+          <Icons.Google className="size-4" />
+        )}
         <span className="sr-only">Login with Google</span>
       </Button>
       <Button

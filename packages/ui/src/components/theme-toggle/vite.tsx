@@ -13,7 +13,7 @@ type ThemeToggleProps = {
   dropdown?: boolean;
 };
 
-export function ThemeToggle({ dropdown = true }: ThemeToggleProps) {
+export function ThemeToggle({ dropdown = false }: ThemeToggleProps) {
   return dropdown ? <ThemeToggleDropdown /> : <ThemeToggleButton />;
 }
 
