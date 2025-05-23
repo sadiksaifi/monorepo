@@ -2,8 +2,7 @@ import { NextResponse } from "next/server";
 
 const origin = process.env.CLIENT_ORIGIN ?? "http://localhost:5173";
 
-export function withCorsHeaders(response: Response, request: Request): Response {
-  console.log(request.headers);
+export function withCorsHeaders(response: Response): Response {
   response.headers.set("Access-Control-Allow-Credentials", "true");
   response.headers.set("Access-Control-Allow-Origin", origin);
   response.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -15,8 +14,7 @@ export function withCorsHeaders(response: Response, request: Request): Response 
   return response;
 }
 
-export function createCorsPreflightResponse(request: Request): NextResponse {
-  console.log(request.headers);
+export function createCorsPreflightResponse(): NextResponse {
   const response = new NextResponse(null, { status: 204 });
 
   response.headers.set("Access-Control-Allow-Credentials", "true");

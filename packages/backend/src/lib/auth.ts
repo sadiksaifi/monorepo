@@ -6,6 +6,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { openAPI } from "better-auth/plugins";
 import { username } from "better-auth/plugins";
+import { passkey } from "better-auth/plugins/passkey";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -53,6 +54,9 @@ export const auth = betterAuth({
   },
   plugins: [
     openAPI(),
+    passkey({
+      rpID: process.env.NODE_ENV === "development" ? "localhost" : env.RP_ID,
+    }),
     username({
       minUsernameLength: 3,
       maxUsernameLength: 20,

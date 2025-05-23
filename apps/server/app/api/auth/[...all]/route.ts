@@ -6,14 +6,14 @@ const { GET: authGet, POST: authPost } = toNextJsHandler(auth.handler);
 
 export async function GET(request: Request) {
   const response = await authGet(request);
-  return withCorsHeaders(response, request);
+  return withCorsHeaders(response);
 }
 
 export async function POST(request: Request) {
   const response = await authPost(request);
-  return withCorsHeaders(response, request);
+  return withCorsHeaders(response);
 }
 
-export async function OPTIONS(request: Request) {
-  return createCorsPreflightResponse(request);
+export async function OPTIONS() {
+  return createCorsPreflightResponse();
 }

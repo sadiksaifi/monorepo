@@ -19,14 +19,14 @@ const trpcHandler = (req: Request) =>
 
 export async function GET(request: Request) {
   const response = await trpcHandler(request);
-  return withCorsHeaders(response, request);
+  return withCorsHeaders(response);
 }
 
 export async function POST(request: Request) {
   const response = await trpcHandler(request);
-  return withCorsHeaders(response, request);
+  return withCorsHeaders(response);
 }
 
-export async function OPTIONS(request: Request) {
-  return createCorsPreflightResponse(request);
+export async function OPTIONS() {
+  return createCorsPreflightResponse();
 }

@@ -15,6 +15,7 @@ const envVars = [
   "AWS_SES_SENDER_ADDRESS",
   "AWS_SES_REPLY_TO",
   "NEXT_PUBLIC_DATABASE_URL",
+  "RP_ID",
 ] as const;
 
 type EnvVars = Record<(typeof envVars)[number], string>;

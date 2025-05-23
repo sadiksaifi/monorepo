@@ -11,6 +11,7 @@ interface PasswordInputToogleProps<
   TName extends Path<TFieldValues> = Path<TFieldValues>,
 > extends React.HTMLAttributes<HTMLDivElement> {
   field?: ControllerRenderProps<TFieldValues, TName>;
+  inputAutoComplete?: string;
 }
 
 export const PasswordToogleInput = <
@@ -19,6 +20,7 @@ export const PasswordToogleInput = <
 >({
   field,
   className,
+  inputAutoComplete,
   ...props
 }: PasswordInputToogleProps<TFieldValues, TName>) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -29,6 +31,7 @@ export const PasswordToogleInput = <
         type={showPassword ? "text" : "password"}
         placeholder="********"
         {...field}
+        autoComplete={inputAutoComplete}
       />
       <Button
         type="button"
