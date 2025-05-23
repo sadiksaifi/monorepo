@@ -1,34 +1,33 @@
 import { MobileAppLayout } from "@/lib/components/mobile-app-layout";
 import { AppHeader } from "@/lib/components/app-header";
 import { AppSidebar } from "@/lib/components/app-sidebar";
-import { createFileRoute, Outlet, redirect, Link } from "@tanstack/react-router";
+import { createFileRoute, Outlet, Link, LinkOptions } from "@tanstack/react-router";
 import { SidebarInset, SidebarProvider } from "@workspace/ui/components/sidebar";
 import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import { BellIcon } from "lucide-react";
 import { Button } from "@workspace/ui/components/button";
 import { Badge } from "@workspace/ui/components/badge";
 import { useRouterState } from "@tanstack/react-router";
+import { getUser } from "@/lib/utils/get-user";
 
+let userPromiseFlag = false;
 export const Route = createFileRoute("/_app")({
   component: RouteComponent,
-  beforeLoad: async ({ context }) => {
-    if (!context.user) {
-      throw redirect({ to: "/auth/sign-in" });
+  beforeLoad: async () => {
+    async function fetchUser() {
+      const user = await getUser();
+      if (!user?.id) {
+        const href: LinkOptions["to"] = "/auth/sign-in";
+        window.location.href = href;
+      }
     }
-  },
-  loader: async ({ context }) => {
-    return {
-      user: context.user ?? {
-        name: "John Doe",
-        email: "john.doe@example.com",
-        image: "https://via.placeholder.com/150",
-      },
-    };
+    const fetchUserPromise = fetchUser();
+    if (userPromiseFlag) await fetchUserPromise;
+    userPromiseFlag = true;
   },
 });
 
 function RouteComponent() {
-  const { user } = Route.useLoaderData();
   const isMobile = useIsMobile();
   const { location } = useRouterState();
   const currentPath = location.pathname;
@@ -57,10 +56,6 @@ function RouteComponent() {
       </Link>
     </Button>
   ) : null;
-
-  if (!user) {
-    return null;
-  }
 
   return (
     <>

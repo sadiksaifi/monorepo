@@ -22,7 +22,7 @@ export const AppHeader: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   ...props
 }) => {
   const location = useLocation();
-  const pathParts = location.pathname.slice(1).split("/");
+  const pathParts = location.pathname.slice(1).split("/").slice(0, 1);
 
   return (
     <header

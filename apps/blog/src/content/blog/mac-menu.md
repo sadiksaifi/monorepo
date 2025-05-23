@@ -1,17 +1,17 @@
 ---
-title: "mac-menu: A Modern macOS Application Launcher"
-description: "Discover mac-menu, a native macOS implementation of dmenu that brings fuzzy search and modern UI to your application launching workflow."
+title: "mac-menu: A Modern macOS Fuzzy Finder"
+description: "Discover mac-menu, a native macOS GUI implementation of fuzzy finding, bringing the power of fzf to your desktop with a beautiful interface."
 pubDate: "May 2 2025"
 image: "./images/mac-menu.png"
-tags: ["macos", "productivity", "launcher", "dmenu"]
+tags: ["macos", "productivity", "launcher", "fzf"]
 ---
 
-mac-menu is a modern, native macOS implementation of the popular [dmenu](https://tools.suckless.org/dmenu/) application launcher. Built with Swift and Cocoa, it provides a clean, blur-backed interface with fuzzy search capabilities, making it an essential tool for power users who value efficiency and aesthetics.
+mac-menu is a modern, native macOS implementation of fuzzy finding, inspired by the powerful [fzf](https://github.com/junegunn/fzf) command-line tool. Built with Swift and Cocoa, it provides a clean, blur-backed interface with fuzzy search capabilities, making it an essential tool for power users who value efficiency and aesthetics.
 
 ## Features
 
 - 🎨 Native macOS UI with modern design
-- 🔍 Fuzzy search functionality
+- 🔍 Fuzzy search functionality (similar to fzf)
 - ⌨️ Keyboard navigation (Up/Down arrows, Ctrl+P/N)
 - 🖱️ Mouse support with hover effects
 - 🌫️ Transparent, blur-backed window
@@ -100,23 +100,32 @@ mac-menu stands out from other launchers because:
 
 1. **Native Performance**: Built with Swift and Cocoa, it feels like a natural part of macOS
 2. **Modern Design**: The blur-backed, transparent window with hover effects provides a premium feel
-3. **Script Integration**: Its stdin/stdout interface makes it perfect for shell scripts
+3. **Script Integration**: Its stdin/stdout interface makes it perfect for shell scripts, similar to fzf
 4. **Keyboard First**: Designed for power users who prefer keyboard navigation
 5. **Lightweight**: No dependencies, just pure macOS goodness
+6. **Fuzzy Finding**: Brings the power of fzf's fuzzy search to a native GUI environment
 
 ## Building Your Own Integration
 
 The possibilities with mac-menu are endless. Here are some ideas for integration:
 
-- Application launcher
-- File browser
+- File and directory fuzzy finder
 - Command history selector
 - Git branch switcher
 - SSH connection manager
 - Password manager interface
+- Project directory navigator
 
 ## Conclusion
 
-mac-menu brings the power of dmenu to macOS with a modern, native implementation. Whether you're a developer looking to streamline your workflow or a power user seeking a better way to interact with your system, mac-menu provides a clean, efficient solution that feels right at home on macOS.
+mac-menu brings the power of fuzzy finding to macOS with a modern, native implementation. Whether you're a developer looking to streamline your workflow or a power user seeking a better way to interact with your system, mac-menu provides a clean, efficient solution that feels right at home on macOS.
 
-Try it out today and experience the difference a well-designed launcher can make in your daily workflow!
+Try it out today and experience the difference a well-designed fuzzy finder can make in your daily workflow!
+
+## Open Source
+
+mac-menu is open source and available on GitHub at [sadiksaifi/mac-menu](https://github.com/sadiksaifi/mac-menu). If you find it useful, please consider giving it a star! Your support helps the project grow and encourages further development.
+
+## License
+
+mac-menu is released under the MIT License. Feel free to use, modify, and distribute it as you wish.

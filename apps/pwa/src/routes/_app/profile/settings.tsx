@@ -71,18 +71,18 @@ function RouteComponent() {
 
   return (
     <TabNavigation.Content className="p-6">
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-4 mb-4">
-          <h1 className="font-bold text-2xl">Sign-in Methods</h1>
-          <p>
+      <div className="flex flex-col gap-4 w-full max-w-2xl">
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold tracking-tight">Sign-in Methods</h2>
+          <p className="text-sm text-muted-foreground mt-2">
             Customize how you access your account. Link your Git profiles and set up
             passkeys for seamless, secure authentication.
           </p>
         </div>
 
         <div className="flex flex-col gap-2">
-          <h3 className="font-bold text-xl">Passkeys</h3>
-          <p>Configure you passkeys here.</p>
+          <h3 className="text-base">Passkeys</h3>
+          <p className="text-sm text-muted-foreground">Configure you passkeys here.</p>
         </div>
         <div className="px-2">
           {passkeys && passkeys?.length <= 0 && (
