@@ -5,11 +5,13 @@ import { Info } from "lucide-react";
 import { buttonVariants } from "@workspace/ui/components/button";
 import { siteConfig } from "@/lib/config/site-config";
 import { cn } from "@workspace/ui/lib/utils";
+import { authClient } from "@/lib/auth-client";
 
 export const Route = createFileRoute("/(public)/auth")({
   component: RouteComponent,
-  beforeLoad: async ({ context }) => {
-    if (context.user) {
+  beforeLoad: async () => {
+    const { data } = await authClient.getSession();
+    if (data?.user.id) {
       throw redirect({
         to: HOME,
       });

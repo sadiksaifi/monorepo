@@ -33,7 +33,7 @@ export function NavMain() {
               <SidebarMenuButton
                 tooltip={item.title}
                 className={cn(
-                  state.location.pathname.endsWith(item.url!) && "bg-secondary",
+                  state.location.pathname.startsWith(item.url!) && "bg-secondary",
                 )}
                 asChild
               >

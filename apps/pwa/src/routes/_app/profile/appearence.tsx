@@ -15,6 +15,8 @@ import { z } from "zod";
 import { useTheme } from "@workspace/ui/components/theme-provider/vite";
 import { Button } from "@workspace/ui/components/button";
 import { TabNavigation } from "@/lib/components/tab-navigation";
+import { cn } from "@workspace/ui/lib/utils";
+import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 
 export const Route = createFileRoute("/_app/profile/appearence")({
   component: RouteComponent,
@@ -34,6 +36,7 @@ function RouteComponent() {
       theme: t.theme === "dark" ? "dark" : "light",
     },
   });
+  const isMobile = useIsMobile()
 
   const onSubmit = (data: z.infer<typeof adminSettingsPersonalizeSchema>) => {
     t.setTheme(data.theme);
@@ -71,7 +74,7 @@ function RouteComponent() {
                     <RadioGroup
                       onValueChange={field.onChange}
                       defaultValue={field.value}
-                      className="grid max-w-md grid-cols-2 gap-8 pt-2"
+                      className={cn("grid max-w-md grid-cols-2 gap-8 pt-2", isMobile && "grid-cols-1")}
                     >
                       <FormItem>
                         <FormLabel className="[&:has([data-state=checked])>div]:border-primary">

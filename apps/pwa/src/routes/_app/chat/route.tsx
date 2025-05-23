@@ -45,7 +45,12 @@ function RouteComponent() {
                   friendSelected === friend.id && "bg-secondary",
                 )}
               >
-                <Avatar className="col-span-2 size-10">
+                <Avatar
+                  className={cn(
+                    "col-span-2 size-10",
+                    friendSelected === friend.id && "border border-foreground",
+                  )}
+                >
                   <AvatarImage src={friend.image ?? ""} alt={friend.name} />
                   <AvatarFallback>{nameInitials}</AvatarFallback>
                 </Avatar>

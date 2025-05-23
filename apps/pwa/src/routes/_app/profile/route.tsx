@@ -7,7 +7,9 @@ import {
   Outlet,
   useRouterState,
 } from "@tanstack/react-router";
+import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import { cn } from "@workspace/ui/lib/utils";
+import { UserProfile } from "./-components/user-profile";
 
 export const Route = createFileRoute("/_app/profile")({
   component: RouteComponent,
@@ -20,19 +22,25 @@ function RouteComponent() {
     { label: "Settings", to: "/profile/settings" },
   ];
   const pathname = useRouterState().location.pathname;
+  const isMobile = useIsMobile();
 
   return (
     <>
-      <Page.HeaderComponent
-        headerProps={{
-          title: "Profile",
-        }}
-        descriptionProps={{
-          description: "Manage your profile and settings.",
-        }}
-      />
-      <TabNavigation.Root>
-        <TabNavigation.List className={cn("h-tab-navigation px-4")}>
+      {!isMobile && (
+        <Page.HeaderComponent
+          headerProps={{
+            title: "Profile",
+          }}
+          descriptionProps={{
+            description: "Manage your profile and settings.",
+          }}
+        />
+      )}
+      {isMobile && <UserProfile className="mt-2" />}
+      <TabNavigation.Root className={cn(isMobile && "mt-8")}>
+        <TabNavigation.List
+          className={cn("h-tab-navigation px-4", isMobile && "px-0 justify-center")}
+        >
           {navigation.map((item) => (
             <TabNavigation.Item key={item.label} active={pathname === item.to} asChild>
               <Link to={item.to}>{item.label}</Link>

@@ -1,12 +1,11 @@
 import { authClient } from "@/lib/auth-client";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { Button } from "@workspace/ui/components/button";
 import { useMutation } from "@tanstack/react-query";
 import { Loader, Pencil, X } from "lucide-react";
 import { TabNavigation } from "@/lib/components/tab-navigation";
 import { Input } from "@workspace/ui/components/input";
 import { useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@workspace/ui/components/avatar";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -18,6 +17,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@workspace/ui/components/form";
+import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
+import { cn } from "@workspace/ui/lib/utils";
+import { RouterLoaderMobile } from "@/lib/components/router-loader";
+import { UserProfile } from "./-components/user-profile";
 
 export const Route = createFileRoute("/_app/profile/")({
   component: RouteComponent,
@@ -52,9 +55,9 @@ export const profileSchema = z.object({
 type ProfileFormValues = z.infer<typeof profileSchema>;
 
 function RouteComponent() {
+  const router = useRouter();
   const { data: session, isPending: isSessionPending } = authClient.useSession();
   const user = session?.user as User;
-
   const [isEditing, setIsEditing] = useState<Record<string, boolean>>({});
 
   const form = useForm<ProfileFormValues>({
@@ -180,14 +183,34 @@ function RouteComponent() {
     form.clearErrors(field);
   };
 
+  const { mutate: signOut, isPending: isSignoutPending } = useMutation({
+    mutationFn: async () => {
+      const { error } = await authClient.signOut();
+      if (error) {
+        console.log(error);
+        toast.error("Something went wrong!");
+      }
+      console.log("done");
+    },
+    onSuccess: () => {
+      console.log("onSuccess started");
+      router.navigate({
+        to: "/auth/sign-in",
+      });
+      console.log("onSuccess done");
+    },
+  });
+
   const onSubmit = (values: ProfileFormValues) => {
     updateProfile(values);
   };
 
+  const isMobile = useIsMobile();
+
   if (isSessionPending) {
     return (
       <TabNavigation.Content className="flex items-center justify-center p-4">
-        <Loader className="animate-spin" />
+        <RouterLoaderMobile isVisible={isSessionPending} />
       </TabNavigation.Content>
     );
   }
@@ -249,16 +272,7 @@ function RouteComponent() {
   return (
     <TabNavigation.Content className="flex items-center justify-center p-6">
       <div className="w-full max-w-2xl flex flex-col gap-6">
-        <div className="flex items-center gap-4">
-          <Avatar className="h-20 w-20">
-            <AvatarImage src={user.image} alt={user.name} />
-            <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-          </Avatar>
-          <div>
-            <h1 className="text-2xl font-bold">{user.name}</h1>
-            <p className="text-muted-foreground">{user.email}</p>
-          </div>
-        </div>
+        {!isMobile && <UserProfile />}
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-6">
@@ -267,14 +281,24 @@ function RouteComponent() {
             {renderEditableField("username", "Username")}
             {renderEditableField("displayUsername", "Display Username")}
 
-            <div className="mt-4 flex justify-end gap-2">
-              <Button type="submit" disabled={isUpdating || !hasChanges}>
+            <div className="mt-2 flex justify-end gap-2">
+              <Button
+                type="submit"
+                disabled={isUpdating || !hasChanges}
+                className={cn(isMobile && "w-full")}
+              >
                 {isUpdating && <Loader className="mr-2 h-4 w-4 animate-spin" />}
                 Update Profile
               </Button>
             </div>
           </form>
         </Form>
+        {isMobile && (
+          <Button variant={"destructive"} onClick={() => signOut()}>
+            {isSignoutPending && <Loader className="size-4 animate-spin" />}
+            Sign out
+          </Button>
+        )}
       </div>
     </TabNavigation.Content>
   );

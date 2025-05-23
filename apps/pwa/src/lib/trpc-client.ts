@@ -14,7 +14,7 @@ export const queryClient = new QueryClient({
 export const trpcClient = createTRPCClient<TRPCRouter>({
   links: [
     httpBatchLink({
-      url: import.meta.env.BACKEND_URL ?? "http://localhost:3000/api/trpc",
+      url: `${import.meta.env.VITE_BACKEND_URL ?? "http://localhost:3000"}` + "/api/trpc",
       transformer: superjson,
       fetch(url, options) {
         return fetch(url, {
