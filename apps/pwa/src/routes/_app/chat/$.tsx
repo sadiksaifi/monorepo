@@ -1,4 +1,5 @@
 import { authClient } from "@/lib/auth-client";
+import { useSocket } from "@/lib/socket-provider";
 import { useTRPC } from "@/lib/trpc-client";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
@@ -6,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@workspace/ui/components/av
 import { Button } from "@workspace/ui/components/button";
 import { Input } from "@workspace/ui/components/input";
 import { Airplay, Phone, Send, Video } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_app/chat/$")({
@@ -14,7 +16,9 @@ export const Route = createFileRoute("/_app/chat/$")({
 
 function RouteComponent() {
   const { _splat } = Route.useParams();
+  const [remoteSocketId, setRemoteSocketId] = useState<string | null>(null);
   const roomId = _splat;
+  const socket = useSocket();
   const trpc = useTRPC();
   const { data: session } = authClient.useSession();
   const userId = session?.user.id;
@@ -32,6 +36,23 @@ function RouteComponent() {
       description: "Please be patient, we are working on it.",
     });
   };
+  const email = session?.user.email;
+
+  const handleRoomJoin = useCallback(() => {
+    if (!email) return;
+    socket.emit("room:join", { roomId, email });
+  }, [email, roomId, socket]);
+  useEffect(() => {
+    handleRoomJoin();
+  }, [handleRoomJoin]);
+
+  const handleUserJoin = useCallback((data: { email: string; id: string }) => {
+    console.log(`Email: ${data.email}, ID: ${data.id}`);
+    setRemoteSocketId(data.id);
+  }, []);
+  useEffect(() => {
+    socket.on("user:joined", handleUserJoin);
+  }, [handleUserJoin, socket]);
 
   return (
     <div className="flex flex-col">
@@ -43,7 +64,9 @@ function RouteComponent() {
           </Avatar>
           <div>
             <p>{friend?.name}</p>
-            <span className="text-xs text-muted-foreground">Online</span>
+            <span className="text-xs text-muted-foreground">
+              {remoteSocketId && "Online"}
+            </span>
           </div>
         </div>
         <div className="flex items-center gap-1">
@@ -56,7 +79,9 @@ function RouteComponent() {
             onClick={() =>
               router.navigate({
                 to: "/rtc",
-                search: { roomId: roomId ?? "" },
+                search: {
+                  roomId: roomId ?? "",
+                },
               })
             }
           >

@@ -21,12 +21,11 @@ io.on("connection", (socket) => {
   console.log(`User connected: ${socket.id}`);
 
   socket.on("room:join", (data) => {
-    const { email, roomId } = data;
     console.log("room:join:data ", data);
     emailToSocketId.set(data.email, socket.id);
     socketIdToEmail.set(socket.id, data.email);
     console.log("socket.id ", socket.id);
-    io.to(data.roomId).emit("user:joined", { email, id: socket.id });
+    io.to(data.roomId).emit("user:joined", { email: data.email, id: socket.id });
     socket.join(data.roomId);
     io.to(socket.id).emit("room:join", data);
   });

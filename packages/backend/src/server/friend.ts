@@ -191,32 +191,28 @@ export const friend = {
         });
       }
 
-      // Create a transaction to:
-      // 1. Delete the friend request
-      // 2. Create the friendship (in both directions)
-      await db.transaction(async (tx) => {
-        // Delete the friend request
-        await tx
-          .delete(friendRequest)
-          .where(
-            and(
-              eq(friendRequest.senderId, friendId),
-              eq(friendRequest.receiverId, sessionUser.id),
-            ),
-          );
+      // Delete the friend request
+      await db
+        .delete(friendRequest)
+        .where(
+          and(
+            eq(friendRequest.senderId, friendId),
+            eq(friendRequest.receiverId, sessionUser.id),
+          ),
+        );
 
-        // Create the friendship in both directions
-        await tx.insert(friendship).values({
-          userId: sessionUser.id,
-          friendId: friendId,
-          createdAt: new Date(),
-        });
+      // Create the friendship for the session user
+      await db.insert(friendship).values({
+        userId: sessionUser.id,
+        friendId: friendId,
+        createdAt: new Date(),
+      });
 
-        await tx.insert(friendship).values({
-          userId: friendId,
-          friendId: sessionUser.id,
-          createdAt: new Date(),
-        });
+      // Create the friendship for the friend
+      await db.insert(friendship).values({
+        userId: friendId,
+        friendId: sessionUser.id,
+        createdAt: new Date(),
       });
 
       // Notify the sender that their request was accepted
@@ -283,20 +279,18 @@ export const friend = {
       });
     }
 
-    // Delete both friendship records (it's bidirectional)
-    await db.transaction(async (tx) => {
-      await tx
-        .delete(friendship)
-        .where(
-          and(eq(friendship.userId, sessionUser.id), eq(friendship.friendId, friendId)),
-        );
+    // Delete both friendship record
+    await db
+      .delete(friendship)
+      .where(
+        and(eq(friendship.userId, sessionUser.id), eq(friendship.friendId, friendId)),
+      );
 
-      await tx
-        .delete(friendship)
-        .where(
-          and(eq(friendship.userId, friendId), eq(friendship.friendId, sessionUser.id)),
-        );
-    });
+    await db
+      .delete(friendship)
+      .where(
+        and(eq(friendship.userId, friendId), eq(friendship.friendId, sessionUser.id)),
+      );
 
     return { success: true };
   }),

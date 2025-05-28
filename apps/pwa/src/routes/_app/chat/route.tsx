@@ -16,8 +16,10 @@ function RouteComponent() {
   const { data: session } = authClient.useSession();
   const params = Route.useParams();
   const { _splat } = params as { _splat: string };
-  const friendSelected = _splat?.split("--")[0];
-  console.log("friendSelected: ", friendSelected);
+  const friendSelectedId = [
+    ...(_splat?.split("--") ?? []),
+    session?.user?.id ?? "",
+  ].filter((element, _, arr) => arr.indexOf(element) === arr.lastIndexOf(element))[0];
   const lastMessage = "Start a chat by sending a message!";
 
   return (
@@ -42,13 +44,13 @@ function RouteComponent() {
                 }}
                 className={cn(
                   "grid grid-cols-12 items-center p-2 border-b py-3",
-                  friendSelected === friend.id && "bg-secondary",
+                  friendSelectedId === friend.id && "bg-secondary",
                 )}
               >
                 <Avatar
                   className={cn(
                     "col-span-2 size-10",
-                    friendSelected === friend.id && "border border-foreground",
+                    friendSelectedId && "border border-foreground",
                   )}
                 >
                   <AvatarImage src={friend.image ?? ""} alt={friend.name} />

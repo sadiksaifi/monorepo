@@ -25,7 +25,6 @@ import { Route as AppProfileIndexImport } from './routes/_app/profile/index'
 import { Route as AppFriendsIndexImport } from './routes/_app/friends/index'
 import { Route as AppChatIndexImport } from './routes/_app/chat/index'
 import { Route as AppTestNotificationsImport } from './routes/_app/test/notifications'
-import { Route as AppRtcSplatImport } from './routes/_app/rtc/$'
 import { Route as AppProfileSettingsImport } from './routes/_app/profile/settings'
 import { Route as AppProfileAppearenceImport } from './routes/_app/profile/appearence'
 import { Route as AppFriendsRequestsImport } from './routes/_app/friends/requests'
@@ -118,12 +117,6 @@ const AppChatIndexRoute = AppChatIndexImport.update({
 const AppTestNotificationsRoute = AppTestNotificationsImport.update({
   id: '/test/notifications',
   path: '/test/notifications',
-  getParentRoute: () => AppRoute,
-} as any)
-
-const AppRtcSplatRoute = AppRtcSplatImport.update({
-  id: '/rtc/$',
-  path: '/rtc/$',
   getParentRoute: () => AppRoute,
 } as any)
 
@@ -311,13 +304,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProfileSettingsImport
       parentRoute: typeof AppProfileRouteImport
     }
-    '/_app/rtc/$': {
-      id: '/_app/rtc/$'
-      path: '/rtc/$'
-      fullPath: '/rtc/$'
-      preLoaderRoute: typeof AppRtcSplatImport
-      parentRoute: typeof AppImport
-    }
     '/_app/test/notifications': {
       id: '/_app/test/notifications'
       path: '/test/notifications'
@@ -411,7 +397,6 @@ interface AppRouteChildren {
   AppDiscoverRoute: typeof AppDiscoverRoute
   AppHomeRoute: typeof AppHomeRoute
   AppIndexRoute: typeof AppIndexRoute
-  AppRtcSplatRoute: typeof AppRtcSplatRoute
   AppTestNotificationsRoute: typeof AppTestNotificationsRoute
   AppRtcIndexRoute: typeof AppRtcIndexRoute
 }
@@ -423,7 +408,6 @@ const AppRouteChildren: AppRouteChildren = {
   AppDiscoverRoute: AppDiscoverRoute,
   AppHomeRoute: AppHomeRoute,
   AppIndexRoute: AppIndexRoute,
-  AppRtcSplatRoute: AppRtcSplatRoute,
   AppTestNotificationsRoute: AppTestNotificationsRoute,
   AppRtcIndexRoute: AppRtcIndexRoute,
 }
@@ -467,7 +451,6 @@ export interface FileRoutesByFullPath {
   '/friends/requests': typeof AppFriendsRequestsRoute
   '/profile/appearence': typeof AppProfileAppearenceRoute
   '/profile/settings': typeof AppProfileSettingsRoute
-  '/rtc/$': typeof AppRtcSplatRoute
   '/test/notifications': typeof AppTestNotificationsRoute
   '/chat/': typeof AppChatIndexRoute
   '/friends/': typeof AppFriendsIndexRoute
@@ -490,7 +473,6 @@ export interface FileRoutesByTo {
   '/friends/requests': typeof AppFriendsRequestsRoute
   '/profile/appearence': typeof AppProfileAppearenceRoute
   '/profile/settings': typeof AppProfileSettingsRoute
-  '/rtc/$': typeof AppRtcSplatRoute
   '/test/notifications': typeof AppTestNotificationsRoute
   '/chat': typeof AppChatIndexRoute
   '/friends': typeof AppFriendsIndexRoute
@@ -518,7 +500,6 @@ export interface FileRoutesById {
   '/_app/friends/requests': typeof AppFriendsRequestsRoute
   '/_app/profile/appearence': typeof AppProfileAppearenceRoute
   '/_app/profile/settings': typeof AppProfileSettingsRoute
-  '/_app/rtc/$': typeof AppRtcSplatRoute
   '/_app/test/notifications': typeof AppTestNotificationsRoute
   '/_app/chat/': typeof AppChatIndexRoute
   '/_app/friends/': typeof AppFriendsIndexRoute
@@ -547,7 +528,6 @@ export interface FileRouteTypes {
     | '/friends/requests'
     | '/profile/appearence'
     | '/profile/settings'
-    | '/rtc/$'
     | '/test/notifications'
     | '/chat/'
     | '/friends/'
@@ -569,7 +549,6 @@ export interface FileRouteTypes {
     | '/friends/requests'
     | '/profile/appearence'
     | '/profile/settings'
-    | '/rtc/$'
     | '/test/notifications'
     | '/chat'
     | '/friends'
@@ -595,7 +574,6 @@ export interface FileRouteTypes {
     | '/_app/friends/requests'
     | '/_app/profile/appearence'
     | '/_app/profile/settings'
-    | '/_app/rtc/$'
     | '/_app/test/notifications'
     | '/_app/chat/'
     | '/_app/friends/'
@@ -640,7 +618,6 @@ export const routeTree = rootRoute
         "/_app/discover",
         "/_app/home",
         "/_app/",
-        "/_app/rtc/$",
         "/_app/test/notifications",
         "/_app/rtc/"
       ]
@@ -730,10 +707,6 @@ export const routeTree = rootRoute
     "/_app/profile/settings": {
       "filePath": "_app/profile/settings.tsx",
       "parent": "/_app/profile"
-    },
-    "/_app/rtc/$": {
-      "filePath": "_app/rtc/$.tsx",
-      "parent": "/_app"
     },
     "/_app/test/notifications": {
       "filePath": "_app/test/notifications.tsx",

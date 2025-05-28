@@ -1,7 +1,7 @@
 import { useTRPC } from "@/lib/trpc-client";
 import { Loader } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { Button } from "@workspace/ui/components/button";
 import { Separator } from "@workspace/ui/components/separator";
 import List from "@/lib/components/list-helpers";
@@ -21,6 +21,7 @@ export const Route = createFileRoute("/_app/friends/requests")({
 function FriendRequestsPage() {
   const trpc = useTRPC();
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const { data: incomingRequests = [], isLoading: isLoadingIncoming } = useQuery(
     trpc.friend.getIncomingRequests.queryOptions(),
@@ -42,6 +43,7 @@ function FriendRequestsPage() {
         queryClient.invalidateQueries({
           queryKey: [trpc.friend.getOutgoingRequests.queryKey],
         });
+        router.navigate({ to: "/friends" });
       },
     }),
   );
@@ -94,13 +96,8 @@ function FriendRequestItem({
         variant={request.requestType === "incoming" ? "default" : "outline"}
         disabled={isAccepting || request.requestType === "outgoing"}
       >
-        {isAccepting ? (
-          <Loader className="size-4 animate-spin" />
-        ) : request.requestType === "incoming" ? (
-          "Accept"
-        ) : (
-          "Requested"
-        )}
+        {isAccepting && <Loader className="size-4 animate-spin" />}
+        {request.requestType === "incoming" ? "Accept" : "Requested"}
       </Button>
     </List.Item>
   );
