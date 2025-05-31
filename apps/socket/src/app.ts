@@ -14,59 +14,58 @@ const io = new Server(PORT, {
   allowEIO3: true,
 });
 
-const emailToSocketId = new Map<string, string>();
-const socketIdToEmail = new Map<string, string>();
+const socketToRoomId = new Map<string, string>();
+const roomIdToUser = new Map<string, Set<string>>();
+const socketToUserId = new Map<string, string>();
 
 io.on("connection", (socket) => {
-  console.log(`User connected: ${socket.id}`);
+  socket.on("room:join", (data: { userId: string; roomId: string }) => {
+    const { userId, roomId } = data;
 
-  socket.on("room:join", (data) => {
-    console.log("room:join:data ", data);
-    emailToSocketId.set(data.email, socket.id);
-    socketIdToEmail.set(socket.id, data.email);
-    console.log("socket.id ", socket.id);
-    io.to(data.roomId).emit("user:joined", { email: data.email, id: socket.id });
-    socket.join(data.roomId);
-    io.to(socket.id).emit("room:join", data);
+    socketToRoomId.set(socket.id, roomId);
+    socketToUserId.set(socket.id, userId);
+    socket.join(roomId);
+    const existingUsers = roomIdToUser.get(roomId) ?? new Set();
+    roomIdToUser.set(roomId, existingUsers.add(userId));
+
+    io.sockets.adapter.rooms.get(roomId)?.forEach((socketId) => {
+      const sock = io.sockets.sockets.get(socketId);
+      const userId = socketToUserId.get(socketId);
+      sock?.emit(
+        "room:joined",
+        roomIdToUser
+          .get(roomId)
+          ?.values()
+          .filter((id) => id !== userId)
+          .toArray()[0],
+      );
+    });
   });
 
-  socket.on("user:call", (data) => {
-    const { to, offer } = data;
-    console.log("user:call:data ", data);
-    io.to(to).emit("incoming:call", { from: socket.id, offer });
+  socket.on("user:call", (data: { userId: string; offer: string }) => {
+    console.log("user:call:offer: ", data);
+    const roomId = socketToRoomId.get(socket.id) ?? "";
+    socket.join(roomId);
+    socket.to(roomId).emit("user:call:incoming", data);
+  });
+  socket.on("user:call:accept", (data: { userId: string; answer: string }) => {
+    console.log("user:call:accept", data);
+    const roomId = socketToRoomId.get(socket.id) ?? "";
+    socket.join(roomId);
+    socket.to(roomId).emit("user:call:accepted", data);
   });
 
-  socket.on("call:accepted", (data) => {
-    const { to, answer } = data;
-    console.log("call:accepted:data ", data);
-    io.to(to).emit("call:accepted", { from: socket.id, answer });
-  });
-
-  socket.on("peer:nego:needed", (data) => {
-    const { to, offer } = data;
-    console.log("peer:nego:needed:data ", data);
-    io.to(to).emit("peer:nego:needed", { from: socket.id, offer });
-  });
-
-  socket.on("peer:nego:done", (data) => {
-    const { to, answer } = data;
-    console.log("peer:nego:done:data ", data);
-    io.to(to).emit("peer:nego:final", { from: socket.id, answer });
-  });
-
-  socket.on("ice-candidate", (data) => {
-    const { to, candidate } = data;
-    console.log("ice-candidate:data ", data);
-    io.to(to).emit("ice-candidate", { from: socket.id, candidate });
-  });
-
-  socket.on("call:ended", (data) => {
-    const { to } = data;
-    console.log("call:ended:data ", data);
-    io.to(to).emit("call:ended", { from: socket.id });
-  });
-
-  socket.on("disconnect", () => {
-    console.log(`User disconnected: ${socket.id}`);
+  socket.on("disconnect", (reason) => {
+    console.log(`User disconnected: ${socket.id}, reason: ${reason}`);
+    const socketId = socket.id;
+    const roomId = socketToRoomId.get(socketId) ?? "";
+    if (roomId) {
+      const users = roomIdToUser.get(roomId);
+      const leaveUser = socketToUserId.get(socketId) ?? "";
+      users?.delete(leaveUser);
+    }
+    socketToUserId.delete(socketId);
+    socketToRoomId.delete(socketId);
+    socket.to(roomId).emit("room:joined", null);
   });
 });

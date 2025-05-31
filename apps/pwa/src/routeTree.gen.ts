@@ -20,7 +20,6 @@ import { Route as AppProfileRouteImport } from './routes/_app/profile/route'
 import { Route as AppFriendsRouteImport } from './routes/_app/friends/route'
 import { Route as AppChatRouteImport } from './routes/_app/chat/route'
 import { Route as publicAuthRouteImport } from './routes/(public)/auth/route'
-import { Route as AppRtcIndexImport } from './routes/_app/rtc/index'
 import { Route as AppProfileIndexImport } from './routes/_app/profile/index'
 import { Route as AppFriendsIndexImport } from './routes/_app/friends/index'
 import { Route as AppChatIndexImport } from './routes/_app/chat/index'
@@ -34,6 +33,7 @@ import { Route as publicAuthVerifyAccountImport } from './routes/(public)/auth/v
 import { Route as publicAuthSignUpImport } from './routes/(public)/auth/sign-up'
 import { Route as publicAuthSignInImport } from './routes/(public)/auth/sign-in'
 import { Route as publicAuthForgetPasswordImport } from './routes/(public)/auth/forget-password'
+import { Route as AppChatSplatRtcImport } from './routes/_app/chat/$.rtc'
 
 // Create/Update Routes
 
@@ -88,12 +88,6 @@ const publicAuthRouteRoute = publicAuthRouteImport.update({
   id: '/(public)/auth',
   path: '/auth',
   getParentRoute: () => rootRoute,
-} as any)
-
-const AppRtcIndexRoute = AppRtcIndexImport.update({
-  id: '/rtc/',
-  path: '/rtc/',
-  getParentRoute: () => AppRoute,
 } as any)
 
 const AppProfileIndexRoute = AppProfileIndexImport.update({
@@ -172,6 +166,12 @@ const publicAuthForgetPasswordRoute = publicAuthForgetPasswordImport.update({
   id: '/forget-password',
   path: '/forget-password',
   getParentRoute: () => publicAuthRouteRoute,
+} as any)
+
+const AppChatSplatRtcRoute = AppChatSplatRtcImport.update({
+  id: '/rtc',
+  path: '/rtc',
+  getParentRoute: () => AppChatSplatRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -332,25 +332,37 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProfileIndexImport
       parentRoute: typeof AppProfileRouteImport
     }
-    '/_app/rtc/': {
-      id: '/_app/rtc/'
+    '/_app/chat/$/rtc': {
+      id: '/_app/chat/$/rtc'
       path: '/rtc'
-      fullPath: '/rtc'
-      preLoaderRoute: typeof AppRtcIndexImport
-      parentRoute: typeof AppImport
+      fullPath: '/chat/$/rtc'
+      preLoaderRoute: typeof AppChatSplatRtcImport
+      parentRoute: typeof AppChatSplatImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface AppChatSplatRouteChildren {
+  AppChatSplatRtcRoute: typeof AppChatSplatRtcRoute
+}
+
+const AppChatSplatRouteChildren: AppChatSplatRouteChildren = {
+  AppChatSplatRtcRoute: AppChatSplatRtcRoute,
+}
+
+const AppChatSplatRouteWithChildren = AppChatSplatRoute._addFileChildren(
+  AppChatSplatRouteChildren,
+)
+
 interface AppChatRouteRouteChildren {
-  AppChatSplatRoute: typeof AppChatSplatRoute
+  AppChatSplatRoute: typeof AppChatSplatRouteWithChildren
   AppChatIndexRoute: typeof AppChatIndexRoute
 }
 
 const AppChatRouteRouteChildren: AppChatRouteRouteChildren = {
-  AppChatSplatRoute: AppChatSplatRoute,
+  AppChatSplatRoute: AppChatSplatRouteWithChildren,
   AppChatIndexRoute: AppChatIndexRoute,
 }
 
@@ -398,7 +410,6 @@ interface AppRouteChildren {
   AppHomeRoute: typeof AppHomeRoute
   AppIndexRoute: typeof AppIndexRoute
   AppTestNotificationsRoute: typeof AppTestNotificationsRoute
-  AppRtcIndexRoute: typeof AppRtcIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -409,7 +420,6 @@ const AppRouteChildren: AppRouteChildren = {
   AppHomeRoute: AppHomeRoute,
   AppIndexRoute: AppIndexRoute,
   AppTestNotificationsRoute: AppTestNotificationsRoute,
-  AppRtcIndexRoute: AppRtcIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -446,7 +456,7 @@ export interface FileRoutesByFullPath {
   '/auth/sign-in': typeof publicAuthSignInRoute
   '/auth/sign-up': typeof publicAuthSignUpRoute
   '/auth/verify-account': typeof publicAuthVerifyAccountRoute
-  '/chat/$': typeof AppChatSplatRoute
+  '/chat/$': typeof AppChatSplatRouteWithChildren
   '/friends/add': typeof AppFriendsAddRoute
   '/friends/requests': typeof AppFriendsRequestsRoute
   '/profile/appearence': typeof AppProfileAppearenceRoute
@@ -455,7 +465,7 @@ export interface FileRoutesByFullPath {
   '/chat/': typeof AppChatIndexRoute
   '/friends/': typeof AppFriendsIndexRoute
   '/profile/': typeof AppProfileIndexRoute
-  '/rtc': typeof AppRtcIndexRoute
+  '/chat/$/rtc': typeof AppChatSplatRtcRoute
 }
 
 export interface FileRoutesByTo {
@@ -468,7 +478,7 @@ export interface FileRoutesByTo {
   '/auth/sign-in': typeof publicAuthSignInRoute
   '/auth/sign-up': typeof publicAuthSignUpRoute
   '/auth/verify-account': typeof publicAuthVerifyAccountRoute
-  '/chat/$': typeof AppChatSplatRoute
+  '/chat/$': typeof AppChatSplatRouteWithChildren
   '/friends/add': typeof AppFriendsAddRoute
   '/friends/requests': typeof AppFriendsRequestsRoute
   '/profile/appearence': typeof AppProfileAppearenceRoute
@@ -477,7 +487,7 @@ export interface FileRoutesByTo {
   '/chat': typeof AppChatIndexRoute
   '/friends': typeof AppFriendsIndexRoute
   '/profile': typeof AppProfileIndexRoute
-  '/rtc': typeof AppRtcIndexRoute
+  '/chat/$/rtc': typeof AppChatSplatRtcRoute
 }
 
 export interface FileRoutesById {
@@ -495,7 +505,7 @@ export interface FileRoutesById {
   '/(public)/auth/sign-in': typeof publicAuthSignInRoute
   '/(public)/auth/sign-up': typeof publicAuthSignUpRoute
   '/(public)/auth/verify-account': typeof publicAuthVerifyAccountRoute
-  '/_app/chat/$': typeof AppChatSplatRoute
+  '/_app/chat/$': typeof AppChatSplatRouteWithChildren
   '/_app/friends/add': typeof AppFriendsAddRoute
   '/_app/friends/requests': typeof AppFriendsRequestsRoute
   '/_app/profile/appearence': typeof AppProfileAppearenceRoute
@@ -504,7 +514,7 @@ export interface FileRoutesById {
   '/_app/chat/': typeof AppChatIndexRoute
   '/_app/friends/': typeof AppFriendsIndexRoute
   '/_app/profile/': typeof AppProfileIndexRoute
-  '/_app/rtc/': typeof AppRtcIndexRoute
+  '/_app/chat/$/rtc': typeof AppChatSplatRtcRoute
 }
 
 export interface FileRouteTypes {
@@ -532,7 +542,7 @@ export interface FileRouteTypes {
     | '/chat/'
     | '/friends/'
     | '/profile/'
-    | '/rtc'
+    | '/chat/$/rtc'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/auth'
@@ -553,7 +563,7 @@ export interface FileRouteTypes {
     | '/chat'
     | '/friends'
     | '/profile'
-    | '/rtc'
+    | '/chat/$/rtc'
   id:
     | '__root__'
     | '/_app'
@@ -578,7 +588,7 @@ export interface FileRouteTypes {
     | '/_app/chat/'
     | '/_app/friends/'
     | '/_app/profile/'
-    | '/_app/rtc/'
+    | '/_app/chat/$/rtc'
   fileRoutesById: FileRoutesById
 }
 
@@ -618,8 +628,7 @@ export const routeTree = rootRoute
         "/_app/discover",
         "/_app/home",
         "/_app/",
-        "/_app/test/notifications",
-        "/_app/rtc/"
+        "/_app/test/notifications"
       ]
     },
     "/(public)/auth": {
@@ -690,7 +699,10 @@ export const routeTree = rootRoute
     },
     "/_app/chat/$": {
       "filePath": "_app/chat/$.tsx",
-      "parent": "/_app/chat"
+      "parent": "/_app/chat",
+      "children": [
+        "/_app/chat/$/rtc"
+      ]
     },
     "/_app/friends/add": {
       "filePath": "_app/friends/add.tsx",
@@ -724,9 +736,9 @@ export const routeTree = rootRoute
       "filePath": "_app/profile/index.tsx",
       "parent": "/_app/profile"
     },
-    "/_app/rtc/": {
-      "filePath": "_app/rtc/index.tsx",
-      "parent": "/_app"
+    "/_app/chat/$/rtc": {
+      "filePath": "_app/chat/$.rtc.tsx",
+      "parent": "/_app/chat/$"
     }
   }
 }
