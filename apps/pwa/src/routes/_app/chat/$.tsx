@@ -1,8 +1,7 @@
-import { authClient } from "@/lib/auth-client";
 import { useSocket } from "@/lib/provider/socket.provider";
 import { useTRPC } from "@/lib/trpc-client";
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "@workspace/ui/components/avatar";
 import { Button } from "@workspace/ui/components/button";
 import { Input } from "@workspace/ui/components/input";
@@ -13,25 +12,36 @@ import type { ErrorComponentProps } from "@tanstack/react-router";
 import { getNameInitials } from "@/lib/utils/getNameInitials";
 import { usePeer } from "@/lib/provider/peer.provider";
 import { cn } from "@workspace/ui/lib/utils";
+import {
+  CallHandleDialog,
+  ComingSoon,
+  ErrorComponent,
+  PendingComponent,
+} from "./-component";
+import { useUser } from "./-user-ctx";
+import { getVideoStream } from "./-getVideoStream";
 
 export const Route = createFileRoute("/_app/chat/$")({
   component: RouteComponent,
-  pendingComponent: PendingComponent,
+  // pendingComponent: PendingComponent,
   errorComponent: ErrorComponent,
-  loader: async () => {
-    const session = await authClient.getSession();
-    if (session.error) {
-      console.log(session.error);
-    }
-    return session.data;
-  },
+  // loader: async () => {
+  //   const session = await authClient.getSession();
+  //   if (session.error) {
+  //     console.log(session.error);
+  //   }
+  //   return session.data;
+  // },
 });
 
 function RouteComponent() {
+  const router = useRouter();
   const socket = useSocket();
   const trpc = useTRPC();
   const { _splat: roomId } = Route.useParams();
-  const userSession = Route.useLoaderData();
+  // const userSession = Route.useLoaderData();
+  // const userId = userSession?.user.id;
+  const userSession = useUser();
   const userId = userSession?.user.id;
   const friendId = roomId?.split("--")?.find((id) => id !== userId);
   const { data: friend, isPending: isPendingFriend } = useQuery(
@@ -39,12 +49,10 @@ function RouteComponent() {
   );
   const nameInitials = getNameInitials(friend?.name ?? "");
   const [isFriendOnline, setIsFriendOnline] = useState(false);
-  const { createOffer, setRemoteAnswer, createAnswer, sendStream, peer } = usePeer();
+  const { createOffer, setRemoteAnswer, createAnswer, sendStream } = usePeer();
   const [isRemoteUserId, setRemoteUserId] = useState<string | null>(null);
 
   const handleRoomJoined = useCallback((remoteUserId: string) => {
-    console.log("remoteUserId: ", remoteUserId);
-    setRemoteUserId(remoteUserId);
     if (remoteUserId) {
       setIsFriendOnline(true);
     } else {
@@ -95,16 +103,15 @@ function RouteComponent() {
 
     const answer = await createAnswer(incomingCallOffer);
     socket.emit("user:call:accept", { userId, answer });
-  }
-
-  const [remoteVideoStream, setRemoteVideoStream] = useState<MediaStream | null>(null);
-  const getVideoStream = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: true,
-      audio: false,
+      console.log("starting stream")
+    sendStream(await getVideoStream());
+      console.log("sending stream")
+    router.navigate({
+      to: "/chat/$/rtc",
+      params: { _splat: roomId },
+      search: { remoteUserId: isRemoteUserId! },
     });
-    return stream;
-  };
+  }
 
   const handleIncomingCallAccepted = useCallback(
     async (data: { userId: string; answer: RTCSessionDescriptionInit }) => {
@@ -112,8 +119,15 @@ function RouteComponent() {
       await setRemoteAnswer(data.answer);
       setoutGoingCall(false);
       console.log("Call Connected");
+      sendStream(await getVideoStream());
+      console.log("sending stream")
+      router.navigate({
+        to: "/chat/$/rtc",
+        params: { _splat: roomId },
+        search: { remoteUserId: isRemoteUserId! },
+      });
     },
-    [setRemoteAnswer],
+    [isRemoteUserId, roomId, router, sendStream, setRemoteAnswer],
   );
 
   useEffect(() => {
@@ -127,33 +141,6 @@ function RouteComponent() {
       socket.off("user:call:accepted");
     };
   }, [handleIncomingCall, handleIncomingCallAccepted, handleRoomJoined, socket]);
-
-  const handleIncomingStream = useCallback((event: RTCTrackEvent) => {
-    const stream = event.streams[0];
-    console.log(stream);
-    setRemoteVideoStream(stream);
-    console.log(stream);
-  }, []);
-
-  useEffect(() => {
-    peer.addEventListener("track", handleIncomingStream);
-    return () => {
-      peer.removeEventListener("track", handleIncomingStream);
-    };
-  }, [handleIncomingStream, peer]);
-
-  const handleNego = useCallback(() => {
-    const localOffer = peer.localDescription;
-    console.log("Nego Needed");
-    socket.emit("user:call", { userId: isRemoteUserId, offer: localOffer });
-  }, [isRemoteUserId, peer.localDescription, socket]);
-
-  useEffect(() => {
-    peer.addEventListener("negotiationneeded", handleNego);
-    return () => {
-      peer.removeEventListener("negotiationneeded", handleNego);
-    };
-  }, [handleIncomingStream, handleNego, peer]);
 
   if (isPendingFriend) return <PendingComponent />;
 
@@ -178,16 +165,16 @@ function RouteComponent() {
           <Button variant="ghost" size="icon" onClick={handleOutGoingCall} type="button">
             <Phone className="size-5" />
           </Button>
-          <Button variant="ghost" size="icon" onClick={comingSoon}>
+          <Button variant="ghost" size="icon" onClick={ComingSoon}>
             <Video className="size-6" />
           </Button>
-          <Button variant="ghost" size="icon" onClick={comingSoon}>
+          <Button variant="ghost" size="icon" onClick={ComingSoon}>
             <Airplay className="size-5" />
           </Button>
         </div>
         <CallHandleDialog
-          action1={() => comingSoon()}
-          action2={comingSoon}
+          action1={ComingSoon}
+          action2={ComingSoon}
           action1label="Mute"
           action2label="Decline"
           action1labelstyles="text-foreground"
@@ -198,7 +185,7 @@ function RouteComponent() {
         />
         <CallHandleDialog
           action1={handleIncomingCallAccept}
-          action2={comingSoon}
+          action2={ComingSoon}
           action1label="Accept"
           action2label="Decline"
           avatar={friend?.image ?? ""}
@@ -208,28 +195,6 @@ function RouteComponent() {
       </div>
       <div className="h-[calc(100vh-2*var(--app-header-height))] overflow-y-auto relative">
         {isRemoteUserId && <div>You are connected: {isRemoteUserId}</div>}
-        <div className="relative">
-          <Button
-            onClick={async () => {
-              console.log("sending stream");
-              sendStream(await getVideoStream());
-              console.log("sent stream");
-            }}
-          >
-            Send my video
-          </Button>
-          <p className="font-bold text-2xl">Remote Video</p>
-          <video
-            ref={(node) => {
-              if (node) {
-                node.srcObject = remoteVideoStream;
-              }
-            }}
-            muted
-            autoPlay
-            playsInline
-          />
-        </div>
         <div className="flex items-center gap-2 py-4 px-2 absolute bottom-0 w-full border-t justify-between">
           <Input
             className="border-none ring-0 rounded-none focus-visible:ring-0 !bg-transparent w-full"
@@ -238,97 +203,6 @@ function RouteComponent() {
           <Button variant="ghost" size="icon">
             <Send className="size-5" />
           </Button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function PendingComponent() {
-  return (
-    <div className="relative flex-1 h-full">
-      <div className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[60%] flex flex-col gap-4 justify-center items-center">
-        <Loader className="animate-spin size-10" />
-        <p>Wait loading the chats...</p>
-      </div>
-    </div>
-  );
-}
-
-function ErrorComponent({ error }: ErrorComponentProps) {
-  return (
-    <div className="relative flex-1 h-full">
-      <div className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[60%] flex flex-col gap-4 justify-center items-center">
-        <MessageSquareWarning className="size-10 text-destructive" />
-        <p>{error.message ?? "Sorry an unknown error occured."}</p>
-      </div>
-    </div>
-  );
-}
-
-function comingSoon() {
-  toast.error("Coming soon!", {
-    description: "Please be patient, we are working on it.",
-  });
-}
-
-interface CallHandleDialogProps extends React.HTMLAttributes<HTMLDivElement> {
-  avatar: string;
-  name: string;
-  action1: () => void;
-  action2: () => void;
-  action1label: string;
-  action2label: string;
-  action1labelstyles?: string;
-  action2labelstyles?: string;
-  isvisible: boolean;
-}
-
-function CallHandleDialog({
-  className,
-  action1,
-  action2,
-  action1label,
-  action2label,
-  action1labelstyles,
-  action2labelstyles,
-  isvisible = false,
-  ...props
-}: CallHandleDialogProps) {
-  const nameInitials = getNameInitials(props.name);
-
-  return (
-    <div
-      className={cn("absolute w-96 top-24 right-2 overflow-x-hidden z-50", className)}
-      {...props}
-    >
-      <div
-        className={cn(
-          "flex items-center bg-transparent rounded-lg backdrop-filter backdrop-blur-md",
-          "border ease-in-out overflow-x-hidden",
-          isvisible ? "translate-x-0 duration-400" : " translate-x-[100%] duration-200",
-        )}
-      >
-        <div className="flex flex-1 items-center gap-4 pl-3.5">
-          <Avatar className="size-10">
-            <AvatarImage src={props.avatar ?? ""} alt={props.name} />
-            <AvatarFallback>{nameInitials}</AvatarFallback>
-          </Avatar>
-          <div>
-            <p>{props?.name}</p>
-            <p className="text-muted-foreground text-xs">Incoming Call</p>
-          </div>
-        </div>
-        <div className="*:w-24 *:flex-1 *:cursor-pointer flex *:py-1.5 *:!mx-0 flex-col divide-y items-center justify-center border-l *:hover:bg-secondary/30">
-          <button
-            className={cn("text-green-300", action1labelstyles)}
-            onClick={action1 ?? ""}
-          >
-            {action1label}
-          </button>
-          <button className={cn("text-red-400", action2labelstyles)} onClick={action2}>
-            {action2label}
-          </button>
         </div>
       </div>
     </div>

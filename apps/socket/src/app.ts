@@ -55,6 +55,19 @@ io.on("connection", (socket) => {
     socket.to(roomId).emit("user:call:accepted", data);
   });
 
+  socket.on("user:nego", (data: { userId: string; offer: string }) => {
+    console.log("user:nego: ", data);
+    const roomId = socketToRoomId.get(socket.id) ?? "";
+    socket.join(roomId);
+    socket.to(roomId).emit("user:nego:incoming", data);
+  });
+  socket.on("user:nego:accept", (data: { userId: string; answer: string }) => {
+    console.log("user:nego:accept", data);
+    const roomId = socketToRoomId.get(socket.id) ?? "";
+    socket.join(roomId);
+    socket.to(roomId).emit("user:nego:accepted", data);
+  });
+
   socket.on("disconnect", (reason) => {
     console.log(`User disconnected: ${socket.id}, reason: ${reason}`);
     const socketId = socket.id;

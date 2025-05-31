@@ -17,6 +17,7 @@
   "packageManager": "pnpm@10.7.1",
   "dependencies": {
     "@aws-sdk/client-ses": "^3.693.0",
+    "@neondatabase/serverless": "^1.0.0",
     "@trpc/server": "^11.1.0",
     "better-auth": "^1.2.7",
     "drizzle-orm": "^0.41.0",
@@ -26,7 +27,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.15.3",
-    "typescript": "^5.8.2",
-    "drizzle-kit": "^0.30.5"
+    "drizzle-kit": "^0.30.5",
+    "typescript": "^5.8.2"
   }
 }
