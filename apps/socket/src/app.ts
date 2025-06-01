@@ -31,14 +31,13 @@ io.on("connection", (socket) => {
     io.sockets.adapter.rooms.get(roomId)?.forEach((socketId) => {
       const sock = io.sockets.sockets.get(socketId);
       const userId = socketToUserId.get(socketId);
-      sock?.emit(
-        "room:joined",
-        roomIdToUser
-          .get(roomId)
-          ?.values()
-          .filter((id) => id !== userId)
-          .toArray()[0],
-      );
+      const roomJoinedUser = roomIdToUser
+        .get(roomId)
+        ?.values()
+        .filter((id) => id !== userId)
+        .toArray()[0];
+      console.log("RoomJoinedUser: ", roomJoinedUser);
+      sock?.emit("room:joined", roomJoinedUser);
     });
   });
 

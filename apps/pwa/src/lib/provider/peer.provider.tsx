@@ -3,7 +3,9 @@ import { createContext, useContext, useRef } from "react";
 export interface TPeerProvider {
   peer: RTCPeerConnection;
   createOffer: () => Promise<RTCSessionDescriptionInit>;
-  createAnswer: (offer: RTCSessionDescriptionInit) => Promise<RTCSessionDescriptionInit>;
+  createAnswer: (
+    offer: RTCSessionDescriptionInit,
+  ) => Promise<RTCSessionDescriptionInit | null>;
   setRemoteAnswer: (answer: RTCSessionDescriptionInit) => Promise<void>;
   sendStream: (stream: MediaStream) => void;
 }
@@ -36,10 +38,16 @@ export const PeerProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   async function createAnswer(offer: RTCSessionDescriptionInit) {
-    await peer.setRemoteDescription(offer);
-    const answer = await peer.createAnswer();
-    await peer.setLocalDescription(answer);
-    return answer;
+    try {
+      await peer.setRemoteDescription(offer);
+      const answer = await peer.createAnswer();
+      await peer.setLocalDescription(answer);
+      return answer;
+    } catch (e) {
+      console.error(new Error("createAnswer"));
+      console.error(e);
+    }
+    return null;
   }
 
   async function setRemoteAnswer(answer: RTCSessionDescriptionInit) {

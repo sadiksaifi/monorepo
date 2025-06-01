@@ -7,3 +7,10 @@ export const authClient = createAuthClient({
   baseURL: SERVER_ORIGIN,
   plugins: [usernameClient(), passkeyClient()],
 });
+
+export async function getUserSession() {
+  const userSession = (await authClient.getSession()).data;
+  return userSession;
+}
+
+export type UserSession = typeof authClient.$Infer.Session;

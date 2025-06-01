@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "@workspace/ui/components/avatar";
 import { cn } from "@workspace/ui/lib/utils";
-import { UserProvider } from "./-user-ctx";
 
 export const Route = createFileRoute("/_app/chat")({
   component: RouteComponent,
@@ -68,9 +67,7 @@ function RouteComponent() {
         </div>
       </aside>
       <div className="col-span-3">
-        <UserProvider>
-          <Outlet />
-        </UserProvider>
+        <Outlet />
       </div>
     </div>
   );

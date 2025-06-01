@@ -17,10 +17,11 @@ const buildBreadcrumbPath = (pathParts: string[], currentIndex: number) => {
   return `/${pathParts.slice(0, currentIndex + 1).join("/")}`;
 };
 
-export const AppHeader: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
-  className,
-  ...props
-}) => {
+export const AppHeader: React.FC<
+  React.HTMLAttributes<HTMLDivElement> & {
+    sideToggleOnClick: () => void
+  }
+> = ({ className, sideToggleOnClick, ...props }) => {
   const location = useLocation();
   const pathParts = location.pathname.slice(1).split("/").slice(0, 1);
 
@@ -34,7 +35,10 @@ export const AppHeader: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
       {...props}
     >
       <div className="flex items-center px-4">
-        <SidebarTrigger className="-ml-1" />
+        <SidebarTrigger
+          className="-ml-1"
+          onClick={sideToggleOnClick}
+        />
         <Separator orientation="vertical" className="mr-2 h-4" />
         <Breadcrumb>
           <BreadcrumbList>
