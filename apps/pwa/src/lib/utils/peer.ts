@@ -4,8 +4,11 @@ class Peer {
     if (!this.peer) {
       this.peer = new RTCPeerConnection({
         iceServers: [
+          { urls: "stun:freestun.net:3478" },
           {
-            urls: ["stun:stun.l.google.com:19302", "stun:global.stun.twilio.com"],
+            urls: "turn:freestun.net:3478",
+            username: "free",
+            credential: "free",
           },
         ],
       });
