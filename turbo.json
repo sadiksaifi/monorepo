@@ -19,7 +19,21 @@
         "TO_EMAIL",
         "FROM_EMAIL",
         "RESEND_API_KEY",
-        "DATABASE_URL"
+        "DATABASE_URL",
+        "BETTER_AUTH_SECRET",
+        "BETTER_AUTH_URL",
+        "GITHUB_CLIENT_ID",
+        "GITHUB_CLIENT_SECRET",
+        "CLIENT_ORIGIN",
+        "AWS_SES_ACCESS_ID",
+        "AWS_SES_SECRET_ACCESS_KEY",
+        "AWS_SES_REGION",
+        "AWS_SES_SENDER_NAME",
+        "AWS_SES_SENDER_ADDRESS",
+        "AWS_SES_REPLY_TO",
+        "GOOGLE_CLIENT_ID",
+        "GOOGLE_CLIENT_SECRET",
+        "RP_ID"
       ]
     },
     "lint": {

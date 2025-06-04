@@ -11,6 +11,7 @@ import { passkey } from "better-auth/plugins/passkey";
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
+    debugLogs: true,
   }),
   secret: env.BETTER_AUTH_SECRET,
   trustedOrigins: [env.CLIENT_ORIGIN],
