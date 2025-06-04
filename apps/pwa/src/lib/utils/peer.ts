@@ -45,7 +45,6 @@ class Peer {
       console.error("Cannot set remote description: description is null or undefined");
       return;
     }
-    console.log("setRemoteDescription:description ", description);
     if (this.peer) {
       await this.peer.setRemoteDescription(new RTCSessionDescription(description));
     }
@@ -71,3 +70,4 @@ class Peer {
 }
 
 export default Peer;
+export const pc = new Peer();

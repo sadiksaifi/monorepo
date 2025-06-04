@@ -49,7 +49,7 @@ function FriendsPage() {
     trpc.friend.remove.mutationOptions({
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: [trpc.friend.getAll.queryKey],
+          queryKey: trpc.friend.getAll.queryKey(),
         });
       },
     }),

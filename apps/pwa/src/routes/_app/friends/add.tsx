@@ -1,6 +1,6 @@
 import { useTRPC } from "@/lib/trpc-client";
-import { useMutation } from "@tanstack/react-query";
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { Button } from "@workspace/ui/components/button";
 import {
   Form,
@@ -29,7 +29,9 @@ export const Route = createFileRoute("/_app/friends/add")({
 });
 
 function RouteComponent() {
+  const router = useRouter();
   const trpc = useTRPC();
+  const queryClient = useQueryClient();
   const form = useForm<AddFriendFormValues>({
     resolver: zodResolver(addFriendSchema),
     defaultValues: {
@@ -42,7 +44,8 @@ function RouteComponent() {
       onSuccess: () => {
         toast.success("Friend request sent successfully!");
         form.reset();
-        redirect({ to: "/friends/requests" });
+        queryClient.invalidateQueries({ queryKey: trpc.friend.getAll.queryKey() });
+        router.navigate({ to: "/friends/requests" });
       },
       onError: (error) => {
         toast.error(error.message);

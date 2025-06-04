@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { redirect } from "@tanstack/react-router";
+import { useRouter } from "@tanstack/react-router";
 import { Button } from "@workspace/ui/components/button";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
@@ -17,6 +17,7 @@ export const SocialSignin: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   ...props
 }) => {
   const [isFakePending, setIsFakePending] = useState(false);
+  const router = useRouter();
 
   const { mutate: mutateGithub, isPending: isSocialPending } = useMutation({
     mutationFn: async (provider: Provider) => {
@@ -37,7 +38,7 @@ export const SocialSignin: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
       setIsFakePending(false);
     },
     onSuccess: () => {
-      redirect({ to: "/" });
+      router.navigate({ to: "/" });
     },
   });
   function comingSoonLogin() {

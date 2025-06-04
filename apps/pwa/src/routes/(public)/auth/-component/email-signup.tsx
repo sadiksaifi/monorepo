@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { redirect } from "@tanstack/react-router";
+import { useRouter } from "@tanstack/react-router";
 import { Button } from "@workspace/ui/components/button";
 import {
   Form,
@@ -49,6 +49,8 @@ export const EmailSignup: React.FC<React.HTMLAttributes<HTMLFormElement>> = ({
   className,
   ...props
 }) => {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -74,7 +76,7 @@ export const EmailSignup: React.FC<React.HTMLAttributes<HTMLFormElement>> = ({
         toast.error(error.message);
         throw error;
       }
-      redirect({ to: "/auth/verify-account" });
+      router.navigate({ to: "/auth/verify-account" });
     },
   });
 

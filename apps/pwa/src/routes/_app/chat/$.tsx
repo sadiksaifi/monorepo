@@ -1,37 +1,64 @@
-import { authClient } from "@/lib/auth-client";
+import { useSocket } from "@/lib/provider/socket.provider";
 import { useTRPC } from "@/lib/trpc-client";
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "@workspace/ui/components/avatar";
 import { Button } from "@workspace/ui/components/button";
 import { Input } from "@workspace/ui/components/input";
-import { Airplay, Phone, Send, Video } from "lucide-react";
-import { toast } from "sonner";
+import { Send } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { getNameInitials } from "@/lib/utils/getNameInitials";
+import { ErrorComponent, PendingComponent } from "@/lib/components/router-components";
+import { DialCall } from "@/lib/components/call";
 
 export const Route = createFileRoute("/_app/chat/$")({
   component: RouteComponent,
+  errorComponent: ErrorComponent,
+  pendingComponent: PendingComponent,
 });
 
 function RouteComponent() {
-  const { _splat } = Route.useParams();
-  const roomId = _splat;
+  const context = Route.useRouteContext();
+
+  const socket = useSocket();
   const trpc = useTRPC();
-  const { data: session } = authClient.useSession();
-  const userId = session?.user.id;
-  const friendId = roomId?.split("--")?.find((id) => id !== userId);
-  const { data: friend } = useQuery(
-    trpc.friend.getById.queryOptions({ friendId: friendId ?? "" }),
+  const { _splat: roomId } = Route.useParams();
+  const userId = context.user.id;
+  const remoteUserId = roomId?.split("--")?.find((id) => id !== userId);
+  const { data: friend, isPending: isPendingFriend } = useQuery(
+    trpc.friend.getById.queryOptions({ friendId: remoteUserId ?? "" }),
   );
-  const nameInitials = friend?.name
-    .split(" ")
-    .map((name) => name[0])
-    .join("");
-  const router = useRouter();
-  const wip = () => {
-    toast.error("Coming soon!", {
-      description: "Please be patient, we are working on it.",
-    });
-  };
+  const nameInitials = getNameInitials(friend?.name ?? "");
+  const [isOnline, setIsOnline] = useState(false);
+
+  const isRoomJoinRef = useRef(false);
+  useEffect(() => {
+    if (isRoomJoinRef.current) return;
+    socket.emit("room:join", { userId, roomId });
+    isRoomJoinRef.current = true;
+  }, [roomId, socket, userId]);
+
+  const handleRoomJoined = useCallback(
+    (data: { userId?: string }) => {
+      if (data && data.userId && remoteUserId === data.userId) {
+        console.log("online user", data.userId);
+        setIsOnline(true);
+      } else {
+        setIsOnline(false);
+      }
+    },
+    [remoteUserId],
+  );
+
+  useEffect(() => {
+    socket.on("room:joined", handleRoomJoined);
+
+    return () => {
+      socket.off("room:joined", handleRoomJoined);
+    };
+  }, [handleRoomJoined, roomId, socket, userId]);
+
+  if (isPendingFriend) return <PendingComponent />;
 
   return (
     <div className="flex flex-col">
@@ -42,30 +69,15 @@ function RouteComponent() {
             <AvatarFallback>{nameInitials}</AvatarFallback>
           </Avatar>
           <div>
-            <p>{friend?.name}</p>
-            <span className="text-xs text-muted-foreground">Online</span>
+            <p>
+              {friend?.name}: {friend?.id}
+            </p>
+            <span className="text-xs text-muted-foreground">
+              {isOnline ? "Online" : "Offline"}
+            </span>
           </div>
         </div>
-        <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" onClick={wip}>
-            <Phone className="size-5" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() =>
-              router.navigate({
-                to: "/rtc",
-                search: { roomId: roomId ?? "" },
-              })
-            }
-          >
-            <Video className="size-6" />
-          </Button>
-          <Button variant="ghost" size="icon" onClick={wip}>
-            <Airplay className="size-5" />
-          </Button>
-        </div>
+        <DialCall userId={userId} remoteUserId={remoteUserId!} />
       </div>
       <div className="h-[calc(100vh-2*var(--app-header-height))] overflow-y-auto relative">
         <div className="flex items-center gap-2 py-4 px-2 absolute bottom-0 w-full border-t justify-between">

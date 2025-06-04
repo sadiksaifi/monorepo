@@ -1,29 +1,22 @@
 import { MobileAppLayout } from "@/lib/components/mobile-app-layout";
 import { AppHeader } from "@/lib/components/app-header";
 import { AppSidebar } from "@/lib/components/app-sidebar";
-import { createFileRoute, Outlet, Link, LinkOptions } from "@tanstack/react-router";
+import { createFileRoute, Outlet, Link, redirect } from "@tanstack/react-router";
 import { SidebarInset, SidebarProvider } from "@workspace/ui/components/sidebar";
 import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import { BellIcon } from "lucide-react";
 import { Button } from "@workspace/ui/components/button";
 import { Badge } from "@workspace/ui/components/badge";
 import { useRouterState } from "@tanstack/react-router";
-import { getUser } from "@/lib/utils/get-user";
+import { useState } from "react";
 
-let userPromiseFlag = false;
 export const Route = createFileRoute("/_app")({
   component: RouteComponent,
-  beforeLoad: async () => {
-    async function fetchUser() {
-      const user = await getUser();
-      if (!user?.id) {
-        const href: LinkOptions["to"] = "/auth/sign-in";
-        window.location.href = href;
-      }
+  loader: async ({ context }) => {
+    const session = context.session;
+    if (!session) {
+      throw redirect({ to: "/auth/sign-in" });
     }
-    const fetchUserPromise = fetchUser();
-    if (userPromiseFlag) await fetchUserPromise;
-    userPromiseFlag = true;
   },
 });
 
@@ -31,6 +24,13 @@ function RouteComponent() {
   const isMobile = useIsMobile();
   const { location } = useRouterState();
   const currentPath = location.pathname;
+  const initialState = localStorage.getItem("sidebar_state") === "0" ? false : true;
+  const [open, setOpen] = useState<boolean>(initialState);
+
+  function handleSidebarState() {
+    setOpen((prev) => !prev);
+    localStorage.setItem("sidebar_state", open ? "0" : "1");
+  }
 
   // Check if we're on the home page to show the notification bell
   const isHomePage = currentPath === "/home" || currentPath === "/_app/home";
@@ -62,10 +62,10 @@ function RouteComponent() {
       {isMobile ? (
         <MobileAppLayout bottomBarVariant="default" headerRightSlot={NotificationBell} />
       ) : (
-        <SidebarProvider>
+        <SidebarProvider open={open}>
           <AppSidebar />
           <SidebarInset>
-            <AppHeader />
+            <AppHeader sideToggleOnClick={handleSidebarState} />
             <Outlet />
           </SidebarInset>
         </SidebarProvider>

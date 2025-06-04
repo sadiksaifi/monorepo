@@ -2,7 +2,7 @@ import * as TRPC from "@/lib/trpc-client";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@workspace/ui/components/sonner";
 import { ThemeProvider } from "@workspace/ui/components/theme-provider/vite";
-import { SocketProvider } from "./socket-provider";
+import { SocketProvider } from "./socket.provider";
 
 export function Provider({ children }: { children: React.ReactNode }) {
   return (
