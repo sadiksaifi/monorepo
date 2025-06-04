@@ -1,3 +1,5 @@
+"use server";
+
 import env from "../env";
 import { drizzle } from "drizzle-orm/neon-http";
 import { neon } from "@neondatabase/serverless";

@@ -5,6 +5,7 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { registerSW } from "virtual:pwa-register";
 import { queryClient, trpcClient } from "./lib/trpc-client";
 import { routeTree } from "./routeTree.gen";
+import { UserSession } from "./lib/auth-client";
 
 // add this to prompt for a refresh
 const updateSW = registerSW({
@@ -21,6 +22,8 @@ const router = createRouter({
   context: {
     trpc: trpcClient,
     queryClient: queryClient,
+    user: undefined as unknown as UserSession["user"],
+    session: undefined as unknown as UserSession["session"],
   },
 });
 
