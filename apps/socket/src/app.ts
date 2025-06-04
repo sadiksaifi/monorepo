@@ -24,9 +24,9 @@ io.on("connection", (socket) => {
 
     socketToRoomId.set(socket.id, roomId);
     socketToUserId.set(socket.id, userId);
-    socket.join(roomId);
     const existingUsers = roomIdToUser.get(roomId) ?? new Set();
     roomIdToUser.set(roomId, existingUsers.add(userId));
+    socket.join(roomId);
 
     io.sockets.adapter.rooms.get(roomId)?.forEach((socketId) => {
       const sock = io.sockets.sockets.get(socketId);
@@ -37,34 +37,40 @@ io.on("connection", (socket) => {
         .filter((id) => id !== userId)
         .toArray()[0];
       console.log("RoomJoinedUser: ", roomJoinedUser);
-      sock?.emit("room:joined", roomJoinedUser);
+      sock?.emit("room:joined", { userId: roomJoinedUser });
     });
   });
 
-  socket.on("user:call", (data: { userId: string; offer: string }) => {
+  socket.on("user:call", (data: { offer: string }) => {
     console.log("user:call:offer: ", data);
+    const { offer } = data;
     const roomId = socketToRoomId.get(socket.id) ?? "";
-    socket.join(roomId);
-    socket.to(roomId).emit("user:call:incoming", data);
+    socket.to(roomId).emit("user:call:incoming", { from: socket.id, offer });
   });
-  socket.on("user:call:accept", (data: { userId: string; answer: string }) => {
+  socket.on("user:call:accept", (data: { answer: string }) => {
     console.log("user:call:accept", data);
+    const { answer } = data;
     const roomId = socketToRoomId.get(socket.id) ?? "";
-    socket.join(roomId);
-    socket.to(roomId).emit("user:call:accepted", data);
+    socket.to(roomId).emit("user:call:accepted", { from: socket.id, answer });
   });
 
-  socket.on("user:nego", (data: { userId: string; offer: string }) => {
+  socket.on("user:nego", (data: { offer: string }) => {
     console.log("user:nego: ", data);
+    const { offer } = data;
     const roomId = socketToRoomId.get(socket.id) ?? "";
-    socket.join(roomId);
-    socket.to(roomId).emit("user:nego:incoming", data);
+    socket.to(roomId).emit("user:nego:incoming", { from: socket.id, offer });
   });
-  socket.on("user:nego:accept", (data: { userId: string; answer: string }) => {
+  socket.on("user:nego:accept", (data: { answer: string }) => {
     console.log("user:nego:accept", data);
+    const { answer } = data;
     const roomId = socketToRoomId.get(socket.id) ?? "";
-    socket.join(roomId);
-    socket.to(roomId).emit("user:nego:accepted", data);
+    socket.to(roomId).emit("user:nego:accepted", { from: socket.id, answer });
+  });
+
+  socket.on("ice:candidate", (data) => {
+    const { to, candidate } = data;
+    console.log("ice:candidate", data);
+    socket.to(to).emit("ice:candidate", { from: socket.id, candidate });
   });
 
   socket.on("disconnect", (reason) => {

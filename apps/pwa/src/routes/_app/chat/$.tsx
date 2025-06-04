@@ -29,29 +29,34 @@ function RouteComponent() {
     trpc.friend.getById.queryOptions({ friendId: remoteUserId ?? "" }),
   );
   const nameInitials = getNameInitials(friend?.name ?? "");
-  const [isRemoteUser, setRemoteUser] = useState("");
+  const [isOnline, setIsOnline] = useState(false);
 
-  const roomJoinRef = useRef(false);
+  const isRoomJoinRef = useRef(false);
   useEffect(() => {
-    if (roomJoinRef.current) return;
+    if (isRoomJoinRef.current) return;
     socket.emit("room:join", { userId, roomId });
-    roomJoinRef.current = true;
-
-    return () => {
-      socket.off("room:join");
-    };
+    isRoomJoinRef.current = true;
   }, [roomId, socket, userId]);
 
-  const handleRoomJoined = useCallback((data: string) => {
-    console.log("RemoteUser: ", data);
-    setRemoteUser(data);
-  }, []);
+  const handleRoomJoined = useCallback(
+    (data: { userId?: string }) => {
+      if (data && data.userId && remoteUserId === data.userId) {
+        console.log("online user", data.userId);
+        setIsOnline(true);
+      } else {
+        setIsOnline(false);
+      }
+    },
+    [remoteUserId],
+  );
+
   useEffect(() => {
     socket.on("room:joined", handleRoomJoined);
+
     return () => {
-      socket.off("room:joined");
+      socket.off("room:joined", handleRoomJoined);
     };
-  }, [handleRoomJoined, socket]);
+  }, [handleRoomJoined, roomId, socket, userId]);
 
   if (isPendingFriend) return <PendingComponent />;
 
@@ -68,11 +73,11 @@ function RouteComponent() {
               {friend?.name}: {friend?.id}
             </p>
             <span className="text-xs text-muted-foreground">
-              {isRemoteUser ? "Online" : "Offline"}
+              {isOnline ? "Online" : "Offline"}
             </span>
           </div>
         </div>
-        <DialCall roomId={roomId!} userId={userId} remoteUserId={remoteUserId!} />
+        <DialCall userId={userId} remoteUserId={remoteUserId!} />
       </div>
       <div className="h-[calc(100vh-2*var(--app-header-height))] overflow-y-auto relative">
         <div className="flex items-center gap-2 py-4 px-2 absolute bottom-0 w-full border-t justify-between">

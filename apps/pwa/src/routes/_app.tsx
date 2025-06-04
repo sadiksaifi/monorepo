@@ -13,9 +13,9 @@ import { useState } from "react";
 export const Route = createFileRoute("/_app")({
   component: RouteComponent,
   loader: async ({ context }) => {
-    const userId = context.user.id;
-    if (userId) {
-      redirect({ to: "/auth/sign-in" });
+    const session = context.session;
+    if (!session) {
+      throw redirect({ to: "/auth/sign-in" });
     }
   },
 });

@@ -9,8 +9,8 @@ import { cn } from "@workspace/ui/lib/utils";
 export const Route = createFileRoute("/(public)/auth")({
   component: RouteComponent,
   loader: async ({ context }) => {
-    const userId = context.user.id;
-    if (userId) {
+    const session = context.session;
+    if (session) {
       throw redirect({
         to: HOME,
       });
