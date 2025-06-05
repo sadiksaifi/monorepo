@@ -1,11 +1,19 @@
 import env from "../env";
-import { drizzle } from "drizzle-orm/neon-http";
+import { drizzle as drizzleNeon } from "drizzle-orm/neon-http";
+import { drizzle as drizzleNodePg } from "drizzle-orm/node-postgres";
 import { neon } from "@neondatabase/serverless";
+import { Pool } from "pg";
 import * as schema from "./schema";
 
-const stubDbURL = "postgresql://postgres:postgres@stubDb.com/postgres?sslmode=require";
-const dbURL = env.DATABASE_URL ?? stubDbURL;
-console.log(dbURL);
-const client = neon(dbURL);
+const dbURL =
+  env.DATABASE_URL ??
+  "postgresql://postgres:postgres@stubDb.com/postgres?sslmode=require";
+const clientNeon = neon(dbURL);
+const clientPg = new Pool({
+  connectionString: process.env.DATABASE_URL!,
+});
 
-export const db = drizzle({ client, schema });
+const dbNeon = drizzleNeon({ client: clientNeon, schema });
+const dbNodePg = drizzleNodePg({ client: clientPg, schema });
+
+export const db = env.NODE_ENV === "development" ? dbNodePg : dbNeon;

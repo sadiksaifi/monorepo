@@ -5,6 +5,8 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "db": "drizzle-kit",
+    "db:migrate": "cat ../../apps/server/.env | grep 'DATABASE_URL.*' | xargs -I {} sh -c '{} drizzle-kit migrate'",
+    "db:studio": "cat ../../apps/server/.env | grep 'DATABASE_URL.*' | xargs -I {} sh -c '{} drizzle-kit studio'",
     "auth:generate": "pnpm dlx @better-auth/cli@latest generate --config ./src/lib/auth.ts --y --output ./src/lib/schema/auth.schema.ts && prettier --write ./src/lib/schema/auth.schema.ts"
   },
   "exports": {
@@ -21,12 +23,14 @@
     "@trpc/server": "^11.1.0",
     "better-auth": "^1.2.7",
     "drizzle-orm": "^0.41.0",
+    "pg": "^8.16.0",
     "postgres": "^3.4.5",
     "superjson": "^2.2.2",
     "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/node": "^22.15.3",
+    "@types/pg": "^8.15.4",
     "drizzle-kit": "^0.30.5",
     "typescript": "^5.8.2"
   }

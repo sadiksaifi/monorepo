@@ -5,43 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1744754938626,
-      "tag": "0000_square_rumiko_fujikawa",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1744755779202,
-      "tag": "0001_spotty_runaways",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1744755818853,
-      "tag": "0002_long_ulik",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1746036626783,
-      "tag": "0003_chemical_mole_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1746056382108,
-      "tag": "0004_sticky_changeling",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1747966177561,
-      "tag": "0005_soft_yellowjacket",
+      "when": 1749121658025,
+      "tag": "0000_flashy_hydra",
       "breakpoints": true
     }
   ]
