@@ -1,16 +1,36 @@
+const iceServers = [
+  { urls: "stun:freestun.net:3478" },
+  {
+    urls: "turn:freestun.net:3478",
+    username: "free",
+    credential: "free",
+  },
+];
+
+// const iceServers = [
+//   {
+//     urls: [
+//       // Note: STUN won't work if 'no-stun' is truly disabling all STUN functionality,
+//       // but usually, a TURN server still handles STUN requests that lead to allocations.
+//       // It's safer to include both turn and turns if you want to test both.
+//       `turn:127.0.0.1:3478?transport=udp`, // Explicitly UDP as no-tcp-relay is set
+//       `turns:127.0.0.1:5349?transport=udp`, // Explicitly UDP and secure
+//     ],
+//     username: "testuser",
+//     credential: "testpass",
+//     // If realm is specified by your application:
+//     // options: {
+//     //   iceTransportPolicy: 'relay' // Optional: force relay for testing TURN
+//     // }
+//   },
+// ];
+
 class Peer {
   peer!: RTCPeerConnection;
   constructor() {
     if (!this.peer) {
       this.peer = new RTCPeerConnection({
-        iceServers: [
-          { urls: "stun:freestun.net:3478" },
-          {
-            urls: "turn:freestun.net:3478",
-            username: "free",
-            credential: "free",
-          },
-        ],
+        iceServers,
       });
     }
   }

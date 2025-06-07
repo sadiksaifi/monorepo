@@ -1,0 +1,1 @@
+CREATE INDEX "room_idx" ON "message" USING btree ("room_id");

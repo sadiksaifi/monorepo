@@ -73,6 +73,15 @@ io.on("connection", (socket) => {
     socket.to(to).emit("ice:candidate", { from: socket.id, candidate });
   });
 
+  // Messaging
+  socket.on("user:msg:send", (data) => {
+    console.log("user:msg:send: ", data);
+    const roomId = socketToRoomId.get(socket.id);
+    if (roomId) {
+      socket.to(roomId).emit("user:msg:incoming", data);
+    }
+  });
+
   socket.on("disconnect", (reason) => {
     console.log(`User disconnected: ${socket.id}, reason: ${reason}`);
     const socketId = socket.id;

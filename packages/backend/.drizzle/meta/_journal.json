@@ -8,6 +8,27 @@
       "when": 1749121658025,
       "tag": "0000_flashy_hydra",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1749198713030,
+      "tag": "0001_pretty_maestro",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1749200815778,
+      "tag": "0002_faithful_justin_hammer",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1749282522739,
+      "tag": "0003_spicy_deathbird",
+      "breakpoints": true
     }
   ]
 }
