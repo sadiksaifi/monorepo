@@ -11,6 +11,7 @@ Here is the list of useful tools and cheatsheet by SDK. This list will be update
 
 ## Useful Tools Links
 - [Fast & Simple Screen Sharing](https://screensy.marijn.it/)
+- [Fast & Simple QR Generator](https://qr.sadiksaifi.dev/)
 - [Fast & Simple File Sharing Over LAN](https://www.sharedrop.io/)
 - [Fast & Simple File Sharing Over Internet](https://tmpfiles.org/)
 - [CLI Sharing tool](http://0x0.st/)
@@ -28,6 +29,6 @@ Here is the list of useful tools and cheatsheet by SDK. This list will be update
 ## Cheatsheets
 - Latex Cheatsheet ![Latex](./images/latex.png)
 - Shell Cheatsheet ![Shell](./images/shell.jpg)
-- Vim Cheatsheet 
+- Vim Cheatsheet
     ![Vim Cheatsheet](./images/vim.png)
     ![Vim Cheatsheet](./images/vim2.png)

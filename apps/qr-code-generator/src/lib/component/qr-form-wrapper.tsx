@@ -43,7 +43,7 @@ export function QRFormWrapper<T>({
         e.preventDefault();
         mutate(data);
       }}
-      className="flex flex-col gap-2 p-6 h-[350px]"
+      className="flex flex-col gap-2 md:p-6 p-4 pt-8 md:pt-6 md:h-[350px]"
     >
       {children}
     </form>

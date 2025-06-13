@@ -57,14 +57,14 @@ export function App() {
   }, []);
 
   return (
-    <div className="flex items-center flex-col justify-center h-screen bg-background">
-      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+    <div className="flex items-center flex-col justify-center md:h-screen bg-background">
+      <h1 className="scroll-m-20 text-transparent md:text-foreground text-4xl font-extrabold tracking-tight lg:text-5xl">
         QR Code Generator
       </h1>
-      <div className="flex justify-center gap-4 p-8 py-12">
+      <div className="flex flex-col md:flex-row items-center md:justify-center gap-1.5 md:gap-4 md:p-8 md:py-24 py-12">
         <div className="flex flex-col gap-4">
           <TabNavigation.Root className="flex-1">
-            <TabNavigation.List>
+            <TabNavigation.List className="max-w-full md:flex-nowrap flex-wrap px-2 md:px-0 md:justify-start justify-center md:gap-0 gap-y-2 py-2 md:py-0">
               {navigation.map((item) => (
                 <TabNavigation.Item
                   key={item.label}
@@ -92,8 +92,8 @@ export function App() {
           </TabNavigation.Root>
         </div>
 
-        <div className="flex flex-col gap-2">
-          <div className="p-4 *:size-[350px] *:flex *:items-center rounded-md *:justify-center bg-background shadow-lg flex items-center justify-center w-[350px] h-[350px] border border-gray-200">
+        <div className="flex md:flex-col flex-col-reverse gap-10 md:gap-2">
+          <div className="md:p-4 *:size-[90vw] md:*:size-[350px] *:flex *:items-center *:justify-center bg-background shadow-lg flex items-center justify-center *:border *:border-gray-200 *:p-2 rounded-md *:rounded-md">
             {isDownloadPending ? (
               <div className="gap-4 text-muted-foreground flex-col">
                 <Loader className="size-20 animate-spin" />
@@ -108,7 +108,7 @@ export function App() {
               </div>
             )}
           </div>
-          <div className="flex gap-1">
+          <div className="flex gap-1.5">
             <Button
               onClick={handleGenerate}
               disabled={isGenerating || !data}
