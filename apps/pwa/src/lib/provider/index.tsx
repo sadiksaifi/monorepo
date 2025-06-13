@@ -3,6 +3,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@workspace/ui/components/sonner";
 import { ThemeProvider } from "@workspace/ui/components/theme-provider/vite";
 import { SocketProvider } from "./socket.provider";
+import { InteractiveGateway } from "../components/interaction-blocker";
 
 export function Provider({ children }: { children: React.ReactNode }) {
   return (
@@ -10,6 +11,7 @@ export function Provider({ children }: { children: React.ReactNode }) {
       <QueryClientProvider client={TRPC.queryClient}>
         <SocketProvider>
           <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+            <InteractiveGateway />
             {children}
             <Toaster />
           </ThemeProvider>

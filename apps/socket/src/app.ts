@@ -67,6 +67,12 @@ io.on("connection", (socket) => {
     socket.to(roomId).emit("user:nego:accepted", { from: socket.id, answer });
   });
 
+  socket.on("user:call:media", () => {
+    console.log("user:call:media");
+    const roomId = socketToRoomId.get(socket.id) ?? "";
+    socket.to(roomId).emit("user:call:media");
+  });
+
   socket.on("ice:candidate", (data) => {
     const { to, candidate } = data;
     console.log("ice:candidate", data);

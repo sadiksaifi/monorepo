@@ -3,13 +3,13 @@ import { useTRPC } from "@/lib/trpc-client";
 import { useQuery } from "@tanstack/react-query";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { pc } from "@/lib/utils/peer";
-
 import { ComingSoon } from "@/lib/components/coming-soon";
 import { PendingComponent } from "@/lib/components/router-components";
 import { CallHandleDialog } from "@/lib/components/call/call-handle-dialog";
 import { Button } from "@workspace/ui/components/button";
 import { Airplay, Phone, Video, X } from "lucide-react";
 import { getVideoStream } from "./getVideoStream";
+import { useVideoCallAudio } from "@/lib/hooks/use-audio-effects";
 
 type DialCallProps = {
   userId: string;
@@ -19,7 +19,7 @@ type DialCallProps = {
 export function DialCall({ remoteUserId }: DialCallProps) {
   const socket = useSocket();
   const trpc = useTRPC();
-  // const pc = useMemo(() => new Peer(), []);
+  const { incomingCall: incomingCallAudio } = useVideoCallAudio();
   const { data: friend, isPending: isPendingFriend } = useQuery(
     trpc.friend.getById.queryOptions({ friendId: remoteUserId ?? "" }),
   );
@@ -78,15 +78,19 @@ export function DialCall({ remoteUserId }: DialCallProps) {
   const handleIncomingCall = useCallback(
     async (data: { from: string; offer: RTCSessionDescriptionInit }) => {
       console.log("Incoming call", data);
+
+      console.log("Playing");
+      incomingCallAudio.play();
       setIncomingCall(true);
       setRemoteOffer(data);
     },
-    [],
+    [incomingCallAudio],
   );
 
   // Handle Accept call
   const handleAcceptCall = async () => {
     const answer = await pc.getAnswer(isRemoteOffer!.offer);
+    incomingCallAudio.stop();
     socket.emit("user:call:accept", { answer: answer });
     console.log("Call Accepted");
     console.log("Call Connected Successfully");
@@ -100,9 +104,13 @@ export function DialCall({ remoteUserId }: DialCallProps) {
       await pc.setRemoteDescription(data.answer);
       console.log("Call Connected Successfully", data);
       setOutgoingCall(false);
+      await new Promise((res) => setTimeout(res, 3000));
       setIsCallActive(true);
+      await sendStream();
+      await new Promise((res) => setTimeout(res, 400));
+      socket.emit("user:call:media");
     },
-    [],
+    [socket],
   );
 
   // Handle Negotiation Initiated
@@ -140,24 +148,32 @@ export function DialCall({ remoteUserId }: DialCallProps) {
     [],
   );
 
+  const handleCallMedia = useCallback(async (data: boolean) => {
+    console.log("user:call:media: ", data);
+    await sendStream();
+  }, []);
+
   useEffect(() => {
     socket.on("user:call:incoming", handleIncomingCall);
     socket.on("user:call:accepted", handleAcceptedCall);
     socket.on("user:nego:incoming", handleIncomingNegotiation);
     socket.on("user:nego:accepted", handleNegoAccepted);
+    socket.on("user:call:media", handleCallMedia);
 
     return () => {
       socket.off("user:call:incoming", handleIncomingCall);
       socket.off("user:call:accepted", handleAcceptedCall);
       socket.off("user:nego:incoming", handleIncomingNegotiation);
       socket.off("user:nego:accepted", handleNegoAccepted);
+      socket.off("user:call:media", handleCallMedia);
     };
   }, [
+    socket,
     handleIncomingCall,
     handleAcceptedCall,
-    socket,
     handleIncomingNegotiation,
     handleNegoAccepted,
+    handleCallMedia,
   ]);
 
   useEffect(() => {
@@ -204,8 +220,8 @@ export function DialCall({ remoteUserId }: DialCallProps) {
         isvisible={isIncomingCall}
         name={friend?.name ?? ""}
       />
-      {isCallActive && (
-        <div className="p-4 backdrop-blur-md flex justify-center items-center gap-4 fixed w-full h-[100vh] top-1/2 left-1/2 -translate-1/2 bg-background/40 z-50">
+      {isCallActive ? (
+        <div className="p-4 backdrop-blur-md flex md:flex-row flex-col justify-center items-center gap-4 fixed w-full h-[100vh] top-1/2 left-1/2 -translate-1/2 bg-background/40 z-50">
           <Button
             variant="ghost"
             size="icon"
@@ -216,39 +232,33 @@ export function DialCall({ remoteUserId }: DialCallProps) {
           >
             <X className="size-6" />
           </Button>
-          <div className="space-y-2 relative flex-1">
-            <p className="absolute bottom-0 -mb-1 w-full text-center rounded-b-sm bg-secondary left-1/2 -translate-x-1/2">
-              Local Video
-            </p>
+          <div className="space-y-2 flex-1 flex flex-col justify-end items-center">
             <video
-              className="border w-full -scale-x-100 rounded-md"
+              className="border w-full -scale-x-100 m-0 rounded-t-md"
               ref={localVideoRef}
               muted
               autoPlay
               playsInline
             />
-            <Button
-              onClick={() => {
-                sendStream();
-              }}
-              className="absolute bottom-0"
-            >
-              Send my Video
-            </Button>
+            <p className="z-10 backdrop-blur-md w-full text-center rounded-b-sm bg-secondary/10 border-b border-x">
+              Me
+            </p>
           </div>
 
-          <div className="space-y-2 relative flex-1">
-            <p className="absolute bottom-0 -mb-1 w-full text-center rounded-b-sm bg-secondary left-1/2 -translate-x-1/2">
-              Remote Video
-            </p>
+          <div className="space-y-2 flex-1 flex flex-col justify-start items-center">
             <video
-              className="border w-full -scale-x-100 rounded-md"
+              className="border w-full -scale-x-100 rounded-t-md m-0"
               ref={remoteVideoRef}
               playsInline
               autoPlay
             />
+            <p className="z-10 backdrop-blur-md w-full text-center rounded-b-sm bg-secondary/10 border-b border-x">
+              {friend?.name}
+            </p>
           </div>
         </div>
+      ) : (
+        <></>
       )}
     </Fragment>
   );
