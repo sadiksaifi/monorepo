@@ -28,7 +28,7 @@ import {
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z, ZodError } from 'zod'
+import { z } from 'zod'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { TRPCClientError } from '@trpc/client'
 
@@ -95,7 +95,7 @@ export const AddProppertyFAB = () => {
   return (
     <Drawer>
       <DrawerTrigger
-        className={cn(buttonVariants({ variant: 'ghost', size: 'icon' }), '-mr-4 p-7')}
+        className={cn(buttonVariants({ variant: 'ghost', size: 'icon' }), '-mr-4 p-6')}
       >
         <Plus className="size-5" />
       </DrawerTrigger>

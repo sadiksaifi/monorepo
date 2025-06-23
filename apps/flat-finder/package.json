@@ -1,5 +1,5 @@
 {
-  "name": "flat",
+  "name": "flat-finder",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "lint": "eslint",
     "format": "prettier",
-    "typecheck": "prettier --write . && eslint --fix",
+    "typecheck": "tsc --noEmit",
     "ui": "pnpm dlx shadcn@latest"
   },
   "dependencies": {

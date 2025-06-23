@@ -4,26 +4,20 @@ import { Button } from '@/components/ui/button'
 import { useTRPC } from '@/lib/trpc-client'
 import { cn } from '@/lib/utils'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { createFileRoute, Link, useRouter } from '@tanstack/react-router'
-import { Ban, ChevronLeft, MapPinned, Phone, Share } from 'lucide-react'
+import { createFileRoute } from '@tanstack/react-router'
+import { ErrorComponent } from '@/components/error-component'
+import { MapPin, MapPinned, Phone, Share } from 'lucide-react'
 import { toast } from 'sonner'
+import { Image } from '@/components/Image'
 
 export const Route = createFileRoute('/flat/$')({
   component: RouteComponent,
-  errorComponent: ({ error }) => {
-    return (
-      <div className="flex flex-col items-center justify-center gap-4 text-red-500 h-screen w-full -mt-24">
-        <h1 className="font-bold text-xl">Something went wrong</h1>
-        <p>{error.message}</p>
-      </div>
-    )
-  },
+  errorComponent: ({ error }) => <ErrorComponent error={error} />,
   pendingComponent: () => <ScreenLoader isVisible={true} />,
 })
 
 function RouteComponent() {
   const trpc = useTRPC()
-  const router = useRouter()
   const { _splat: flatId } = Route.useParams()
   const query = useSuspenseQuery(trpc.flat.getById.queryOptions(flatId!))
   const flat = query.data!
@@ -31,33 +25,13 @@ function RouteComponent() {
 
   return (
     <div>
-      <Button
-        onClick={() => {
-          router.history.back()
-        }}
-        variant="link"
-        className={cn(
-          'h-14 px-1 flex items-center w-fit text-base gap-0.5 text-muted-foreground',
-        )}
-      >
-        <ChevronLeft />
-        back
-      </Button>
       <div>
         <div className="relative">
           <div className="w-full aspect-square border-[0.5px] light:border-foreground">
-            {flat?.imageURL?.[0] ? (
-              <img
-                className="size-full object-cover"
-                src={(flat?.imageURL as unknown as string) ?? ''}
-                alt={flat?.propertyName ?? ''}
-              />
-            ) : (
-              <div className="size-full bg-secondary flex flex-col items-center justify-center gap-2">
-                <Ban className="size-20 -mt-10 text-muted-foreground" />
-                <p className="text-muted-foreground">No image/video is available.</p>
-              </div>
-            )}
+            <Image
+              src={(flat.imageURL as unknown as string) ?? ''}
+              alt={flat?.propertyName ?? ''}
+            />
           </div>
           <div
             className={cn(
@@ -81,6 +55,19 @@ function RouteComponent() {
               <p>₹ {flat?.brokerageFee! ?? 'N/A'}</p>
             </div>
           </div>
+
+          {flat.location && (
+            <div
+              className={cn(
+                'absolute bottom-16 px-2 left-2 rounded-full py-0.5',
+                'bg-background/60 backdrop-blur-xl dark:backdrop-blur-sm',
+                'flex items-center gap-1.5 light:border-[0.5px] border-muted-foreground',
+              )}
+            >
+              <MapPin className="size-3.5" />
+              <p className="text-sm w-fit text-muted-foreground">{flat.location}</p>
+            </div>
+          )}
         </div>
         <div className="flex flex-col gap-4 my-2 px-6">
           <div className="spacey-y-4">
@@ -146,7 +133,7 @@ function RouteComponent() {
             <div>
               Name:{' '}
               <p className="text-muted-foreground">
-                {flat.ownerName ?? 'Owner name not available'} (+{flat.ownerPhone})
+                {flat.ownerName ?? 'Owner name not available'} ({flat.ownerPhone})
               </p>
             </div>
             <div>

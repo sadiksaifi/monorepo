@@ -1,7 +1,4 @@
-import {
-  createTRPCContext,
-  createTRPCOptionsProxy,
-} from '@trpc/tanstack-react-query'
+import { createTRPCContext, createTRPCOptionsProxy } from '@trpc/tanstack-react-query'
 import { QueryClient } from '@tanstack/react-query'
 import superjson from 'superjson'
 import { createTRPCClient, httpBatchLink } from '@trpc/client'
@@ -18,7 +15,7 @@ export const trpcClient = createTRPCClient<TRPCRouter>({
   links: [
     httpBatchLink({
       url:
-        `${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:3000'}` +
+        `${import.meta.env.DEV ? window.location.origin : import.meta.env.VITE_BACKEND_URL}` +
         '/api/trpc',
       transformer: superjson,
       fetch(url, options) {
