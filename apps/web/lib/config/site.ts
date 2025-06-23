@@ -7,7 +7,7 @@ export const siteConfig = {
     x: "https://twitter.com/thesadiksaifi",
     github: "https://github.com/sadiksaifi",
     linkedin: "https://www.linkedin.com/in/sadiksaifi",
-    mail: "mailto:contact@sadiksaifi.dev",
+    mail: "mailto:mail@sadiksaifi.dev",
     navitems: [
       {
         name: "Home",

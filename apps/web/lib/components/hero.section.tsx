@@ -21,7 +21,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <h1 className="font-extrabold tracking-tighter -mt-28 -mb-8 text-[max(48px,min(5vw,76px))] relative bg-gradient-to-r from-primary to-muted-foreground bg-clip-text text-transparent">
           Sadik Saifi
         </h1>
-        <p className="text-[max(40px, min(4vw, 60px))] tracking-[-0.01] text-muted-foreground text-center">
+        <p className="text-[max(40px, min(4vw, 60px))] tracking-[-0.01] text-muted-foreground text-center max-w-4xl">
           A skilled{" "}
           <strong className="font-medium text-primary">
             Full stack Web Developer{" "}

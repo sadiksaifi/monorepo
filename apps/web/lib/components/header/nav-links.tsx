@@ -4,15 +4,10 @@ import { siteConfig } from "@/lib/config/site";
 import { cn } from "@workspace/ui/lib/utils";
 import { useEffect, useState } from "react";
 
-export function NavLinks({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLElement>) {
+export function NavLinks({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
   const isClient = typeof window !== "undefined";
 
-  const [hash, setHash] = useState<string>(
-    isClient ? window.location.hash : "",
-  );
+  const [hash, setHash] = useState<string>(isClient ? window.location.hash : "");
 
   useEffect(() => {
     if (!isClient) return;
@@ -28,10 +23,7 @@ export function NavLinks({
   }, [isClient]);
 
   return (
-    <nav
-      className={cn("flex items-center space-x-4 lg:space-x-6", className)}
-      {...props}
-    >
+    <nav className={cn("flex items-center space-x-4 lg:space-x-6", className)} {...props}>
       {siteConfig.links.navitems.map((item) => (
         <a
           key={item.name}

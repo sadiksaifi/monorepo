@@ -48,7 +48,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
       )}
       {...props}
     >
-      <article className="flex justify-center items-center flex-col gap-4">
+      <article className="flex justify-center items-center flex-col gap-4 max-w-4xl">
         <div className="flex flex-col gap-3 items-center justify-center">
           <h2 className="font-bold tracking-tighter text-4xl relative bg-gradient-to-r from-primary to-muted-foreground bg-clip-text text-transparent">
             About Me
@@ -60,7 +60,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
           current skills mostly in terms of programming and technology.
         </p>
       </article>
-      <article className="flex flex-col xl:flex-row justify-between gap-y-8 gap-x-10">
+      <article className="flex flex-col xl:flex-row justify-between gap-y-8 gap-x-10 max-w-5xl">
         <div className="xl:w-[50%] flex flex-col items-center xl:items-start xl:text-start text-center gap-4">
           <div className="flex flex-col items-center xl:items-start gap-3">
             <h3 className="font-bold tracking-tighter text-2xl relative bg-gradient-to-r from-primary to-muted-foreground bg-clip-text text-transparent">
