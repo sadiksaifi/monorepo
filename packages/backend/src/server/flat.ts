@@ -8,10 +8,11 @@ import { addFlatSchema } from "./flat.schema";
 
 export const flat = {
   add: protectedProcedure.input(addFlatSchema).mutation(async ({ ctx, input }) => {
-    console.log("sesssion: ", ctx.session);
+    const userId = ctx.session.user.id;
     const data = await db
       .insert(flatTable)
       .values({
+        userId,
         ...input,
       })
       .returning();
@@ -19,7 +20,32 @@ export const flat = {
     return id;
   }),
   getAll: publicProcedure.query(async ({ ctx }) => {
-    return await db.query.flatTable.findMany();
+    const isLoggedIn = ctx.session?.session.userId;
+    const data = (await db.query.flatTable.findMany()) ?? [];
+
+    if (isLoggedIn) {
+      const userId = ctx.session?.user.id!;
+      const items = data.map((item) => {
+        let favorite: boolean = false;
+        const isFavorite = item?.starred?.find((item) => item === userId);
+        if (isFavorite) {
+          favorite = true;
+        }
+        return {
+          ...item,
+          starred: favorite,
+        };
+      });
+      return items;
+    }
+    let favorite: boolean = false;
+    const items = data.map((item) => {
+      return {
+        ...item,
+        starred: favorite,
+      };
+    });
+    return items;
   }),
   getById: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
     const isLoggedIn = ctx.session?.session.userId;
@@ -65,12 +91,17 @@ export const flat = {
       });
       const starred = dt?.starred ?? [];
       starred.includes(userId)
-        ? await db.update(flatTable).set({
-            starred: starred.filter((item) => item !== userId),
-          })
-        : await db.update(flatTable).set({
-            starred: [...starred, userId],
-          });
-      console.log("starred: ", starred);
+        ? await db
+            .update(flatTable)
+            .set({
+              starred: starred.filter((item) => item !== userId),
+            })
+            .where(eq(flatTable.id, input))
+        : await db
+            .update(flatTable)
+            .set({
+              starred: [...starred, userId],
+            })
+            .where(eq(flatTable.id, input));
     }),
 } satisfies TRPCRouterRecord;

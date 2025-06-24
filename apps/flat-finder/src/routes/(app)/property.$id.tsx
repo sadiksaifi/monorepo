@@ -3,7 +3,7 @@ import { ScreenLoader } from '@/components/screen-loader'
 import { Button } from '@/components/ui/button'
 import { useTRPC } from '@/lib/trpc-client'
 import { cn } from '@/lib/utils'
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
+import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { ErrorComponent } from '@/components/error-component'
 import { Heart, MapPin, MapPinned, Phone, Plus, Settings2, Share } from 'lucide-react'
@@ -63,6 +63,7 @@ function RouteComponent() {
   useHeader(headerContent)
   console.log(flat.imageURL)
   const router = useRouter()
+  const queryClient = useQueryClient()
 
   const { mutate: handleFavorite, isPending: isFavoritePending } = useMutation(
     trpc.flat.toggleFavorite.mutationOptions({
@@ -83,6 +84,14 @@ function RouteComponent() {
           return
         }
         toast.error('Sorry, an error occured!')
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: [trpc.flat.getAll.queryKey()],
+        })
+        queryClient.invalidateQueries({
+          queryKey: [trpc.flat.getById.queryKey(flatId!)],
+        })
       },
     }),
   )
