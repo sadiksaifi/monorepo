@@ -12,6 +12,7 @@ import { Image } from '@/components/Image'
 import { HeaderBackButton, useHeader } from '@/hooks/use-header'
 import { useMemo } from 'react'
 import { Link } from '@tanstack/react-router'
+import { PropertyCarousel } from '@/components/property-carousel'
 
 export const Route = createFileRoute('/property/$id')({
   component: RouteComponent,
@@ -60,16 +61,14 @@ function RouteComponent() {
   )
 
   useHeader(headerContent)
+  console.log(flat.imageURL)
 
   return (
     <div>
       <div>
         <div className="relative">
-          <div className="w-full aspect-square border-[0.5px] light:border-foreground">
-            <Image
-              src={(flat.imageURL as unknown as string) ?? ''}
-              alt={flat?.propertyName ?? ''}
-            />
+          <div className="w-full aspect-square">
+            <PropertyCarousel images={flat.imageURL ?? []} />
           </div>
           <div
             className={cn(
