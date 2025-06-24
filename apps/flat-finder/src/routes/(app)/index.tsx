@@ -12,6 +12,15 @@ import { ChevronRight, Heart, MapPin, Plus, Search, Settings2 } from 'lucide-rea
 import { Button } from '@/components/ui/button'
 import { Image } from '@/components/Image'
 import { useHeader } from '@/hooks/use-header'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { PROPERTY_LOCATIONS } from '@/lib/locations'
 
 export const Route = createFileRoute('/(app)/')({
   component: App,
@@ -23,8 +32,17 @@ function App() {
   const trpc = useTRPC()
   const router = useRouter()
   const tab = (Route.useSearch() as { tab: string }).tab ?? 'all'
+  const isLocation = (Route.useSearch() as { location: string }).location ?? ''
+  // const [isLocation, setLocation] = useState('')
   const { data } = useSuspenseQuery(trpc.flat.getAll.queryOptions()) ?? []
-  const flats = tab === 'all' ? data : data.filter((item) => item.starred)
+  const flats = (tab === 'all' ? data : data.filter((item) => item.starred)).filter(
+    (item) => {
+      if (isLocation === '') {
+        return true
+      }
+      return item.location === isLocation
+    },
+  )
 
   const [isSearchVisible, setIsSearchVisible] = useState(false)
 
@@ -79,19 +97,6 @@ function App() {
 
   useHeader(headerContent)
 
-  if (flats.length === 0) {
-    return (
-      <div className="flex flex-col gap-2 items-center justify-center h-screen -mt-20 px-6 text-center">
-        <div className="text-xl font-bold">
-          Oops! <br /> No apartments found
-        </div>
-        <div className="text-muted-foreground">
-          Please add a new apartment to the database using top right plus button.
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className={cn('p-4 space-y-2')}>
       <div className="flex items-center justify-between">
@@ -104,6 +109,7 @@ function App() {
               to: '/',
               search: {
                 tab: value,
+                location: isLocation,
               },
             })
           }}
@@ -115,70 +121,139 @@ function App() {
           <TabsContent value="account">Make changes to your account here.</TabsContent>
           <TabsContent value="password">Change your password here.</TabsContent>
         </Tabs>
-        <Button variant="secondary" className="h-full">
-          <Settings2 className="size-4" />
-        </Button>
-      </div>
-      <Listbox>
-        {flats.map((flat) => (
-          <ListboxItem
-            key={flat.id}
-            value={flat.id}
-            onClick={() => {
-              router.navigate({
-                to: '/property/$id',
-                params: { id: flat.id },
-              })
-            }}
-            className="flex flex-col w-full gap-0 p-0 rounded-sm my-2 bg-card"
-          >
-            <div className="w-full flex-1 relative">
-              <Image
-                src={(flat.imageURL as unknown as string) ?? ''}
-                alt={flat.propertyName ?? ''}
-                className="w-full aspect-video [&>div]:hidden [&>img]:aspect-video [&>img]:object-cover [&>img]:rounded-t-sm rounded-t-sm"
-              />
-              {flat.location && (
-                <div
-                  className={cn(
-                    'absolute bottom-2 px-2 left-2 rounded-full py-0.5 z-20',
-                    'bg-background/60 backdrop-blur-xl dark:backdrop-blur-sm',
-                    'flex items-center gap-1.5',
-                  )}
-                >
-                  <MapPin className="size-3.5" />
-                  <p className="text-sm w-fit text-muted-foreground">{flat.location}</p>
-                </div>
-              )}
-              {flat.starred && (
-                <div
-                  className={cn(
-                    'absolute bottom-2 p-2 right-2 rounded-full py-0.5 z-20',
-                    'bg-background/60 backdrop-blur-xl dark:backdrop-blur-sm',
-                    'flex items-center gap-1.5 aspect-square',
-                  )}
-                >
-                  <Heart className="size-3.5 fill-foreground" />
-                  <p className="sr-only">Favorite</p>
-                </div>
-              )}
-            </div>
-            <div className="flex items-center justify-between gap-2 w-full p-4">
-              <div className="flex flex-col">
-                <div className="font-medium text-lg">
-                  {flat.propertyName ?? 'Property Name: Unknown'}
-                </div>
-                <div className="text-muted-foreground text-sm">
-                  {flat.address ?? 'Address: Unknown'}
-                </div>
-              </div>
-              <Button variant="ghost" size="icon">
-                <ChevronRight />
+        <div className="flex items-center gap-2">
+          {isLocation && (
+            <Button
+              variant="secondary"
+              className={cn('gap-1')}
+              onClick={() => {
+                router.navigate({
+                  to: '/',
+                  search: {
+                    location: '',
+                    tab: 'all',
+                  },
+                })
+              }}
+            >
+              <MapPin className="size-3.5" />
+              {isLocation}
+              <Plus className="size-4.5 ml-0.5 rotate-45" />
+            </Button>
+          )}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="secondary" className="h-full">
+                <Settings2 className="size-4" />
               </Button>
-            </div>
-          </ListboxItem>
-        ))}
-      </Listbox>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-fit">
+              <DropdownMenuRadioGroup
+                value={isLocation}
+                onValueChange={(val) => {
+                  router.navigate({
+                    to: '/',
+                    search: {
+                      location: val,
+                      tab: tab,
+                    },
+                  })
+                }}
+              >
+                <DropdownMenuRadioItem value="">All</DropdownMenuRadioItem>
+                <DropdownMenuSeparator />
+                {
+                  // @ts-ignore
+                  Object.keys(PROPERTY_LOCATIONS).map((location) => {
+                    return (
+                      <DropdownMenuRadioItem
+                        // @ts-ignore
+                        value={PROPERTY_LOCATIONS[location]}
+                        key={location}
+                      >
+                        {/* @ts-ignore */}
+                        {PROPERTY_LOCATIONS[location]}
+                      </DropdownMenuRadioItem>
+                    )
+                  })
+                }
+              </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
+
+      {flats.length === 0 ? (
+        <div className="flex flex-col gap-2 items-center justify-center h-screen text-center -mt-24">
+          <div className="text-xl font-bold">
+            Oops! <br /> No apartments found
+          </div>
+          <div className="text-muted-foreground">
+            Please add a new apartment to the database using top right plus button.
+          </div>
+        </div>
+      ) : (
+        <Listbox>
+          {flats.map((flat) => (
+            <ListboxItem
+              key={flat.id}
+              value={flat.id}
+              onClick={() => {
+                router.navigate({
+                  to: '/property/$id',
+                  params: { id: flat.id },
+                })
+              }}
+              className="flex flex-col w-full gap-0 p-0 rounded-sm my-2 bg-card"
+            >
+              <div className="w-full flex-1 relative">
+                <Image
+                  src={(flat.imageURL as unknown as string) ?? ''}
+                  alt={flat.propertyName ?? ''}
+                  className="w-full aspect-video [&>div]:hidden [&>img]:aspect-video [&>img]:object-cover [&>img]:rounded-t-sm rounded-t-sm"
+                />
+                {flat.location && (
+                  <div
+                    className={cn(
+                      'absolute bottom-2 px-2 left-2 rounded-full py-0.5 z-20',
+                      'bg-background/60 backdrop-blur-xl dark:backdrop-blur-sm',
+                      'flex items-center gap-1.5',
+                    )}
+                  >
+                    <MapPin className="size-3.5" />
+                    <p className="text-sm w-fit text-muted-foreground">{flat.location}</p>
+                  </div>
+                )}
+                {flat.starred && (
+                  <div
+                    className={cn(
+                      'absolute bottom-2 p-2 right-2 rounded-full py-0.5 z-20',
+                      'bg-background/60 backdrop-blur-xl dark:backdrop-blur-sm',
+                      'flex items-center gap-1.5 aspect-square',
+                    )}
+                  >
+                    <Heart className="size-3.5 fill-foreground" />
+                    <p className="sr-only">Favorite</p>
+                  </div>
+                )}
+              </div>
+              <div className="flex items-center justify-between gap-2 w-full p-4">
+                <div className="flex flex-col">
+                  <div className="font-medium text-lg">
+                    {flat.propertyName ?? 'Property Name: Unknown'}
+                  </div>
+                  <div className="text-muted-foreground text-sm">
+                    {flat.address ?? 'Address: Unknown'}
+                  </div>
+                </div>
+                <Button variant="ghost" size="icon">
+                  <ChevronRight />
+                </Button>
+              </div>
+            </ListboxItem>
+          ))}
+        </Listbox>
+      )}
     </div>
   )
 }
