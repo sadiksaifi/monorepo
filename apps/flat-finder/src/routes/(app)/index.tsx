@@ -1,3 +1,4 @@
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState, useMemo } from 'react'
 import { useTRPC } from '@/lib/trpc-client'
@@ -7,12 +8,12 @@ import { ScreenLoader } from '@/components/screen-loader'
 import { Listbox, ListboxItem } from '@/components/ui/listbox'
 import { useRouter } from '@tanstack/react-router'
 import { ErrorComponent } from '@/components/error-component'
-import { ChevronRight, MapPin, Plus, Search } from 'lucide-react'
+import { ChevronRight, Heart, MapPin, Plus, Search, Settings2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Image } from '@/components/Image'
 import { useHeader } from '@/hooks/use-header'
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute('/(app)/')({
   component: App,
   pendingComponent: () => <ScreenLoader isVisible={true} />,
   errorComponent: ({ error }) => <ErrorComponent error={error} />,
@@ -21,7 +22,10 @@ export const Route = createFileRoute('/')({
 function App() {
   const trpc = useTRPC()
   const router = useRouter()
-  const { data: flats } = useSuspenseQuery(trpc.flat.getAll.queryOptions())
+  const tab = (Route.useSearch() as { tab: string }).tab ?? 'all'
+  const { data } = useSuspenseQuery(trpc.flat.getAll.queryOptions()) ?? []
+  const flats = tab === 'all' ? data : data.filter((item) => item.starred)
+
   const [isSearchVisible, setIsSearchVisible] = useState(false)
 
   // Memoize header content to prevent infinite re-renders
@@ -89,7 +93,32 @@ function App() {
   }
 
   return (
-    <div className={cn('p-4')}>
+    <div className={cn('p-4 space-y-2')}>
+      <div className="flex items-center justify-between">
+        <Tabs
+          defaultValue={tab}
+          className="w-[400px]"
+          onValueChange={(value) => {
+            console.log(value)
+            router.navigate({
+              to: '/',
+              search: {
+                tab: value,
+              },
+            })
+          }}
+        >
+          <TabsList>
+            <TabsTrigger value="all">All</TabsTrigger>
+            <TabsTrigger value="favorites">Favorites</TabsTrigger>
+          </TabsList>
+          <TabsContent value="account">Make changes to your account here.</TabsContent>
+          <TabsContent value="password">Change your password here.</TabsContent>
+        </Tabs>
+        <Button variant="secondary" className="h-full">
+          <Settings2 className="size-4" />
+        </Button>
+      </div>
       <Listbox>
         {flats.map((flat) => (
           <ListboxItem
@@ -101,24 +130,36 @@ function App() {
                 params: { id: flat.id },
               })
             }}
-            className="flex flex-col w-full gap-0 p-0 rounded-sm my-2"
+            className="flex flex-col w-full gap-0 p-0 rounded-sm my-2 bg-card"
           >
             <div className="w-full flex-1 relative">
               <Image
                 src={(flat.imageURL as unknown as string) ?? ''}
                 alt={flat.propertyName ?? ''}
-                className="w-full aspect-video object-cover rounded-t-sm"
+                className="w-full aspect-video [&>div]:hidden [&>img]:aspect-video [&>img]:object-cover [&>img]:rounded-t-sm rounded-t-sm"
               />
               {flat.location && (
                 <div
                   className={cn(
-                    'absolute bottom-2 px-2 left-2 rounded-full py-0.5',
+                    'absolute bottom-2 px-2 left-2 rounded-full py-0.5 z-20',
                     'bg-background/60 backdrop-blur-xl dark:backdrop-blur-sm',
                     'flex items-center gap-1.5',
                   )}
                 >
                   <MapPin className="size-3.5" />
                   <p className="text-sm w-fit text-muted-foreground">{flat.location}</p>
+                </div>
+              )}
+              {flat.starred && (
+                <div
+                  className={cn(
+                    'absolute bottom-2 p-2 right-2 rounded-full py-0.5 z-20',
+                    'bg-background/60 backdrop-blur-xl dark:backdrop-blur-sm',
+                    'flex items-center gap-1.5 aspect-square',
+                  )}
+                >
+                  <Heart className="size-3.5 fill-foreground" />
+                  <p className="sr-only">Favorite</p>
                 </div>
               )}
             </div>

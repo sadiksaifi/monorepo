@@ -17,7 +17,7 @@ export function PropertyCarousel({ images: imagesURL }: { images: string[] }) {
           <CarouselItem key={imageURL}>
             <div>
               <Card className="rounded-none border-none relative p-0">
-                <CardContent className="flex aspect-square items-center p-0 justify-center">
+                <CardContent className="flex max-h-[100vw] items-center p-0 justify-center">
                   <Image src={imageURL} alt="property image" />
                 </CardContent>
               </Card>

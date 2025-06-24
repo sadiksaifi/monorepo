@@ -10,63 +10,84 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TestRouteImport } from './routes/test'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as PropertyAddRouteImport } from './routes/property.add'
-import { Route as PropertyIdRouteImport } from './routes/property.$id'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as appRouteRouteImport } from './routes/(app)/route'
+import { Route as appIndexRouteImport } from './routes/(app)/index'
+import { Route as appPropertyAddRouteImport } from './routes/(app)/property.add'
+import { Route as appPropertyIdRouteImport } from './routes/(app)/property.$id'
 
 const TestRoute = TestRouteImport.update({
   id: '/test',
   path: '/test',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const appRouteRoute = appRouteRouteImport.update({
+  id: '/(app)',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const appIndexRoute = appIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => appRouteRoute,
 } as any)
-const PropertyAddRoute = PropertyAddRouteImport.update({
+const appPropertyAddRoute = appPropertyAddRouteImport.update({
   id: '/property/add',
   path: '/property/add',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => appRouteRoute,
 } as any)
-const PropertyIdRoute = PropertyIdRouteImport.update({
+const appPropertyIdRoute = appPropertyIdRouteImport.update({
   id: '/property/$id',
   path: '/property/$id',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => appRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof appIndexRoute
+  '/login': typeof LoginRoute
   '/test': typeof TestRoute
-  '/property/$id': typeof PropertyIdRoute
-  '/property/add': typeof PropertyAddRoute
+  '/property/$id': typeof appPropertyIdRoute
+  '/property/add': typeof appPropertyAddRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/login': typeof LoginRoute
   '/test': typeof TestRoute
-  '/property/$id': typeof PropertyIdRoute
-  '/property/add': typeof PropertyAddRoute
+  '/': typeof appIndexRoute
+  '/property/$id': typeof appPropertyIdRoute
+  '/property/add': typeof appPropertyAddRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/(app)': typeof appRouteRouteWithChildren
+  '/login': typeof LoginRoute
   '/test': typeof TestRoute
-  '/property/$id': typeof PropertyIdRoute
-  '/property/add': typeof PropertyAddRoute
+  '/(app)/': typeof appIndexRoute
+  '/(app)/property/$id': typeof appPropertyIdRoute
+  '/(app)/property/add': typeof appPropertyAddRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/test' | '/property/$id' | '/property/add'
+  fullPaths: '/' | '/login' | '/test' | '/property/$id' | '/property/add'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/test' | '/property/$id' | '/property/add'
-  id: '__root__' | '/' | '/test' | '/property/$id' | '/property/add'
+  to: '/login' | '/test' | '/' | '/property/$id' | '/property/add'
+  id:
+    | '__root__'
+    | '/(app)'
+    | '/login'
+    | '/test'
+    | '/(app)/'
+    | '/(app)/property/$id'
+    | '/(app)/property/add'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  appRouteRoute: typeof appRouteRouteWithChildren
+  LoginRoute: typeof LoginRoute
   TestRoute: typeof TestRoute
-  PropertyIdRoute: typeof PropertyIdRoute
-  PropertyAddRoute: typeof PropertyAddRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -78,35 +99,64 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TestRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(app)': {
+      id: '/(app)'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof appRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/property/add': {
-      id: '/property/add'
+    '/(app)/': {
+      id: '/(app)/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof appIndexRouteImport
+      parentRoute: typeof appRouteRoute
+    }
+    '/(app)/property/add': {
+      id: '/(app)/property/add'
       path: '/property/add'
       fullPath: '/property/add'
-      preLoaderRoute: typeof PropertyAddRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof appPropertyAddRouteImport
+      parentRoute: typeof appRouteRoute
     }
-    '/property/$id': {
-      id: '/property/$id'
+    '/(app)/property/$id': {
+      id: '/(app)/property/$id'
       path: '/property/$id'
       fullPath: '/property/$id'
-      preLoaderRoute: typeof PropertyIdRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof appPropertyIdRouteImport
+      parentRoute: typeof appRouteRoute
     }
   }
 }
 
+interface appRouteRouteChildren {
+  appIndexRoute: typeof appIndexRoute
+  appPropertyIdRoute: typeof appPropertyIdRoute
+  appPropertyAddRoute: typeof appPropertyAddRoute
+}
+
+const appRouteRouteChildren: appRouteRouteChildren = {
+  appIndexRoute: appIndexRoute,
+  appPropertyIdRoute: appPropertyIdRoute,
+  appPropertyAddRoute: appPropertyAddRoute,
+}
+
+const appRouteRouteWithChildren = appRouteRoute._addFileChildren(
+  appRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  appRouteRoute: appRouteRouteWithChildren,
+  LoginRoute: LoginRoute,
   TestRoute: TestRoute,
-  PropertyIdRoute: PropertyIdRoute,
-  PropertyAddRoute: PropertyAddRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -3,18 +3,17 @@ import { ScreenLoader } from '@/components/screen-loader'
 import { Button } from '@/components/ui/button'
 import { useTRPC } from '@/lib/trpc-client'
 import { cn } from '@/lib/utils'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { createFileRoute } from '@tanstack/react-router'
+import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
+import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { ErrorComponent } from '@/components/error-component'
-import { MapPin, MapPinned, Phone, Plus, Settings2, Share } from 'lucide-react'
+import { Heart, MapPin, MapPinned, Phone, Plus, Settings2, Share } from 'lucide-react'
 import { toast } from 'sonner'
-import { Image } from '@/components/Image'
 import { HeaderBackButton, useHeader } from '@/hooks/use-header'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { PropertyCarousel } from '@/components/property-carousel'
 
-export const Route = createFileRoute('/property/$id')({
+export const Route = createFileRoute('/(app)/property/$id')({
   component: RouteComponent,
   errorComponent: ({ error }) => <ErrorComponent error={error} />,
   pendingComponent: () => <ScreenLoader isVisible={true} />,
@@ -26,6 +25,7 @@ function RouteComponent() {
   const query = useSuspenseQuery(trpc.flat.getById.queryOptions(flatId!))
   const flat = query.data!
   const propertyLink = `${window.location.origin}/flat/${flat.id}`
+  const [isFavorite, setIsFavorite] = useState(flat.starred)
 
   // Memoize header content to prevent infinite re-renders
   const headerContent = useMemo(
@@ -62,6 +62,39 @@ function RouteComponent() {
 
   useHeader(headerContent)
   console.log(flat.imageURL)
+  const router = useRouter()
+  const queryClient = useQueryClient()
+
+  const { mutate: handleFavorite, isPending: isFavoritePending } = useMutation(
+    trpc.flat.toggleFavorite.mutationOptions({
+      onError: (err) => {
+        console.log(err)
+        setIsFavorite(flat.starred)
+        if (err.message.includes('Authentication required!')) {
+          toast.error('You need to sign in to add a flat', {
+            action: (
+              <Button
+                className="ml-auto"
+                onClick={() => router.navigate({ to: '/login' })}
+              >
+                Sign in
+              </Button>
+            ),
+          })
+          return
+        }
+        toast.error('Sorry, an error occured!')
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: [trpc.flat.getAll.queryKey()],
+        })
+        queryClient.invalidateQueries({
+          queryKey: [trpc.flat.getById.queryKey(flatId!)],
+        })
+      },
+    }),
+  )
 
   return (
     <div>
@@ -92,6 +125,22 @@ function RouteComponent() {
               <p>₹ {flat?.brokerageFee! ?? 'N/A'}</p>
             </div>
           </div>
+          <Button
+            onClick={() => {
+              setIsFavorite(!isFavorite)
+              handleFavorite(flatId)
+            }}
+            variant="ghost"
+            size="icon"
+            disabled={isFavoritePending}
+            className={cn(
+              'absolute top-0 right-0 py-0.5',
+              'flex items-center gap-1.5',
+              'size-16 aspect-square m-0',
+            )}
+          >
+            <Heart className={cn('size-6', isFavorite && 'fill-foreground')} />
+          </Button>
 
           {flat.location && (
             <div
