@@ -342,7 +342,7 @@ function RouteComponent() {
 }
 
 const seedValues = {
-  propertyName: `Godrej Nurture ${Math.random().toString(36).substring(9)}`,
+  propertyName: `Prestige Nurture ${Math.random().toString(36).substring(9)}`,
   ownerName: 'Rajesh Kumar',
   ownerType: 'Owner',
   ownerPhone: '9876543210',

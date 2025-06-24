@@ -21,6 +21,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { PROPERTY_LOCATIONS } from '@/lib/locations'
+import { Fzf } from 'fzf'
 
 export const Route = createFileRoute('/(app)/')({
   component: App,
@@ -33,18 +34,19 @@ function App() {
   const router = useRouter()
   const tab = (Route.useSearch() as { tab: string }).tab ?? 'all'
   const isLocation = (Route.useSearch() as { location: string }).location ?? ''
-  // const [isLocation, setLocation] = useState('')
-  const { data } = useSuspenseQuery(trpc.flat.getAll.queryOptions()) ?? []
-  const flats = (tab === 'all' ? data : data.filter((item) => item.starred)).filter(
-    (item) => {
-      if (isLocation === '') {
-        return true
-      }
-      return item.location === isLocation
-    },
-  )
-
   const [isSearchVisible, setIsSearchVisible] = useState(false)
+  const [isSearchVal, setIsSearchVal] = useState('')
+  const { data } = useSuspenseQuery(trpc.flat.getAll.queryOptions()) ?? []
+  const temp = data
+    .filter((item) => (tab === 'all' ? true : item.starred))
+    .filter((item) => (isLocation === '' ? true : item.location === isLocation))
+  const flats = useMemo(() => {
+    const fzf = new Fzf(temp.map((item) => item.propertyName!))
+    const entries = fzf.find(isSearchVal)
+    console.log('ranking is:', entries)
+    const x = entries.map((item) => item.item)
+    return temp.filter((item) => x.includes(item.propertyName!))
+  }, [temp, isSearchVal])
 
   // Memoize header content to prevent infinite re-renders
   const headerContent = useMemo(
@@ -61,6 +63,7 @@ function App() {
       right: isSearchVisible ? (
         <div className="absolute top-0 left-0 bg-background size-full flex items-center gap-2 z-20">
           <input
+            onChange={handleSearch}
             type="text"
             placeholder="Search"
             className="flex-1 h-full px-4 focus-visible:outline-none"
@@ -69,7 +72,10 @@ function App() {
           />
           <Button
             variant="ghost"
-            onClick={() => setIsSearchVisible(false)}
+            onClick={() => {
+              setIsSearchVisible(false)
+              setIsSearchVal('')
+            }}
             className="h-full px-4"
           >
             Cancel
@@ -94,6 +100,10 @@ function App() {
     }),
     [isSearchVisible],
   )
+
+  function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
+    setIsSearchVal(e.target.value)
+  }
 
   useHeader(headerContent)
 
