@@ -9,9 +9,14 @@ import { addFlatSchema } from "./flat.schema";
 export const flat = {
   add: publicProcedure.input(addFlatSchema).mutation(async ({ ctx, input }) => {
     console.log(input);
-    await db.insert(flatTable).values({
-      ...input,
-    });
+    const data = await db
+      .insert(flatTable)
+      .values({
+        ...input,
+      })
+      .returning();
+    const id = data[0]?.id;
+    return id;
   }),
   getAll: publicProcedure.query(async ({ ctx }) => {
     return await db.query.flatTable.findMany();

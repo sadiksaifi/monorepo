@@ -29,6 +29,7 @@
     "@tanstack/router-plugin": "^1.121.2",
     "@trpc/client": "^11.1.0",
     "@trpc/tanstack-react-query": "^11.1.0",
+    "@uploadthing/react": "^7.3.2",
     "@workspace/backend": "workspace:*",
     "@workspace/ui": "workspace:*",
     "class-variance-authority": "^0.7.1",

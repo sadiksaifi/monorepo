@@ -11,7 +11,7 @@ export function ScreenLoader({
     isVisible && (
       <div
         className={cn(
-          'h-[calc(100vh-3.5rem)] w-screen',
+          'h-[calc(100vh-4rem)] w-screen',
           'bg-background/50 backdrop-blur-sm fixed top-14 left-0 z-50',
           'flex flex-col justify-center items-center gap-2',
         )}

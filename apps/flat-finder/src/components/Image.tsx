@@ -7,7 +7,6 @@ export const Image = ({
   className,
   ...props
 }: React.ImgHTMLAttributes<HTMLImageElement>) => {
-  console.log('res: ', src ?? 'no src')
   return src ? (
     <img
       className={cn('size-full aspect-auto object-cover', className)}

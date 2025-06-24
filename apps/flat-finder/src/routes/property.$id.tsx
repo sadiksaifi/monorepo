@@ -6,11 +6,14 @@ import { cn } from '@/lib/utils'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { ErrorComponent } from '@/components/error-component'
-import { MapPin, MapPinned, Phone, Share } from 'lucide-react'
+import { MapPin, MapPinned, Phone, Plus, Settings2, Share } from 'lucide-react'
 import { toast } from 'sonner'
 import { Image } from '@/components/Image'
+import { HeaderBackButton, useHeader } from '@/hooks/use-header'
+import { useMemo } from 'react'
+import { Link } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/flat/$')({
+export const Route = createFileRoute('/property/$id')({
   component: RouteComponent,
   errorComponent: ({ error }) => <ErrorComponent error={error} />,
   pendingComponent: () => <ScreenLoader isVisible={true} />,
@@ -18,10 +21,45 @@ export const Route = createFileRoute('/flat/$')({
 
 function RouteComponent() {
   const trpc = useTRPC()
-  const { _splat: flatId } = Route.useParams()
+  const { id: flatId } = Route.useParams()
   const query = useSuspenseQuery(trpc.flat.getById.queryOptions(flatId!))
   const flat = query.data!
   const propertyLink = `${window.location.origin}/flat/${flat.id}`
+
+  // Memoize header content to prevent infinite re-renders
+  const headerContent = useMemo(
+    () => ({
+      left: <HeaderBackButton />,
+      center: (
+        <Button variant="ghost" asChild>
+          <Link to="/">Flat Finder</Link>
+        </Button>
+      ),
+      right: (
+        <>
+          <Button
+            variant="ghost"
+            className="h-full"
+            onClick={() => {
+              toast.warning('Coming soon', {
+                description: 'Please be patient, we are working on it.',
+              })
+            }}
+          >
+            <Settings2 className="size-5" />
+          </Button>
+          <Button variant="ghost" className="h-full" asChild>
+            <Link to="/property/add">
+              <Plus className="size-6" />
+            </Link>
+          </Button>
+        </>
+      ),
+    }),
+    [flat?.propertyName],
+  )
+
+  useHeader(headerContent)
 
   return (
     <div>
@@ -71,8 +109,8 @@ function RouteComponent() {
         </div>
         <div className="flex flex-col gap-4 my-2 px-6">
           <div className="spacey-y-4">
-            <div className="flex items-center justify-between py-4">
-              <h1 className="text-3xl font-bold">{flat?.propertyName}</h1>
+            <div className="flex items-start gap-1 justify-between py-4">
+              <h1 className="text-2xl font-bold">{flat?.propertyName}</h1>
               <div className="flex gap-2">
                 <Button variant="outline" size="icon">
                   <a href={`tel:${flat.ownerPhone}`} target="_blank">
@@ -91,7 +129,6 @@ function RouteComponent() {
                   variant="outline"
                   size="icon"
                   onClick={() => {
-                    console.log('location: ', flat.mapsLocationLink)
                     if (!flat.mapsLocationLink) {
                       toast.error('Maps location is not available')
                       return

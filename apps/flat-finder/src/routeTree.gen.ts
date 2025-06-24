@@ -10,43 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as FlatSplatRouteImport } from './routes/flat.$'
+import { Route as PropertyAddRouteImport } from './routes/property.add'
+import { Route as PropertyIdRouteImport } from './routes/property.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const FlatSplatRoute = FlatSplatRouteImport.update({
-  id: '/flat/$',
-  path: '/flat/$',
+const PropertyAddRoute = PropertyAddRouteImport.update({
+  id: '/property/add',
+  path: '/property/add',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PropertyIdRoute = PropertyIdRouteImport.update({
+  id: '/property/$id',
+  path: '/property/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/flat/$': typeof FlatSplatRoute
+  '/property/$id': typeof PropertyIdRoute
+  '/property/add': typeof PropertyAddRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/flat/$': typeof FlatSplatRoute
+  '/property/$id': typeof PropertyIdRoute
+  '/property/add': typeof PropertyAddRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/flat/$': typeof FlatSplatRoute
+  '/property/$id': typeof PropertyIdRoute
+  '/property/add': typeof PropertyAddRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/flat/$'
+  fullPaths: '/' | '/property/$id' | '/property/add'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/flat/$'
-  id: '__root__' | '/' | '/flat/$'
+  to: '/' | '/property/$id' | '/property/add'
+  id: '__root__' | '/' | '/property/$id' | '/property/add'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  FlatSplatRoute: typeof FlatSplatRoute
+  PropertyIdRoute: typeof PropertyIdRoute
+  PropertyAddRoute: typeof PropertyAddRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,11 +68,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/flat/$': {
-      id: '/flat/$'
-      path: '/flat/$'
-      fullPath: '/flat/$'
-      preLoaderRoute: typeof FlatSplatRouteImport
+    '/property/add': {
+      id: '/property/add'
+      path: '/property/add'
+      fullPath: '/property/add'
+      preLoaderRoute: typeof PropertyAddRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/property/$id': {
+      id: '/property/$id'
+      path: '/property/$id'
+      fullPath: '/property/$id'
+      preLoaderRoute: typeof PropertyIdRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -70,7 +87,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  FlatSplatRoute: FlatSplatRoute,
+  PropertyIdRoute: PropertyIdRoute,
+  PropertyAddRoute: PropertyAddRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
