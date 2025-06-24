@@ -43,6 +43,13 @@
       "when": 1750691037259,
       "tag": "0005_lazy_phalanx",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1750781275775,
+      "tag": "0006_empty_gateway",
+      "breakpoints": true
     }
   ]
 }

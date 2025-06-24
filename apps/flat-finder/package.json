@@ -12,6 +12,7 @@
     "ui": "pnpm dlx shadcn@latest"
   },
   "dependencies": {
+    "better-auth": "^1.2.7",
     "@diceui/listbox": "^0.2.0",
     "@hookform/resolvers": "^5.0.1",
     "@radix-ui/react-dialog": "^1.1.11",

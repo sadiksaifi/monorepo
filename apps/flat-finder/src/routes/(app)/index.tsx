@@ -7,12 +7,12 @@ import { ScreenLoader } from '@/components/screen-loader'
 import { Listbox, ListboxItem } from '@/components/ui/listbox'
 import { useRouter } from '@tanstack/react-router'
 import { ErrorComponent } from '@/components/error-component'
-import { ChevronRight, MapPin, Plus, Search } from 'lucide-react'
+import { ChevronRight, Heart, MapPin, Plus, Search, Star } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Image } from '@/components/Image'
 import { useHeader } from '@/hooks/use-header'
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute('/(app)/')({
   component: App,
   pendingComponent: () => <ScreenLoader isVisible={true} />,
   errorComponent: ({ error }) => <ErrorComponent error={error} />,
@@ -119,6 +119,18 @@ function App() {
                 >
                   <MapPin className="size-3.5" />
                   <p className="text-sm w-fit text-muted-foreground">{flat.location}</p>
+                </div>
+              )}
+              {flat.starred && (
+                <div
+                  className={cn(
+                    'absolute bottom-2 p-2 right-2 rounded-full py-0.5',
+                    'bg-background/60 backdrop-blur-xl dark:backdrop-blur-sm',
+                    'flex items-center gap-1.5 aspect-square',
+                  )}
+                >
+                  <Heart className="size-3.5 fill-foreground" />
+                  <p className="sr-only">Favorite</p>
                 </div>
               )}
             </div>

@@ -25,7 +25,7 @@ import { HeaderBackButton, useHeader } from '@/hooks/use-header'
 import { useMemo, useState } from 'react'
 import { Settings2 } from 'lucide-react'
 
-export const Route = createFileRoute('/property/add')({
+export const Route = createFileRoute('/(app)/property/add')({
   component: RouteComponent,
 })
 
@@ -108,6 +108,19 @@ function RouteComponent() {
       onError: (error) => {
         console.error(error)
         if (error instanceof TRPCClientError) {
+          if (error.message.includes('Authentication required!')) {
+            toast.error('You need to sign in to add a flat', {
+              action: (
+                <Button
+                  className="ml-auto"
+                  onClick={() => router.navigate({ to: '/login' })}
+                >
+                  Sign in
+                </Button>
+              ),
+            })
+            return
+          }
           toast.error('Please fill all the required fields correctly!')
         } else {
           toast.error('Something went wrong!')
