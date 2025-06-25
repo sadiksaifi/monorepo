@@ -21,6 +21,17 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,woff,ttf}'],
         runtimeCaching: [
           {
+            urlPattern: /^https:\/\/.*\.ufs\.sh\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'uploadthing-cache',
+              expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
+              },
+            },
+          },
+          {
             urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/,
             handler: 'CacheFirst',
             options: {
