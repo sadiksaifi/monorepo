@@ -6,4 +6,6 @@ export const UploadButton = generateUploadButton<OurFileRouter>()
 export const UploadDropzone = generateUploadDropzone<OurFileRouter>()
 
 export const { useUploadThing, uploadFiles } =
-  generateReactHelpers<OurFileRouter>();
+  generateReactHelpers<OurFileRouter>({
+  url: `${import.meta.env.VITE_BACKEND_URL}/api/uploadthing`,
+});

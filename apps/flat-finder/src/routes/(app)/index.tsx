@@ -3,8 +3,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState, useMemo } from 'react'
 import { useTRPC } from '@/lib/trpc-client'
 import { cn } from '@/lib/utils'
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
-import { ScreenLoader } from '@/components/screen-loader'
+import { useQuery } from '@tanstack/react-query'
 import { Listbox, ListboxItem } from '@/components/ui/listbox'
 import { useRouter } from '@tanstack/react-router'
 import { ErrorComponent } from '@/components/error-component'
@@ -156,7 +155,7 @@ function App() {
           )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="secondary" className="h-full">
+              <Button variant="secondary">
                 <Settings2 className="size-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -204,10 +203,13 @@ function App() {
       ) : flats.length === 0 ? (
         <div className="flex flex-col gap-2 items-center justify-center h-screen text-center -mt-24">
           <div className="text-xl font-bold">
-            Oops! <br /> No apartments found
+            Oops! <br />
+            {tab === 'all' ? 'No apartments found' : 'No favorites found'}
           </div>
           <div className="text-muted-foreground">
-            Please add a new apartment to the database using top right plus button.
+            {tab === 'all'
+              ? 'Please add a new apartment using top right plus button.'
+              : 'Please add a new favorite from apartment details page.'}
           </div>
         </div>
       ) : (

@@ -1,10 +1,9 @@
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { appRouter } from "@workspace/backend/trpc/router";
-import { withCorsHeaders, createCorsPreflightResponse } from "../../../utils/cors";
 import { createContext } from "@workspace/backend/trpc/context";
 
-const trpcHandler = (req: Request) =>
-  fetchRequestHandler({
+function trpcHandler(req: Request) {
+  return fetchRequestHandler({
     endpoint: "/api/trpc",
     req,
     router: appRouter,
@@ -16,17 +15,6 @@ const trpcHandler = (req: Request) =>
           }
         : undefined,
   });
-
-export async function GET(request: Request) {
-  const response = await trpcHandler(request);
-  return withCorsHeaders(response);
 }
 
-export async function POST(request: Request) {
-  const response = await trpcHandler(request);
-  return withCorsHeaders(response);
-}
-
-export async function OPTIONS() {
-  return createCorsPreflightResponse();
-}
+export { trpcHandler as GET, trpcHandler as POST };

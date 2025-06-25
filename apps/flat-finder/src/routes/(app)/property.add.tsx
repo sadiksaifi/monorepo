@@ -23,7 +23,7 @@ import { PropertyMediaUpload } from '@/components/property-media-upload'
 import { ScreenLoader } from '@/components/screen-loader'
 import { HeaderBackButton, useHeader } from '@/hooks/use-header'
 import { useMemo, useState } from 'react'
-import { Settings2 } from 'lucide-react'
+import { Loader2, Settings2 } from 'lucide-react'
 import { PROPERTY_LOCATIONS } from '@/lib/locations'
 
 export const Route = createFileRoute('/(app)/property/add')({
@@ -98,9 +98,11 @@ function RouteComponent() {
       mapsLocationLink: '',
       address: '',
       description: '',
+      imageURL: [],
     },
   })
   const [isUploading, setIsUploading] = useState(false)
+  // const [imageUrls, setImageUrls] = useState<string[]>([])
   const queryClient = useQueryClient()
   const router = useRouter()
 
@@ -149,7 +151,6 @@ function RouteComponent() {
         onSubmit={form.handleSubmit((data) => {
           console.log(data)
           const transformedData = formSchema.parse(data)
-          // @ts-ignore
           mutate(transformedData)
         })}
         className="p-4 mt-18"
@@ -327,12 +328,28 @@ function RouteComponent() {
               </FormItem>
             )}
           />
-          <PropertyMediaUpload
-            setIsUploading={setIsUploading}
-            isUploading={isUploading}
+          <FormField
+            control={form.control}
+            name="imageURL"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormControl>
+                  <PropertyMediaUpload
+                    defaultValue={field.value}
+                    onValueChange={(val) => {
+                      field.onChange(val)
+                    }}
+                    setIsUploading={setIsUploading}
+                    isUploading={isUploading}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
           <Button type="submit" className="w-full" disabled={isPending || isUploading}>
             <ScreenLoader isVisible={isPending} />
+            {isUploading && <Loader2 className="size-4 animate-spin" />}
             Submit
           </Button>
         </div>

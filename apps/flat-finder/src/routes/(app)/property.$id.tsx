@@ -11,7 +11,6 @@ import { HeaderBackButton, useHeader } from '@/hooks/use-header'
 import { useMemo, useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { PropertyCarousel } from '@/components/property-carousel'
-import { ScreenLoader } from '@/components/screen-loader'
 import { PropertySkeletonPage } from '@/components/property-skeleton.skekleton'
 
 export const Route = createFileRoute('/(app)/property/$id')({

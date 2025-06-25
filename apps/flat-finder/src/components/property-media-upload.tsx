@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { uploadFiles } from '@/lib/uploadthing'
 import {
   FileUpload,
@@ -18,13 +18,18 @@ import { Upload, X } from 'lucide-react'
 import * as React from 'react'
 import { toast } from 'sonner'
 import { VideoShotter } from '@/lib/video-shotter'
+import { cn } from '@/lib/utils'
 
 export function PropertyMediaUpload({
   isUploading,
   setIsUploading,
+  onValueChange,
+  defaultValue,
 }: {
   isUploading?: boolean
   setIsUploading: React.Dispatch<React.SetStateAction<boolean>>
+  onValueChange?: (value: string[]) => void
+  defaultValue?: string[]
 }) {
   const [files, setFiles] = React.useState<File[]>([])
 
@@ -41,6 +46,8 @@ export function PropertyMediaUpload({
         })
 
         res.map(({ ufsUrl }) => console.log('Upload successful: ', ufsUrl))
+        const urls = res.map(({ ufsUrl }) => ufsUrl)
+        onValueChange?.(urls.length > 0 ? urls : (defaultValue ?? []))
       } catch (error) {
         console.error('Upload failed:', error)
         setIsUploading(false)
@@ -99,10 +106,16 @@ export function PropertyMediaUpload({
             Or click to browse (max {MAX_FILES} files, up to 4MB each)
           </p>
         </div>
-        <FileUploadTrigger asChild>
-          <Button variant="outline" size="sm" className="mt-2 w-fit">
+        <FileUploadTrigger type="button" asChild>
+          <div
+            role="button"
+            className={cn(
+              buttonVariants({ size: 'sm', variant: 'outline' }),
+              'mt-2 w-fit',
+            )}
+          >
             Browse files
-          </Button>
+          </div>
         </FileUploadTrigger>
       </FileUploadDropzone>
       <FileUploadList>
