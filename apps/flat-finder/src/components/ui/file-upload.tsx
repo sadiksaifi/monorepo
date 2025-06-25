@@ -1145,7 +1145,6 @@ function FileUploadItemProgress(props: FileUploadItemProgressProps) {
   if (!shouldRender) return null
 
   const ItemProgressPrimitive = asChild ? Slot : 'div'
-  console.log(itemContext.fileState.progress)
 
   switch (variant) {
     case 'circular': {

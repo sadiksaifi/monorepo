@@ -43,7 +43,6 @@ function App() {
   const flats = useMemo(() => {
     const fzf = new Fzf(temp.map((item) => item.propertyName!))
     const entries = fzf.find(isSearchVal)
-    console.log('ranking is:', entries)
     const x = entries.map((item) => item.item)
     return temp.filter((item) => x.includes(item.propertyName!))
   }, [temp, isSearchVal])

@@ -56,7 +56,6 @@ export class _VideoPlayer {
       this.videoElm.addEventListener(
         'seeked',
         () => {
-          console.log('Frame drawn', this.videoElm.currentTime, this.videoElm.duration)
           resolve()
         },
         { once: true },
@@ -65,7 +64,6 @@ export class _VideoPlayer {
   }
 
   reset() {
-    console.log(this.objectUrl, this.videoElm.src)
     if (this.videoElm.src) {
       this.videoElm.pause()
       this.videoElm.src = ''
@@ -90,7 +88,6 @@ export class VideoShotter {
 
     const aspectRatio = vp.videoElm.videoHeight / vp.videoElm.videoWidth
     const { width, height } = (() => {
-      console.log('Video aspect ratio:', aspectRatio)
       if (aspectRatio > 1) {
         return {
           width: quality,
@@ -98,14 +95,13 @@ export class VideoShotter {
         }
       } else {
         return {
-          width: quality * aspectRatio,
-          height: quality,
+          width: quality * (1 / aspectRatio),
+          height: quality, // 720p - landspace
         }
       }
     })()
 
     vp.reset()
-    console.log('Video resolution:', width, height)
 
     return new VideoShotter(width, height)
   }
@@ -134,7 +130,6 @@ export class VideoShotter {
 
       await vp.play()
 
-      console.log('Video duration:', vp.videoElm.duration)
       const delta = vp.videoElm.duration < 11 ? 3 : 6
 
       const drawFrame = async () => {
@@ -150,7 +145,7 @@ export class VideoShotter {
         })
         result.push(file)
 
-        console.log(blob.size, blob)
+        console.log(file.name, ' size: ', Math.floor(blob.size / 1024), 'KB')
         requestIdleCallback(drawFrame)
       }
 

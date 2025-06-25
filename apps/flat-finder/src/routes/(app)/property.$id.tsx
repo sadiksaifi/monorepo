@@ -61,7 +61,6 @@ function RouteComponent() {
   )
 
   useHeader(headerContent)
-  console.log(flat.imageURL)
   const router = useRouter()
   const queryClient = useQueryClient()
 

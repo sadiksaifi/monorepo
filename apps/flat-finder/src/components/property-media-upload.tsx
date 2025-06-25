@@ -36,13 +36,11 @@ export function PropertyMediaUpload({
         const res = await uploadFiles('imageUploader', {
           files: files,
           onUploadProgress: ({ file, progress }) => {
-            console.log(`Upload progress for ${file.name}: ${progress}%`)
             onProgress(file, progress)
           },
         })
 
-        console.log('Upload successful:')
-        console.log(res)
+        res.map(({ ufsUrl }) => console.log('Upload successful: ', ufsUrl))
       } catch (error) {
         console.error('Upload failed:', error)
         setIsUploading(false)
@@ -60,12 +58,14 @@ export function PropertyMediaUpload({
       description: `"${file.name.length > 20 ? `${file.name.slice(0, 20)}...` : file.name}" has been rejected`,
     })
   }, [])
+  const MAX_FILE_SIZE = 4 * 1024 * 1024
+  const MAX_FILES = 20
 
   return (
     <FileUpload
       accept="image/*, video/*"
-      maxFiles={20}
-      maxSize={4 * 1024 * 1024}
+      maxFiles={MAX_FILES}
+      maxSize={MAX_FILE_SIZE}
       className="w-full"
       beforeChange={async (ev) => {
         const files = Array.from(ev.target.files ?? [])
@@ -75,7 +75,7 @@ export function PropertyMediaUpload({
         const screenshots = (
           await Promise.all(
             videoFiles.map(async (file) => {
-              const vs = await VideoShotter.create(file, 2160)
+              const vs = await VideoShotter.create(file, 720)
               const screenshotFiles = await vs.takeScreenshot(file)
               return screenshotFiles
             }),
@@ -96,7 +96,7 @@ export function PropertyMediaUpload({
           </div>
           <p className="font-medium text-sm">Drag & drop images here</p>
           <p className="text-muted-foreground text-xs">
-            Or click to browse (max 2 files, up to 4MB each)
+            Or click to browse (max {MAX_FILES} files, up to 4MB each)
           </p>
         </div>
         <FileUploadTrigger asChild>
