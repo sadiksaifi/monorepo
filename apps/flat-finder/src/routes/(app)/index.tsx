@@ -156,25 +156,6 @@ function App() {
           </TabsList>
         </Tabs>
         <div className="flex items-center gap-2">
-          {isLocation && (
-            <Button
-              variant="secondary"
-              className={cn('gap-1')}
-              onClick={() => {
-                router.navigate({
-                  to: '/',
-                  search: {
-                    location: '',
-                    tab: 'all',
-                  },
-                })
-              }}
-            >
-              <MapPin className="size-3.5" />
-              {isLocation}
-              <Plus className="size-4.5 ml-0.5 rotate-45" />
-            </Button>
-          )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="lg">
@@ -216,6 +197,24 @@ function App() {
           </DropdownMenu>
         </div>
       </div>
+      {isLocation && (
+        <Button
+          variant="secondary"
+          className={cn('gap-1 mt-2 text-sm')}
+          onClick={() => {
+            router.navigate({
+              to: '/',
+              search: {
+                location: '',
+                tab: 'all',
+              },
+            })
+          }}
+        >
+          Showing results for {isLocation}
+          <Plus className="size-4.5 ml-0.5 rotate-45" />
+        </Button>
+      )}
 
       {isPending ? (
         <>
