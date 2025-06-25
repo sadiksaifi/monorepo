@@ -100,7 +100,7 @@ export const Header = () => {
     <header
       className={cn(
         'flex items-center justify-between h-16 top-0 left-0',
-        'fixed w-full z-10 border-b px-2',
+        'fixed w-full z-30 border-b px-2',
         'bg-background/40 backdrop-blur-md',
       )}
     >

@@ -10,20 +10,24 @@ import {
 import { cn } from '@/lib/utils'
 
 export function PropertyCarousel({ images: imagesURL }: { images: Array<string> }) {
+  const URIs = imagesURL.length > 0 ? imagesURL : ['']
+
   return (
     <Carousel>
       <CarouselContent>
-        {imagesURL.map((imageURL) => (
-          <CarouselItem key={imageURL}>
-            <div>
-              <Card className="rounded-none border-none relative p-0">
-                <CardContent className="flex max-h-[100vw] items-center p-0 justify-center">
-                  <Image src={imageURL} alt="property image" />
-                </CardContent>
-              </Card>
-            </div>
-          </CarouselItem>
-        ))}
+        {URIs.map((imageURL) => {
+          return (
+            <CarouselItem key={Math.random().toString()}>
+              <div>
+                <Card className="rounded-none border-none relative p-0">
+                  <CardContent className="flex max-h-[100vw] items-center p-0 justify-center">
+                    <Image src={imageURL} alt="property image" />
+                  </CardContent>
+                </Card>
+              </div>
+            </CarouselItem>
+          )
+        })}
       </CarouselContent>
       <CarouselPrevious
         className={cn('left-0 -translate-y-full border-none size-16', '[&_svg]:!size-10')}

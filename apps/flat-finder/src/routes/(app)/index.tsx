@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { ChevronRight, Heart, MapPin, Plus, Search, Settings2 } from 'lucide-react'
 import { Fzf } from 'fzf'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useTRPC } from '@/lib/trpc-client'
 import { cn } from '@/lib/utils'
 import { Listbox, ListboxItem } from '@/components/ui/listbox'
@@ -86,12 +86,12 @@ function App() {
         <>
           <Button
             variant="ghost"
-            className="h-full"
+            className="h-full !pl-8"
             onClick={() => setIsSearchVisible(true)}
           >
             <Search className="size-5" />
           </Button>
-          <Button variant="ghost" className="h-full" asChild>
+          <Button variant="ghost" className="h-full !pr-4.5 -mr-2" asChild>
             <Link to="/property/add">
               <Plus className="size-6" />
             </Link>
@@ -129,12 +129,10 @@ function App() {
             })
           }}
         >
-          <TabsList>
+          <TabsList className="h-10 *:px-6 text-base">
             <TabsTrigger value="all">All</TabsTrigger>
             <TabsTrigger value="favorites">Favorites</TabsTrigger>
           </TabsList>
-          <TabsContent value="account">Make changes to your account here.</TabsContent>
-          <TabsContent value="password">Change your password here.</TabsContent>
         </Tabs>
         <div className="flex items-center gap-2">
           {isLocation && (
@@ -158,7 +156,7 @@ function App() {
           )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="secondary">
+              <Button variant="secondary" size="lg">
                 <Settings2 className="size-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -231,9 +229,10 @@ function App() {
             >
               <div className="w-full flex-1 relative">
                 <Image
-                  src={flat.imageURL as unknown as string}
+                  src={(flat.imageURL ?? [])[0] ?? ''}
                   alt={flat.propertyName ?? ''}
-                  className="w-full aspect-video [&>div]:hidden [&>img]:aspect-video [&>img]:object-cover [&>img]:rounded-t-sm rounded-t-sm"
+                  backdrop={false}
+                  className="w-full aspect-video [&>img]:aspect-video [&>img]:object-cover [&>img]:rounded-t-sm rounded-t-sm"
                 />
                 {flat.location && (
                   <div

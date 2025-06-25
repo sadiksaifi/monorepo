@@ -85,10 +85,10 @@ export default defineConfig({
         name: 'Flat Finder',
         short_name: 'Flat Finder',
         description: 'Flat Finder is a platform for finding flats.',
-        theme_color: '#000000',
+        theme_color: '#09090b',
         start_url: '.',
         display: 'standalone',
-        background_color: '#ffffff',
+        background_color: '#09090b',
         icons: [
           {
             src: 'favicon.ico',

@@ -70,7 +70,6 @@ function RouteComponent() {
           className="h-full aspect-square"
           onClick={() => {
             form.reset(seedValues)
-            toast.success('Fake form values has been seeded!')
           }}
         >
           <Settings2 className="size-5" />
@@ -134,7 +133,6 @@ function RouteComponent() {
         queryClient.invalidateQueries({
           queryKey: [trpc.flat.getAll.queryKey()],
         })
-        toast.success('Property added successfully')
         router.navigate({
           to: '/property/$id',
           params: {
