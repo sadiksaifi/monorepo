@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
+import { useRouter } from '@tanstack/react-router'
+import { Button } from './ui/button'
 
 export default function OfflineOverlay() {
   const [offline, setOffline] = useState(!navigator.onLine)
+  const router = useRouter()
 
   useEffect(() => {
     const goOnline = () => setOffline(false)
@@ -14,23 +18,23 @@ export default function OfflineOverlay() {
     }
   }, [])
 
-  if (!offline) return null
-
-  return (
-    <div
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        background: '#222',
-        color: '#fff',
-        padding: '1em',
-        textAlign: 'center',
-        zIndex: 1000,
-      }}
-    >
-      <strong>No internet connection.</strong> Please check your connection and try again.
-    </div>
-  )
+  if (offline)
+    toast.error('You are offline!', {
+      description: 'Please check your internet connection.',
+      id: 'offline-error',
+      duration: Infinity,
+      cancel: (
+        <Button
+          variant="outline"
+          className="ml-auto"
+          onClick={() => {
+            router.invalidate()
+            toast.dismiss('offline-error')
+          }}
+        >
+          Dismiss
+        </Button>
+      ),
+    })
+  return <></>
 }

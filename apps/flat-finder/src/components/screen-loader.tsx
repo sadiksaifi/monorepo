@@ -17,7 +17,7 @@ export function ScreenLoader({
         )}
         {...props}
       >
-        <Loader className="size-8 animate-spin" />
+        <Loader className="size-8 animate-spin text-foreground" />
         <p className="text-lg translate-x-1 text-muted-foreground">
           Please wait while loading!
         </p>

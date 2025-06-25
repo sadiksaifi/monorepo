@@ -3,11 +3,11 @@ import { useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { ChevronRight, Heart, MapPin, Plus, Search, Settings2 } from 'lucide-react'
 import { Fzf } from 'fzf'
+import { toast } from 'sonner'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useTRPC } from '@/lib/trpc-client'
 import { cn } from '@/lib/utils'
 import { Listbox, ListboxItem } from '@/components/ui/listbox'
-import { ErrorComponent } from '@/components/error-component'
 import { Button } from '@/components/ui/button'
 import { Image } from '@/components/Image'
 import { useHeader } from '@/hooks/use-header'
@@ -109,7 +109,28 @@ function App() {
   useHeader(headerContent)
 
   if (isError) {
-    return <ErrorComponent error={new Error(error.message)} />
+    const isOfflineError = error.message === 'Failed to fetch'
+    const errorMsg = isOfflineError ? 'You are offline!' : 'Oops!'
+    const description = isOfflineError
+      ? 'Please check your internet connection.'
+      : error.message
+    toast.error(errorMsg, {
+      description,
+      id: isOfflineError ? 'offline-error' : error.message,
+      duration: isOfflineError ? Infinity : 4000,
+      closeButton: true,
+      cancel: (
+        <Button
+          variant="outline"
+          className="ml-auto"
+          onClick={() => {
+            toast.dismiss('offline-error')
+          }}
+        >
+          Dismiss
+        </Button>
+      ),
+    })
   }
 
   return (

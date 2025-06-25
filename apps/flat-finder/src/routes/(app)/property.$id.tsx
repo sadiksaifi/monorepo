@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Link, createFileRoute, useRouter  } from '@tanstack/react-router'
+import { Link, createFileRoute, useRouter } from '@tanstack/react-router'
 import { Heart, MapPin, MapPinned, Phone, Plus, Settings2, Share } from 'lucide-react'
 import { toast } from 'sonner'
 import { useMemo, useState } from 'react'
@@ -7,7 +7,6 @@ import { GoogleMap, Whatsapp } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { useTRPC } from '@/lib/trpc-client'
 import { cn } from '@/lib/utils'
-import { ErrorComponent } from '@/components/error-component'
 import { HeaderBackButton, useHeader } from '@/hooks/use-header'
 import { PropertyCarousel } from '@/components/property-carousel'
 import { PropertySkeletonPage } from '@/components/property-skeleton.skekleton'
@@ -109,7 +108,27 @@ function RouteComponent() {
     }),
   )
   if (query.isError) {
-    return <ErrorComponent error={new Error(query.error.message)} />
+    const isOfflineError = query.error.message === 'Failed to fetch'
+    const errorMsg = isOfflineError ? 'You are offline!' : 'Oops!'
+    const description = isOfflineError
+      ? 'Please check your internet connection.'
+      : query.error.message
+    toast.error(errorMsg, {
+      description,
+      id: isOfflineError ? 'offline-error' : query.error.message,
+      duration: isOfflineError ? Infinity : 4000,
+      cancel: (
+        <Button
+          variant="outline"
+          className="ml-auto"
+          onClick={() => {
+            toast.dismiss('offline-error')
+          }}
+        >
+          Dismiss
+        </Button>
+      ),
+    })
   }
 
   if (query.isPending) {
@@ -152,7 +171,7 @@ function RouteComponent() {
             }}
             variant="ghost"
             size="icon"
-            disabled={isFavoritePending}
+            disabled={isFavoritePending || query.isError}
             className={cn(
               'absolute top-0 right-0 py-0.5',
               'flex items-center gap-1.5',
@@ -180,12 +199,20 @@ function RouteComponent() {
             <div className="flex items-start gap-1 justify-between py-4">
               <h1 className="text-2xl font-bold">{flat.propertyName}</h1>
               <div className="flex gap-2">
-                <Button variant="outline" size="icon">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  disabled={!flat.ownerPhone || query.isError}
+                >
                   <a href={`tel:${flat.ownerPhone}`} target="_blank">
                     <Phone />
                   </a>
                 </Button>
-                <Button variant="outline" size="icon" asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  disabled={!flat.ownerPhone || query.isError}
+                >
                   <a
                     href={`https://wa.me/${flat.ownerPhone}?text=Hi%20there%0AI'm%20looking%20for%20a%20flat%20in%20${flat.propertyName}%20in%20${flat.address}%0A${propertyLink}`}
                     target="_blank"
@@ -196,6 +223,7 @@ function RouteComponent() {
                 <Button
                   variant="outline"
                   size="icon"
+                  disabled={!flat.mapsLocationLink || query.isError}
                   onClick={() => {
                     if (!flat.mapsLocationLink) {
                       toast.error('Maps location is not available')
@@ -238,7 +266,7 @@ function RouteComponent() {
             <div>
               Name:{' '}
               <p className="text-muted-foreground">
-                {flat.ownerName ?? 'Owner name not available'} ({flat.ownerPhone})
+                {flat.ownerName ?? 'Owner name not available'} {flat.ownerPhone}
               </p>
             </div>
             <div>
