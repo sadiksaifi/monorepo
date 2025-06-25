@@ -1,12 +1,12 @@
+import { useMutation } from '@tanstack/react-query'
+import { createFileRoute, useRouter } from '@tanstack/react-router'
+import { Loader } from 'lucide-react'
+import { toast } from 'sonner'
 import { GoogleIcon } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { HeaderBackButton } from '@/hooks/use-header'
 import { authClient } from '@/lib/auth-client'
 import { CLIENT_ORIGIN } from '@/lib/constants'
-import { useMutation } from '@tanstack/react-query'
-import { createFileRoute, useRouter } from '@tanstack/react-router'
-import { Loader } from 'lucide-react'
-import { toast } from 'sonner'
 
 export const Route = createFileRoute('/login')({
   component: RouteComponent,

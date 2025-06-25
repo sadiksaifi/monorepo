@@ -121,9 +121,9 @@ export class VideoShotter {
     return blob
   }
 
-  async takeScreenshot(file: File) {
-    const result: File[] = []
-    const vp = new _VideoPlayer(file)
+  async takeScreenshot(incomingFile: File) {
+    const result: Array<File> = []
+    const vp = new _VideoPlayer(incomingFile)
 
     try {
       const { promise, resolve } = Promise.withResolvers<void>()

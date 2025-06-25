@@ -1,3 +1,4 @@
+import { Image } from './Image'
 import { Card, CardContent } from '@/components/ui/card'
 import {
   Carousel,
@@ -7,9 +8,8 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel'
 import { cn } from '@/lib/utils'
-import { Image } from './Image'
 
-export function PropertyCarousel({ images: imagesURL }: { images: string[] }) {
+export function PropertyCarousel({ images: imagesURL }: { images: Array<string> }) {
   return (
     <Carousel>
       <CarouselContent>

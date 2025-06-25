@@ -1,8 +1,14 @@
-import { createFileRoute, Link, useRouter } from '@tanstack/react-router'
-import { cn } from '@/lib/utils'
+import { Link, createFileRoute, useRouter } from '@tanstack/react-router'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useTRPC } from '@/lib/trpc-client'
 import { toast } from 'sonner'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import { TRPCClientError } from '@trpc/client'
+import { useMemo, useState } from 'react'
+import { Loader2, Settings2 } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { useTRPC } from '@/lib/trpc-client'
 import {
   Select,
   SelectContent,
@@ -11,19 +17,13 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
-import { TRPCClientError } from '@trpc/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { PropertyMediaUpload } from '@/components/property-media-upload'
 import { ScreenLoader } from '@/components/screen-loader'
 import { HeaderBackButton, useHeader } from '@/hooks/use-header'
-import { useMemo, useState } from 'react'
-import { Loader2, Settings2 } from 'lucide-react'
 import { PROPERTY_LOCATIONS } from '@/lib/locations'
 
 export const Route = createFileRoute('/(app)/property/add')({
@@ -290,9 +290,9 @@ function RouteComponent() {
                     <SelectContent>
                       {Object.keys(PROPERTY_LOCATIONS).map((location) => {
                         return (
-                          // @ts-ignore
+                          // @ts-ignore - ignore the error
                           <SelectItem value={PROPERTY_LOCATIONS[location]} key={location}>
-                            {/* @ts-ignore */}
+                            {/* @ts-ignore -ignore the error */}
                             {PROPERTY_LOCATIONS[location]}
                           </SelectItem>
                         )

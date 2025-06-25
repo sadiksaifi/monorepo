@@ -1,7 +1,7 @@
-import { cn } from '@/lib/utils'
 import { Ban } from 'lucide-react'
 import { useState } from 'react'
 import { Skeleton } from './ui/skeleton'
+import { cn } from '@/lib/utils'
 
 export const Image = ({
   src,

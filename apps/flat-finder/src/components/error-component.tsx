@@ -1,6 +1,6 @@
 import { useRouter } from '@tanstack/react-router'
-import { Button } from './ui/button'
 import { useState } from 'react'
+import { Button } from './ui/button'
 import { ScreenLoader } from './screen-loader'
 
 export const ErrorComponent = ({ error }: { error: Error }) => {

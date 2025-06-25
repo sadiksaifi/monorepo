@@ -1,6 +1,6 @@
-import { cn } from '@/lib/utils'
 import { useTheme } from '@workspace/ui/components/theme-provider/vite'
 import { Button } from './ui/button'
+import { cn } from '@/lib/utils'
 
 interface FooterProps {
   className?: string

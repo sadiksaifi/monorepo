@@ -1,15 +1,14 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { Link, createFileRoute, useRouter } from '@tanstack/react-router'
+import { Heart, MapPin, MapPinned, Phone, Plus, Settings2, Share } from 'lucide-react'
+import { toast } from 'sonner'
+import { useMemo, useState } from 'react'
 import { GoogleMap, Whatsapp } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { useTRPC } from '@/lib/trpc-client'
 import { cn } from '@/lib/utils'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { ErrorComponent } from '@/components/error-component'
-import { Heart, MapPin, MapPinned, Phone, Plus, Settings2, Share } from 'lucide-react'
-import { toast } from 'sonner'
 import { HeaderBackButton, useHeader } from '@/hooks/use-header'
-import { useMemo, useState } from 'react'
-import { Link } from '@tanstack/react-router'
 import { PropertyCarousel } from '@/components/property-carousel'
 import { PropertySkeletonPage } from '@/components/property-skeleton.skekleton'
 
@@ -20,7 +19,7 @@ export const Route = createFileRoute('/(app)/property/$id')({
 function RouteComponent() {
   const trpc = useTRPC()
   const { id: flatId } = Route.useParams()
-  const query = useQuery(trpc.flat.getById.queryOptions(flatId!))
+  const query = useQuery(trpc.flat.getById.queryOptions(flatId))
 
   const mockData: typeof query.data = {
     id: '',
@@ -72,7 +71,7 @@ function RouteComponent() {
         </>
       ),
     }),
-    [flat?.propertyName],
+    [flat.propertyName],
   )
 
   useHeader(headerContent)
@@ -104,7 +103,7 @@ function RouteComponent() {
           queryKey: [trpc.flat.getAll.queryKey()],
         })
         queryClient.invalidateQueries({
-          queryKey: [trpc.flat.getById.queryKey(flatId!)],
+          queryKey: [trpc.flat.getById.queryKey(flatId)],
         })
       },
     }),
@@ -135,15 +134,15 @@ function RouteComponent() {
           >
             <div className="flex flex-col items-center justify-center gap-1 *:truncate">
               <p>Rent</p>
-              <p>₹ {flat?.rentAmount!}</p>
+              <p>₹ {flat.rentAmount!}</p>
             </div>
             <div className="flex flex-col items-center justify-center gap-1">
               <p>Deposit</p>
-              <p>₹ {flat?.depositAmount!}</p>
+              <p>₹ {flat.depositAmount!}</p>
             </div>
             <div className="flex flex-col items-center justify-center gap-1">
               <p>Brokerage</p>
-              <p>₹ {flat?.brokerageFee! ?? 'N/A'}</p>
+              <p>₹ {flat.brokerageFee ?? 'N/A'}</p>
             </div>
           </div>
           <Button
@@ -179,7 +178,7 @@ function RouteComponent() {
         <div className="flex flex-col gap-4 my-2 px-6">
           <div className="spacey-y-4">
             <div className="flex items-start gap-1 justify-between py-4">
-              <h1 className="text-2xl font-bold">{flat?.propertyName}</h1>
+              <h1 className="text-2xl font-bold">{flat.propertyName}</h1>
               <div className="flex gap-2">
                 <Button variant="outline" size="icon">
                   <a href={`tel:${flat.ownerPhone}`} target="_blank">
@@ -232,7 +231,7 @@ function RouteComponent() {
             </div>
             <div className="text-muted-foreground gap-1">
               <MapPinned className="size-4 inline-block mr-1.5 -translate-y-0.5" />
-              {flat?.address ?? 'Address not available'}
+              {flat.address ?? 'Address not available'}
             </div>
           </div>
           <div className="space-y-2">

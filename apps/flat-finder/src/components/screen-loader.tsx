@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils'
 import { Loader } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 export function ScreenLoader({
   isVisible,

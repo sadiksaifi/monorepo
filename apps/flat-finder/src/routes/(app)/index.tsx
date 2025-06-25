@@ -1,13 +1,13 @@
+import { Link, createFileRoute, useRouter } from '@tanstack/react-router'
+import { useMemo, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { ChevronRight, Heart, MapPin, Plus, Search, Settings2 } from 'lucide-react'
+import { Fzf } from 'fzf'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { useState, useMemo } from 'react'
 import { useTRPC } from '@/lib/trpc-client'
 import { cn } from '@/lib/utils'
-import { useQuery } from '@tanstack/react-query'
 import { Listbox, ListboxItem } from '@/components/ui/listbox'
-import { useRouter } from '@tanstack/react-router'
 import { ErrorComponent } from '@/components/error-component'
-import { ChevronRight, Heart, MapPin, Plus, Search, Settings2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Image } from '@/components/Image'
 import { useHeader } from '@/hooks/use-header'
@@ -20,7 +20,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { PROPERTY_LOCATIONS } from '@/lib/locations'
-import { Fzf } from 'fzf'
 import { PropertyCardSkeleton } from '@/components/property-card.skekleton'
 
 export const Route = createFileRoute('/(app)/')({
@@ -30,8 +29,12 @@ export const Route = createFileRoute('/(app)/')({
 function App() {
   const trpc = useTRPC()
   const router = useRouter()
-  const tab = (Route.useSearch() as { tab: string }).tab ?? 'all'
-  const isLocation = (Route.useSearch() as { location: string }).location ?? ''
+  const searchParams = Route.useSearch() as unknown as {
+    tab?: string
+    location?: string
+  }
+  const tab = searchParams.tab ?? 'all'
+  const isLocation = searchParams.location ?? ''
   const [isSearchVisible, setIsSearchVisible] = useState(false)
   const [isSearchVal, setIsSearchVal] = useState('')
   const { data, isPending, isError, error } = useQuery(trpc.flat.getAll.queryOptions())
@@ -175,15 +178,15 @@ function App() {
                 <DropdownMenuRadioItem value="">All</DropdownMenuRadioItem>
                 <DropdownMenuSeparator />
                 {
-                  // @ts-ignore
+                  // @ts-ignore - ignore the error
                   Object.keys(PROPERTY_LOCATIONS).map((location) => {
                     return (
                       <DropdownMenuRadioItem
-                        // @ts-ignore
+                        // @ts-ignore - ignore the error
                         value={PROPERTY_LOCATIONS[location]}
                         key={location}
                       >
-                        {/* @ts-ignore */}
+                        {/* @ts-ignore - ignore the error */}
                         {PROPERTY_LOCATIONS[location]}
                       </DropdownMenuRadioItem>
                     )
@@ -228,7 +231,7 @@ function App() {
             >
               <div className="w-full flex-1 relative">
                 <Image
-                  src={(flat.imageURL as unknown as string) ?? ''}
+                  src={flat.imageURL as unknown as string}
                   alt={flat.propertyName ?? ''}
                   className="w-full aspect-video [&>div]:hidden [&>img]:aspect-video [&>img]:object-cover [&>img]:rounded-t-sm rounded-t-sm"
                 />

@@ -1,9 +1,9 @@
 import { Outlet, createRootRoute } from '@tanstack/react-router'
-import { Toaster } from '@/components/ui/sonner'
 import { ThemeProvider, useTheme } from '@workspace/ui/components/theme-provider/vite'
-import * as TRPC from '@/lib/trpc-client'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister'
+import * as TRPC from '@/lib/trpc-client'
+import { Toaster } from '@/components/ui/sonner'
 import { HeaderProvider } from '@/hooks/use-header'
 import OfflineOverlay from '@/components/OfflineOverlay'
 

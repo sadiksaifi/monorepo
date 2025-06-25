@@ -1,5 +1,9 @@
 'use client'
 
+import { Upload, X } from 'lucide-react'
+import * as React from 'react'
+import { toast } from 'sonner'
+import type { FileUploadProps } from '@/components/ui/file-upload'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { uploadFiles } from '@/lib/uploadthing'
 import {
@@ -11,12 +15,8 @@ import {
   FileUploadItemPreview,
   FileUploadItemProgress,
   FileUploadList,
-  type FileUploadProps,
   FileUploadTrigger,
 } from '@/components/ui/file-upload'
-import { Upload, X } from 'lucide-react'
-import * as React from 'react'
-import { toast } from 'sonner'
 import { VideoShotter } from '@/lib/video-shotter'
 import { cn } from '@/lib/utils'
 
@@ -28,10 +28,10 @@ export function PropertyMediaUpload({
 }: {
   isUploading?: boolean
   setIsUploading: React.Dispatch<React.SetStateAction<boolean>>
-  onValueChange?: (value: string[]) => void
-  defaultValue?: string[]
+  onValueChange?: (value: Array<string>) => void
+  defaultValue?: Array<string>
 }) {
-  const [files, setFiles] = React.useState<File[]>([])
+  const [files, setFiles] = React.useState<Array<File>>([])
 
   const onUpload: NonNullable<FileUploadProps['onUpload']> = React.useCallback(
     async (files, { onProgress }) => {

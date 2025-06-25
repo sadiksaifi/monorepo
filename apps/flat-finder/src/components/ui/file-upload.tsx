@@ -1,6 +1,5 @@
 'use client'
 
-import { cn } from '@/lib/utils'
 import { Slot } from '@radix-ui/react-slot'
 import {
   FileArchiveIcon,
@@ -12,6 +11,7 @@ import {
   FileVideoIcon,
 } from 'lucide-react'
 import * as React from 'react'
+import { cn } from '@/lib/utils'
 
 const ROOT_NAME = 'FileUpload'
 const DROPZONE_NAME = 'FileUploadDropzone'
@@ -57,8 +57,8 @@ interface StoreState {
 }
 
 type StoreAction =
-  | { type: 'ADD_FILES'; files: File[] }
-  | { type: 'SET_FILES'; files: File[] }
+  | { type: 'ADD_FILES'; files: Array<File> }
+  | { type: 'SET_FILES'; files: Array<File> }
   | { type: 'SET_PROGRESS'; file: File; progress: number }
   | { type: 'SET_SUCCESS'; file: File }
   | { type: 'SET_ERROR'; file: File; error: string }
@@ -71,7 +71,7 @@ function createStore(
   listeners: Set<() => void>,
   files: Map<File, FileState>,
   invalid: boolean,
-  onValueChange?: (files: File[]) => void,
+  onValueChange?: (files: Array<File>) => void,
 ) {
   let state: StoreState = {
     files,
@@ -257,16 +257,16 @@ function useFileUploadContext(consumerName: string) {
 
 interface FileUploadRootProps
   extends Omit<React.ComponentPropsWithoutRef<'div'>, 'defaultValue' | 'onChange'> {
-  value?: File[]
-  defaultValue?: File[]
-  onValueChange?: (files: File[]) => void
-  onAccept?: (files: File[]) => void
+  value?: Array<File>
+  defaultValue?: Array<File>
+  onValueChange?: (files: Array<File>) => void
+  onAccept?: (files: Array<File>) => void
   onFileAccept?: (file: File) => void
   onFileReject?: (file: File, message: string) => void
   onFileValidate?: (file: File) => string | null | undefined
-  beforeChange?: (ev: React.ChangeEvent<HTMLInputElement>) => Promise<File[]>
+  beforeChange?: (ev: React.ChangeEvent<HTMLInputElement>) => Promise<Array<File>>
   onUpload?: (
-    files: File[],
+    files: Array<File>,
     options: {
       onProgress: (file: File, progress: number) => void
       onSuccess: (file: File) => void
@@ -358,7 +358,7 @@ function FileUploadRoot(props: FileUploadRootProps) {
   }, [value, defaultValue, isControlled, store])
 
   const onFilesChange = React.useCallback(
-    (originalFiles: File[]) => {
+    (originalFiles: Array<File>) => {
       if (disabled) return
 
       let filesToProcess = [...originalFiles]
@@ -389,8 +389,8 @@ function FileUploadRoot(props: FileUploadRootProps) {
         }
       }
 
-      const acceptedFiles: File[] = []
-      const rejectedFiles: { file: File; message: string }[] = []
+      const acceptedFiles: Array<File> = []
+      const rejectedFiles: Array<{ file: File; message: string }> = []
 
       for (const file of filesToProcess) {
         let rejected = false
@@ -489,7 +489,7 @@ function FileUploadRoot(props: FileUploadRootProps) {
   )
 
   const onFilesUpload = React.useCallback(
-    async (files: File[]) => {
+    async (files: Array<File>) => {
       try {
         for (const file of files) {
           store.dispatch({ type: 'SET_PROGRESS', file, progress: 0 })
@@ -505,6 +505,7 @@ function FileUploadRoot(props: FileUploadRootProps) {
               store.dispatch({
                 type: 'SET_ERROR',
                 file,
+                // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
                 error: error.message ?? 'Upload failed',
               })
             },
@@ -709,13 +710,14 @@ function FileUploadDropzone(props: FileUploadDropzoneProps) {
       event.preventDefault()
       store.dispatch({ type: 'SET_DRAG_OVER', dragOver: false })
 
-      const items = event.clipboardData?.items
+      const items = event.clipboardData.items
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (!items) return
 
-      const files: File[] = []
+      const files: Array<File> = []
       for (let i = 0; i < items.length; i++) {
         const item = items[i]
-        if (item?.kind === 'file') {
+        if (item.kind === 'file') {
           const file = item.getAsFile()
           if (file) {
             files.push(file)
@@ -840,6 +842,7 @@ function FileUploadList(props: FileUploadListProps) {
       aria-orientation={orientation}
       data-orientation={orientation}
       data-slot="file-upload-list"
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       data-state={shouldRender ? 'active' : 'inactive'}
       dir={context.dir}
       {...listProps}
