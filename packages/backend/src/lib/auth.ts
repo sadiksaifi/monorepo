@@ -13,7 +13,7 @@ export const auth = betterAuth({
     provider: "pg",
   }),
   secret: env.BETTER_AUTH_SECRET,
-  trustedOrigins: [env.CLIENT_ORIGIN],
+  trustedOrigins: [env.CLIENT_ORIGIN, env.FLAT_FINDER_ORIGIN],
   baseURL: env.BETTER_AUTH_URL,
   socialProviders: {
     github: {

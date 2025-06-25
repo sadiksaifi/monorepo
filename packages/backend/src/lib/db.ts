@@ -16,6 +16,4 @@ const clientPg = new Pool({
 const dbNeon = drizzleNeon({ client: clientNeon, schema });
 const dbNodePg = drizzleNodePg({ client: clientPg, schema });
 
-
-console.log("NODE_ENV: ", process.env.NODE_ENV);
 export const db = env.NODE_ENV === "development" ? dbNodePg : dbNeon;

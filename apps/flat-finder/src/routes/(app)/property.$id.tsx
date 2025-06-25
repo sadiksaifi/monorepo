@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Link, createFileRoute, useRouter } from '@tanstack/react-router'
+import { Link, createFileRoute, useRouter  } from '@tanstack/react-router'
 import { Heart, MapPin, MapPinned, Phone, Plus, Settings2, Share } from 'lucide-react'
 import { toast } from 'sonner'
 import { useMemo, useState } from 'react'
@@ -84,7 +84,7 @@ function RouteComponent() {
         console.log(err)
         setIsFavorite(flat.starred)
         if (err.message.includes('Authentication required!')) {
-          toast.error('You need to sign in to add a flat', {
+          toast.error('You need to sign in to add a favorite!', {
             action: (
               <Button
                 className="ml-auto"

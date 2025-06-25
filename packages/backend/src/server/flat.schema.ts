@@ -3,7 +3,9 @@ import { z } from "zod";
 export const addFlatSchema = z.object({
   propertyName: z.string(),
   ownerName: z.string().optional(),
-  ownerPhone: z.string(),
+  ownerPhone: z.string().min(10, { message: "Not a valid phone number" }).max(10, {
+    message: "Not a valid phone number",
+  }),
   ownerType: z.string(),
   rentAmount: z.coerce.number(),
   depositAmount: z.coerce.number(),

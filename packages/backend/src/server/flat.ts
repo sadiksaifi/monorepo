@@ -14,6 +14,7 @@ export const flat = {
       .values({
         userId,
         ...input,
+        ownerPhone: `91${input.ownerPhone}`,
       })
       .returning();
     const id = data[0]?.id;
