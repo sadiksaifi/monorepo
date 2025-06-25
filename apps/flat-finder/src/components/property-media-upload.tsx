@@ -17,6 +17,7 @@ import {
 import { Upload, X } from 'lucide-react'
 import * as React from 'react'
 import { toast } from 'sonner'
+import { VideoShotter } from '@/lib/video-shotter'
 
 export function PropertyMediaUpload({
   isUploading,
@@ -31,23 +32,20 @@ export function PropertyMediaUpload({
     async (files, { onProgress }) => {
       try {
         setIsUploading(true)
-        await uploadFiles('imageUploader', {
-          files,
+
+        const res = await uploadFiles('imageUploader', {
+          files: files,
           onUploadProgress: ({ file, progress }) => {
+            console.log(`Upload progress for ${file.name}: ${progress}%`)
             onProgress(file, progress)
           },
         })
-      } catch (error) {
-        setIsUploading(false)
 
-        // if (error instanceof UploadThingError) {
-        //   const errorMessage =
-        //     error.data && "error" in error.data
-        //       ? error.data.error
-        //       : "Upload failed";
-        //   toast.error(errorMessage);
-        //   return;
-        // }
+        console.log('Upload successful:')
+        console.log(res)
+      } catch (error) {
+        console.error('Upload failed:', error)
+        setIsUploading(false)
 
         toast.error(error instanceof Error ? error.message : 'An unknown error occurred')
       } finally {
@@ -65,10 +63,26 @@ export function PropertyMediaUpload({
 
   return (
     <FileUpload
-      accept="image/*"
-      maxFiles={2}
+      accept="image/*, video/*"
+      maxFiles={20}
       maxSize={4 * 1024 * 1024}
       className="w-full"
+      beforeChange={async (ev) => {
+        const files = Array.from(ev.target.files ?? [])
+        const imageFiles = files.filter((file) => file.type.startsWith('image/'))
+        const videoFiles = files.filter((file) => file.type.startsWith('video/'))
+
+        const screenshots = (
+          await Promise.all(
+            videoFiles.map(async (file) => {
+              const vs = await VideoShotter.create(file, 2160)
+              const screenshotFiles = await vs.takeScreenshot(file)
+              return screenshotFiles
+            }),
+          )
+        ).flat()
+        return [...imageFiles, ...screenshots]
+      }}
       onAccept={(files) => setFiles(files)}
       onUpload={onUpload}
       onFileReject={onFileReject}

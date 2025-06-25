@@ -12,7 +12,7 @@ export const ourFileRouter = {
        * @see https://docs.uploadthing.com/file-routes#route-config
        */
       maxFileSize: "4MB",
-      maxFileCount: 1,
+      maxFileCount: 20,
     },
   }).onUploadComplete(async ({ metadata, file }) => {
     // This code RUNS ON YOUR SERVER after upload
