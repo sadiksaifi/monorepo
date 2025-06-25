@@ -3,7 +3,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState, useMemo } from 'react'
 import { useTRPC } from '@/lib/trpc-client'
 import { cn } from '@/lib/utils'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { ScreenLoader } from '@/components/screen-loader'
 import { Listbox, ListboxItem } from '@/components/ui/listbox'
 import { useRouter } from '@tanstack/react-router'
@@ -22,11 +22,10 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { PROPERTY_LOCATIONS } from '@/lib/locations'
 import { Fzf } from 'fzf'
+import { PropertyCardSkeleton } from '@/components/property-card.skekleton'
 
 export const Route = createFileRoute('/(app)/')({
   component: App,
-  pendingComponent: () => <ScreenLoader isVisible={true} />,
-  errorComponent: ({ error }) => <ErrorComponent error={error} />,
 })
 
 function App() {
@@ -36,8 +35,9 @@ function App() {
   const isLocation = (Route.useSearch() as { location: string }).location ?? ''
   const [isSearchVisible, setIsSearchVisible] = useState(false)
   const [isSearchVal, setIsSearchVal] = useState('')
-  const { data } = useSuspenseQuery(trpc.flat.getAll.queryOptions()) ?? []
-  const temp = data
+  const { data, isPending, isError, error } = useQuery(trpc.flat.getAll.queryOptions())
+  const dt = data ?? []
+  const temp = dt
     .filter((item) => (tab === 'all' ? true : item.starred))
     .filter((item) => (isLocation === '' ? true : item.location === isLocation))
   const flats = useMemo(() => {
@@ -105,6 +105,10 @@ function App() {
   }
 
   useHeader(headerContent)
+
+  if (isError) {
+    return <ErrorComponent error={new Error(error.message)} />
+  }
 
   return (
     <div className={cn('p-4 space-y-2')}>
@@ -192,7 +196,12 @@ function App() {
         </div>
       </div>
 
-      {flats.length === 0 ? (
+      {isPending ? (
+        <>
+          <PropertyCardSkeleton />
+          <p className="text-muted-foreground text-center">Loading...</p>
+        </>
+      ) : flats.length === 0 ? (
         <div className="flex flex-col gap-2 items-center justify-center h-screen text-center -mt-24">
           <div className="text-xl font-bold">
             Oops! <br /> No apartments found

@@ -1,9 +1,8 @@
 import { GoogleMap, Whatsapp } from '@/components/icons'
-import { ScreenLoader } from '@/components/screen-loader'
 import { Button } from '@/components/ui/button'
 import { useTRPC } from '@/lib/trpc-client'
 import { cn } from '@/lib/utils'
-import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { ErrorComponent } from '@/components/error-component'
 import { Heart, MapPin, MapPinned, Phone, Plus, Settings2, Share } from 'lucide-react'
@@ -12,18 +11,35 @@ import { HeaderBackButton, useHeader } from '@/hooks/use-header'
 import { useMemo, useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { PropertyCarousel } from '@/components/property-carousel'
+import { ScreenLoader } from '@/components/screen-loader'
+import { PropertySkeletonPage } from '@/components/property-skeleton.skekleton'
 
 export const Route = createFileRoute('/(app)/property/$id')({
   component: RouteComponent,
-  errorComponent: ({ error }) => <ErrorComponent error={error} />,
-  pendingComponent: () => <ScreenLoader isVisible={true} />,
 })
 
 function RouteComponent() {
   const trpc = useTRPC()
   const { id: flatId } = Route.useParams()
-  const query = useSuspenseQuery(trpc.flat.getById.queryOptions(flatId!))
-  const flat = query.data!
+  const query = useQuery(trpc.flat.getById.queryOptions(flatId!))
+
+  const mockData: typeof query.data = {
+    id: '',
+    propertyName: '',
+    address: '',
+    ownerName: '',
+    ownerPhone: '',
+    description: '',
+    imageURL: [''],
+    starred: false,
+    location: '',
+    rentAmount: 0,
+    depositAmount: 0,
+    brokerageFee: 0,
+    mapsLocationLink: '',
+  }
+  const flat = query.data ?? mockData
+
   const propertyLink = `${window.location.origin}/flat/${flat.id}`
   const [isFavorite, setIsFavorite] = useState(flat.starred)
 
@@ -94,6 +110,13 @@ function RouteComponent() {
       },
     }),
   )
+  if (query.isError) {
+    return <ErrorComponent error={new Error(query.error.message)} />
+  }
+
+  if (query.isPending) {
+    return <PropertySkeletonPage />
+  }
 
   return (
     <div>

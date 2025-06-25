@@ -1,6 +1,5 @@
 import { cn } from '@/lib/utils'
 import { useTheme } from '@workspace/ui/components/theme-provider/vite'
-import { Moon, Sun } from 'lucide-react'
 import { Button } from './ui/button'
 
 interface FooterProps {

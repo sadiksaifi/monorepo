@@ -1,6 +1,6 @@
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
-import { Context } from "./context";
+import type { Context } from "./context";
 /**
  * Initialization of tRPC backend
  * Should be done only once per backend!
