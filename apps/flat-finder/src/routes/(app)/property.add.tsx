@@ -24,6 +24,7 @@ import { ScreenLoader } from '@/components/screen-loader'
 import { HeaderBackButton, useHeader } from '@/hooks/use-header'
 import { useMemo, useState } from 'react'
 import { Settings2 } from 'lucide-react'
+import { PROPERTY_LOCATIONS } from '@/lib/locations'
 
 export const Route = createFileRoute('/(app)/property/add')({
   component: RouteComponent,
@@ -286,11 +287,15 @@ function RouteComponent() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="BTM Layout">BTM Layout</SelectItem>
-                      <SelectItem value="Bellandur">Bellandur</SelectItem>
-                      <SelectItem value="HSR Layout">HSR Layout</SelectItem>
-                      <SelectItem value="Koramangala">Koramangala</SelectItem>
-                      <SelectItem value="Marathahalli">Marathahalli</SelectItem>
+                      {Object.keys(PROPERTY_LOCATIONS).map((location) => {
+                        return (
+                          // @ts-ignore
+                          <SelectItem value={PROPERTY_LOCATIONS[location]} key={location}>
+                            {/* @ts-ignore */}
+                            {PROPERTY_LOCATIONS[location]}
+                          </SelectItem>
+                        )
+                      })}
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -337,7 +342,7 @@ function RouteComponent() {
 }
 
 const seedValues = {
-  propertyName: `Godrej Nurture ${Math.random().toString(36).substring(9)}`,
+  propertyName: `Prestige Nurture ${Math.random().toString(36).substring(9)}`,
   ownerName: 'Rajesh Kumar',
   ownerType: 'Owner',
   ownerPhone: '9876543210',
@@ -345,7 +350,7 @@ const seedValues = {
   depositAmount: '105000',
   brokerageFee: '20000',
   mapsLocationLink: 'https://maps.app.goo.gl/1234567890',
-  location: 'HSR Layout',
+  location: PROPERTY_LOCATIONS.BELLANDUR,
   address: '123, Main Street, Anytown, USA',
   description: 'A beautiful property in a great location',
   imageURL: [

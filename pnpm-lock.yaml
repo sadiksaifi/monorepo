@@ -173,6 +173,9 @@ importers:
       embla-carousel-react:
         specifier: ^8.6.0
         version: 8.6.0(react@19.1.0)
+      fzf:
+        specifier: ^0.5.2
+        version: 0.5.2
       lucide-react:
         specifier: ^0.475.0
         version: 0.475.0(react@19.1.0)
@@ -6452,6 +6455,9 @@ packages:
 
   functions-have-names@1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
+
+  fzf@0.5.2:
+    resolution: {integrity: sha512-Tt4kuxLXFKHy8KT40zwsUPUkg1CrsgY25FxA2U/j/0WgEDCk3ddc/zLTCCcbSHX9FcKtLuVaDGtGE/STWC+j3Q==}
 
   gel@2.1.0:
     resolution: {integrity: sha512-HCeRqInCt6BjbMmeghJ6BKeYwOj7WJT5Db6IWWAA3IMUUa7or7zJfTUEkUWCxiOtoXnwnm96sFK9Fr47Yh2hOA==}
@@ -16051,6 +16057,8 @@ snapshots:
 
   functions-have-names@1.2.3: {}
 
+  fzf@0.5.2: {}
+
   gel@2.1.0:
     dependencies:
       '@petamoriken/float16': 3.9.2
@@ -18547,7 +18555,7 @@ snapshots:
     dependencies:
       color: 4.2.3
       detect-libc: 2.0.4
-      semver: 7.7.1
+      semver: 7.7.2
     optionalDependencies:
       '@img/sharp-darwin-arm64': 0.34.1
       '@img/sharp-darwin-x64': 0.34.1
