@@ -11,7 +11,12 @@ export default function ThemeSwitcher() {
       defaultValue={theme === 'light' ? 'light' : 'dark'}
       className="flex max-w-md gap-6 pt-2"
       onValueChange={(val) => {
-        val === 'light' ? setTheme('light') : setTheme('dark')
+        const newTheme = val === 'light' ? 'light' : 'dark'
+        setTheme(newTheme)
+        // Dynamically update theme-color meta tag
+        const color = newTheme === 'dark' ? '#09090b' : '#ffffff'
+        const meta = document.querySelector('meta[name="theme-color"]')
+        if (meta) meta.setAttribute('content', color)
       }}
     >
       <label className="[&:has([data-state=checked])>div]:border-primary flex-col">

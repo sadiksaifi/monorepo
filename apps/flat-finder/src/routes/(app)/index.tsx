@@ -132,7 +132,7 @@ function App() {
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup className="*:p-2">
-                <DropdownMenuItem>
+                <DropdownMenuItem asChild>
                   <Link to="/settings">Settings</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem
