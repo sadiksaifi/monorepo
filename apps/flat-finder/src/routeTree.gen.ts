@@ -9,15 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as LoginRouteImport } from './routes/login'
+import { Route as SigninRouteImport } from './routes/signin'
 import { Route as appRouteRouteImport } from './routes/(app)/route'
 import { Route as appIndexRouteImport } from './routes/(app)/index'
 import { Route as appPropertyAddRouteImport } from './routes/(app)/property.add'
 import { Route as appPropertyIdRouteImport } from './routes/(app)/property.$id'
 
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
+const SigninRoute = SigninRouteImport.update({
+  id: '/signin',
+  path: '/signin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const appRouteRoute = appRouteRouteImport.update({
@@ -42,12 +42,12 @@ const appPropertyIdRoute = appPropertyIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof appIndexRoute
-  '/login': typeof LoginRoute
+  '/signin': typeof SigninRoute
   '/property/$id': typeof appPropertyIdRoute
   '/property/add': typeof appPropertyAddRoute
 }
 export interface FileRoutesByTo {
-  '/login': typeof LoginRoute
+  '/signin': typeof SigninRoute
   '/': typeof appIndexRoute
   '/property/$id': typeof appPropertyIdRoute
   '/property/add': typeof appPropertyAddRoute
@@ -55,20 +55,20 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(app)': typeof appRouteRouteWithChildren
-  '/login': typeof LoginRoute
+  '/signin': typeof SigninRoute
   '/(app)/': typeof appIndexRoute
   '/(app)/property/$id': typeof appPropertyIdRoute
   '/(app)/property/add': typeof appPropertyAddRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/property/$id' | '/property/add'
+  fullPaths: '/' | '/signin' | '/property/$id' | '/property/add'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/' | '/property/$id' | '/property/add'
+  to: '/signin' | '/' | '/property/$id' | '/property/add'
   id:
     | '__root__'
     | '/(app)'
-    | '/login'
+    | '/signin'
     | '/(app)/'
     | '/(app)/property/$id'
     | '/(app)/property/add'
@@ -76,16 +76,16 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   appRouteRoute: typeof appRouteRouteWithChildren
-  LoginRoute: typeof LoginRoute
+  SigninRoute: typeof SigninRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
+    '/signin': {
+      id: '/signin'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof SigninRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(app)': {
@@ -137,7 +137,7 @@ const appRouteRouteWithChildren = appRouteRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   appRouteRoute: appRouteRouteWithChildren,
-  LoginRoute: LoginRoute,
+  SigninRoute: SigninRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

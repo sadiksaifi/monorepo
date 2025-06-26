@@ -87,7 +87,7 @@ function RouteComponent() {
             action: (
               <Button
                 className="ml-auto"
-                onClick={() => router.navigate({ to: '/login' })}
+                onClick={() => router.navigate({ to: '/signin' })}
               >
                 Sign in
               </Button>
