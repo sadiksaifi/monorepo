@@ -5,8 +5,8 @@ import { ChevronRight, Heart, MapPin, Plus, Search, Settings2 } from 'lucide-rea
 import { Fzf } from 'fzf'
 import { toast } from 'sonner'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { useTRPC } from '@/lib/trpc-client'
-import { cn } from '@/lib/utils'
+import { queryClient, useTRPC } from '@/lib/trpc-client'
+import { cn, getNameInitials } from '@/lib/utils'
 import { Listbox, ListboxItem } from '@/components/ui/listbox'
 import { Button } from '@/components/ui/button'
 import { Image } from '@/components/Image'
@@ -14,6 +14,9 @@ import { useHeader } from '@/hooks/use-header'
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
@@ -21,6 +24,8 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { PROPERTY_LOCATIONS } from '@/lib/locations'
 import { PropertyCardSkeleton } from '@/components/property-card.skekleton'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { authClient } from '@/lib/auth-client'
 
 export const Route = createFileRoute('/(app)/')({
   component: App,
@@ -48,6 +53,20 @@ function App() {
     const x = entries.map((item) => item.item)
     return temp.filter((item) => x.includes(item.propertyName!))
   }, [temp, isSearchVal])
+
+  const session = useQuery({
+    queryKey: ['session'],
+    queryFn: async () => {
+      const res = await authClient.getSession()
+      if (res.error) {
+        throw session.error
+      }
+      return res.data
+    },
+  })
+  const isUserLoggedIn = session.data?.session.userId ? true : false
+
+  console.log(session.data?.user.name)
 
   // Memoize header content to prevent infinite re-renders
   const headerContent = useMemo(
@@ -84,22 +103,62 @@ function App() {
         </div>
       ) : (
         <>
-          <Button
-            variant="ghost"
-            className="h-full !pl-8"
-            onClick={() => setIsSearchVisible(true)}
-          >
-            <Search className="size-5" />
-          </Button>
-          <Button variant="ghost" className="h-full !pr-4.5 -mr-2" asChild>
+          <Button variant="ghost" className="h-full" asChild>
             <Link to="/property/add">
               <Plus className="size-6" />
             </Link>
           </Button>
+          <Button
+            variant="ghost"
+            className="h-full"
+            onClick={() => setIsSearchVisible(true)}
+          >
+            <Search className="size-5" />
+          </Button>
+          <DropdownMenu dir="ltr">
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-full px-3">
+                <Avatar>
+                  <AvatarImage src={session.data?.user.image ?? ''} />
+                  <AvatarFallback className="text-sm">
+                    {getNameInitials(session.data?.user.name ?? '')}
+                  </AvatarFallback>
+                </Avatar>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-fit" align="end" alignOffset={8}>
+              <DropdownMenuLabel className="text-muted-foreground">
+                My Account
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup className="*:p-2">
+                <DropdownMenuItem>
+                  <Link to="/settings">Settings</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  disabled={session.isPending}
+                  onClick={async () => {
+                    if (isUserLoggedIn) {
+                      await authClient.signOut()
+                      queryClient.invalidateQueries({ queryKey: ['session'] })
+                    } else {
+                      router.navigate({ to: '/signin' })
+                    }
+                  }}
+                >
+                  {session.isPending
+                    ? 'Loading...'
+                    : isUserLoggedIn
+                      ? 'Sign out'
+                      : 'Sign in'}
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </>
       ),
     }),
-    [isSearchVisible],
+    [isSearchVisible, session.data, isUserLoggedIn, session.isPending],
   )
 
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
@@ -162,7 +221,7 @@ function App() {
                 <Settings2 className="size-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-fit">
+            <DropdownMenuContent className="w-fit" align="end">
               <DropdownMenuRadioGroup
                 value={isLocation}
                 onValueChange={(val) => {

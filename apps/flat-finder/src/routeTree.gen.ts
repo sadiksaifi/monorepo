@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SigninRouteImport } from './routes/signin'
 import { Route as appRouteRouteImport } from './routes/(app)/route'
 import { Route as appIndexRouteImport } from './routes/(app)/index'
+import { Route as appSettingsRouteImport } from './routes/(app)/settings'
 import { Route as appPropertyAddRouteImport } from './routes/(app)/property.add'
 import { Route as appPropertyIdRouteImport } from './routes/(app)/property.$id'
 
@@ -29,6 +30,11 @@ const appIndexRoute = appIndexRouteImport.update({
   path: '/',
   getParentRoute: () => appRouteRoute,
 } as any)
+const appSettingsRoute = appSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => appRouteRoute,
+} as any)
 const appPropertyAddRoute = appPropertyAddRouteImport.update({
   id: '/property/add',
   path: '/property/add',
@@ -43,11 +49,13 @@ const appPropertyIdRoute = appPropertyIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof appIndexRoute
   '/signin': typeof SigninRoute
+  '/settings': typeof appSettingsRoute
   '/property/$id': typeof appPropertyIdRoute
   '/property/add': typeof appPropertyAddRoute
 }
 export interface FileRoutesByTo {
   '/signin': typeof SigninRoute
+  '/settings': typeof appSettingsRoute
   '/': typeof appIndexRoute
   '/property/$id': typeof appPropertyIdRoute
   '/property/add': typeof appPropertyAddRoute
@@ -56,19 +64,21 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(app)': typeof appRouteRouteWithChildren
   '/signin': typeof SigninRoute
+  '/(app)/settings': typeof appSettingsRoute
   '/(app)/': typeof appIndexRoute
   '/(app)/property/$id': typeof appPropertyIdRoute
   '/(app)/property/add': typeof appPropertyAddRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/signin' | '/property/$id' | '/property/add'
+  fullPaths: '/' | '/signin' | '/settings' | '/property/$id' | '/property/add'
   fileRoutesByTo: FileRoutesByTo
-  to: '/signin' | '/' | '/property/$id' | '/property/add'
+  to: '/signin' | '/settings' | '/' | '/property/$id' | '/property/add'
   id:
     | '__root__'
     | '/(app)'
     | '/signin'
+    | '/(app)/settings'
     | '/(app)/'
     | '/(app)/property/$id'
     | '/(app)/property/add'
@@ -102,6 +112,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof appIndexRouteImport
       parentRoute: typeof appRouteRoute
     }
+    '/(app)/settings': {
+      id: '/(app)/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof appSettingsRouteImport
+      parentRoute: typeof appRouteRoute
+    }
     '/(app)/property/add': {
       id: '/(app)/property/add'
       path: '/property/add'
@@ -120,12 +137,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface appRouteRouteChildren {
+  appSettingsRoute: typeof appSettingsRoute
   appIndexRoute: typeof appIndexRoute
   appPropertyIdRoute: typeof appPropertyIdRoute
   appPropertyAddRoute: typeof appPropertyAddRoute
 }
 
 const appRouteRouteChildren: appRouteRouteChildren = {
+  appSettingsRoute: appSettingsRoute,
   appIndexRoute: appIndexRoute,
   appPropertyIdRoute: appPropertyIdRoute,
   appPropertyAddRoute: appPropertyAddRoute,
