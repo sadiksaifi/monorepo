@@ -34,10 +34,18 @@ monorepo/
 ├── apps
 │   ├── blog # Blog website
 │   ├── data # Assets
+│   ├── flat-finder # Flat finder
+│   ├── pwa # Progressive web app
+│   ├── qr-code-generator # QR code generator
+│   ├── server # Server
+│   ├── socket # Socket server
 │   └── web # Portfolio website
 └── packages
+    ├── assets
+    ├── backend
     ├── eslint-config
     ├── lib
+    ├── transactional
     ├── typescript-config
     └── ui
 ```
