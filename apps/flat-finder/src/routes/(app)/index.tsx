@@ -235,65 +235,69 @@ function App() {
         </div>
       ) : (
         <Listbox>
-          {flats.map((flat) => (
-            <ListboxItem
-              key={flat.id}
-              value={flat.id}
-              onClick={() => {
-                router.navigate({
-                  to: '/property/$id',
-                  params: { id: flat.id },
-                })
-              }}
-              className="flex flex-col w-full gap-0 p-0 rounded-sm my-2 bg-card"
-            >
-              <div className="w-full flex-1 relative">
-                <Image
-                  src={(flat.imageURL ?? [])[0] ?? ''}
-                  alt={flat.propertyName ?? ''}
-                  backdrop={false}
-                  className="w-full aspect-video [&>img]:aspect-video [&>img]:object-cover [&>img]:rounded-t-sm rounded-t-sm"
-                />
-                {flat.location && (
-                  <div
-                    className={cn(
-                      'absolute bottom-2 px-2 left-2 rounded-full py-0.5 z-20',
-                      'bg-background/60 backdrop-blur-xl dark:backdrop-blur-sm',
-                      'flex items-center gap-1.5',
-                    )}
-                  >
-                    <MapPin className="size-3.5" />
-                    <p className="text-sm w-fit text-muted-foreground">{flat.location}</p>
-                  </div>
-                )}
-                {flat.starred && (
-                  <div
-                    className={cn(
-                      'absolute bottom-2 p-2 right-2 rounded-full py-0.5 z-20',
-                      'bg-background/60 backdrop-blur-xl dark:backdrop-blur-sm',
-                      'flex items-center gap-1.5 aspect-square',
-                    )}
-                  >
-                    <Heart className="size-3.5 fill-foreground" />
-                    <p className="sr-only">Favorite</p>
-                  </div>
-                )}
-              </div>
-              <div className="flex items-center justify-between gap-2 w-full p-4">
-                <div className="flex flex-col">
-                  <div className="font-medium text-lg">
-                    {flat.propertyName ?? 'Property Name: Unknown'}
-                  </div>
-                  <div className="text-muted-foreground text-sm">
-                    {flat.address ?? 'Address: Unknown'}
-                  </div>
+          {flats
+            .sort((a, b) => b.createdAt!.getTime() - a.createdAt!.getTime())
+            .map((flat) => (
+              <ListboxItem
+                key={flat.id}
+                value={flat.id}
+                onClick={() => {
+                  router.navigate({
+                    to: '/property/$id',
+                    params: { id: flat.id },
+                  })
+                }}
+                className="flex flex-col w-full gap-0 p-0 rounded-sm my-2 bg-card"
+              >
+                <div className="w-full flex-1 relative">
+                  <Image
+                    src={(flat.imageURL ?? [])[0] ?? ''}
+                    alt={flat.propertyName ?? ''}
+                    backdrop={false}
+                    className="w-full aspect-video [&>img]:aspect-video [&>img]:object-cover [&>img]:rounded-t-sm rounded-t-sm"
+                  />
+                  {flat.location && (
+                    <div
+                      className={cn(
+                        'absolute bottom-2 px-2 left-2 rounded-full py-0.5 z-20',
+                        'bg-background/60 backdrop-blur-xl dark:backdrop-blur-sm',
+                        'flex items-center gap-1.5',
+                      )}
+                    >
+                      <MapPin className="size-3.5" />
+                      <p className="text-sm w-fit text-muted-foreground">
+                        {flat.location}
+                      </p>
+                    </div>
+                  )}
+                  {flat.starred && (
+                    <div
+                      className={cn(
+                        'absolute bottom-2 p-2 right-2 rounded-full py-0.5 z-20',
+                        'bg-background/60 backdrop-blur-xl dark:backdrop-blur-sm',
+                        'flex items-center gap-1.5 aspect-square',
+                      )}
+                    >
+                      <Heart className="size-3.5 fill-foreground" />
+                      <p className="sr-only">Favorite</p>
+                    </div>
+                  )}
                 </div>
-                <Button variant="ghost" size="icon">
-                  <ChevronRight />
-                </Button>
-              </div>
-            </ListboxItem>
-          ))}
+                <div className="flex items-center justify-between gap-2 w-full p-4">
+                  <div className="flex flex-col">
+                    <div className="font-medium text-lg">
+                      {flat.propertyName ?? 'Property Name: Unknown'}
+                    </div>
+                    <div className="text-muted-foreground text-sm">
+                      {flat.address ?? 'Address: Unknown'}
+                    </div>
+                  </div>
+                  <Button variant="ghost" size="icon">
+                    <ChevronRight />
+                  </Button>
+                </div>
+              </ListboxItem>
+            ))}
         </Listbox>
       )}
     </div>
