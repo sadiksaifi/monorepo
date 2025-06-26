@@ -6,6 +6,7 @@ import * as TRPC from '@/lib/trpc-client'
 import { Toaster } from '@/components/ui/sonner'
 import { HeaderProvider } from '@/hooks/use-header'
 import OfflineOverlay from '@/components/OfflineOverlay'
+import UpdatePrompt from '@/components/update-prompt'
 
 const persister = createSyncStoragePersister({
   storage: typeof window !== 'undefined' ? window.localStorage : undefined,
@@ -27,6 +28,7 @@ function RootRouteComponent() {
         <ThemeProvider storageKey="vite-ui-theme" defaultTheme="dark">
           <HeaderProvider>
             <OfflineOverlay />
+            <UpdatePrompt />
             <Toaster position="top-center" theme={theme} richColors />
             <Outlet />
           </HeaderProvider>

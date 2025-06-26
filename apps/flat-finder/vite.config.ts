@@ -13,11 +13,11 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       includeAssets: ['favicon.ico', 'logo192.png', 'logo512.png'],
-      registerType: 'autoUpdate',
+      registerType: 'prompt',
       injectRegister: 'auto',
       workbox: {
         clientsClaim: true,
-        skipWaiting: true,
+        skipWaiting: false,
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,woff,ttf}'],
         runtimeCaching: [
           {

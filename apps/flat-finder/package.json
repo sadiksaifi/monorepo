@@ -72,7 +72,8 @@
     "vite": "^6.1.0",
     "vite-plugin-pwa": "^1.0.0",
     "vitest": "^3.0.5",
-    "web-vitals": "^4.2.4"
+    "web-vitals": "^4.2.4",
+    "workbox-window": "^7.1.0"
   },
   "overrides": {
     "@tanstack/react-router": "^1.121.2"
