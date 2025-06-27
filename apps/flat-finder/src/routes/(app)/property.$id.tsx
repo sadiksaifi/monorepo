@@ -36,8 +36,9 @@ function RouteComponent() {
     mapsLocationLink: '',
   }
   const flat = query.data ?? mockData
+  console.log('number:', flat.ownerPhone)
 
-  const propertyLink = `${window.location.origin}/flat/${flat.id}`
+  const propertyLink = `${window.location.origin}/property/${flat.id}`
   const [isFavorite, setIsFavorite] = useState(flat.starred)
 
   // Memoize header content to prevent infinite re-renders
@@ -61,10 +62,12 @@ function RouteComponent() {
             }}
           >
             <Settings2 className="size-5" />
+            <span className="sr-only">Settings</span>
           </Button>
           <Button variant="ghost" className="h-full" asChild>
             <Link to="/property/add">
               <Plus className="size-6" />
+              <span className="sr-only">Add Property</span>
             </Link>
           </Button>
         </>
@@ -179,6 +182,7 @@ function RouteComponent() {
             )}
           >
             <Heart className={cn('size-6', isFavorite && 'fill-foreground')} />
+            <span className="sr-only">Favorite</span>
           </Button>
 
           {flat.location && (
@@ -203,22 +207,26 @@ function RouteComponent() {
                   variant="outline"
                   size="icon"
                   disabled={!flat.ownerPhone || query.isError}
+                  asChild
                 >
                   <a href={`tel:${flat.ownerPhone}`} target="_blank">
                     <Phone />
+                    <span className="sr-only">Call</span>
                   </a>
                 </Button>
                 <Button
                   variant="outline"
                   size="icon"
                   disabled={!flat.ownerPhone || query.isError}
+                  onClick={() => {
+                    const phone = flat.ownerPhone.replace('+', '')
+                    const message = `Hi, I'm interested in your flat.\nLink: ${propertyLink}`
+                    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`
+                    window.open(url, '_blank') // or '_self' if you want to stay in the PWA
+                  }}
                 >
-                  <a
-                    href={`https://wa.me/${flat.ownerPhone}?text=Hi%20there%0AI'm%20looking%20for%20a%20flat%20in%20${flat.propertyName}%20in%20${flat.address}%0A${propertyLink}`}
-                    target="_blank"
-                  >
-                    <Whatsapp />
-                  </a>
+                  <Whatsapp />
+                  <span className="sr-only">Whatsapp</span>
                 </Button>
                 <Button
                   variant="outline"
@@ -233,6 +241,7 @@ function RouteComponent() {
                   }}
                 >
                   <GoogleMap />
+                  <span className="sr-only">Google Maps</span>
                 </Button>
                 <Button
                   variant="outline"
@@ -254,6 +263,7 @@ function RouteComponent() {
                   }}
                 >
                   <Share />
+                  <span className="sr-only">Share</span>
                 </Button>
               </div>
             </div>
