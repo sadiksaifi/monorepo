@@ -1,6 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from '@tanstack/react-router'
-import { Loader } from 'lucide-react'
 import { toast } from 'sonner'
 import { GoogleIcon } from '@/components/icons'
 import { Button } from '@/components/ui/button'
@@ -8,6 +7,7 @@ import { authClient } from '@/lib/auth-client'
 import { CLIENT_ORIGIN } from '@/lib/constants'
 import Logo from '/logo192.png'
 import { cn } from '@/lib/utils'
+import { ScreenLoader } from '@/components/screen-loader'
 
 export function SigninDrawer({
   className,
@@ -60,9 +60,10 @@ export function SigninDrawer({
           disabled={isSocialPending}
           onClick={() => mutate()}
         >
-          {isSocialPending ? <Loader className="size-4 animate-spin" /> : <GoogleIcon />}
+          <GoogleIcon />
           Sign in with Google
         </Button>
+        <ScreenLoader isVisible={true} className="h-full absolute top-0 left-0" />
       </div>
 
       <div className="w-full flex flex-col items-center gap-1">

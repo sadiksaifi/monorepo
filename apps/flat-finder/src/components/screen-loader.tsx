@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils'
 
 export function ScreenLoader({
   isVisible,
+  className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement> & {
   isVisible: boolean
@@ -14,6 +15,7 @@ export function ScreenLoader({
           'h-[calc(100vh-4rem)] w-screen',
           'bg-background/50 backdrop-blur-sm fixed top-14 left-0 z-50',
           'flex flex-col justify-center items-center gap-2',
+          className,
         )}
         {...props}
       >
