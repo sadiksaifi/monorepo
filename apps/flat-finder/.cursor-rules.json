@@ -1,0 +1,64 @@
+{
+  "rules": [
+    {
+      "name": "TypeScript Enforcement",
+      "description": "All source files in src/ must use TypeScript (.ts or .tsx). No usage of 'any' type unless explicitly justified with a comment."
+    },
+    {
+      "name": "React & Component Structure",
+      "description": "All React components must be function components using ES6+ syntax. Component files should be PascalCase. UI components should be placed in src/components/ui/."
+    },
+    {
+      "name": "Styling",
+      "description": "Use Tailwind CSS utility classes for styling; avoid inline styles except for dynamic values. No usage of external CSS frameworks or libraries unless approved."
+    },
+    {
+      "name": "State Management & Data Fetching",
+      "description": "Use TanStack Query for all server data fetching and caching. Use TanStack Router for navigation and routing. Local state should use React hooks."
+    },
+    {
+      "name": "Code Quality",
+      "description": "All code must pass ESLint (pnpm lint) and Prettier (pnpm format) checks before commit. TypeScript type checks (pnpm typecheck) must pass before merging."
+    },
+    {
+      "name": "File & Folder Structure",
+      "description": "All business logic and utilities should be placed in src/lib/. Custom hooks should be placed in src/hooks/ and prefixed with 'use'. Route files should be in src/routes/ and follow TanStack Router conventions."
+    },
+    {
+      "name": "Testing & Error Handling",
+      "description": "All components must handle loading and error states gracefully. Use skeleton loaders and error components as provided in src/components/."
+    },
+    {
+      "name": "PWA & Offline Support",
+      "description": "Do not remove or bypass service worker registration or PWA manifest configuration in vite.config.ts. All new features must consider offline support where applicable."
+    },
+    {
+      "name": "Authentication & API",
+      "description": "Use tRPC for all backend communication. Use Better Auth for authentication; do not implement custom auth flows unless discussed."
+    },
+    {
+      "name": "File Uploads",
+      "description": "Use UploadThing for all file/media uploads."
+    },
+    {
+      "name": "Environment Variables",
+      "description": "All environment variables must be prefixed with VITE_ and documented in README.md."
+    },
+    {
+      "name": "Commit & PR Guidelines",
+      "description": "All commits should be descriptive. Pull requests must reference related issues or features and pass all checks."
+    },
+    {
+      "name": "Accessibility",
+      "description": "All interactive elements must be accessible (ARIA labels, keyboard navigation, etc.). Use semantic HTML wherever possible."
+    },
+    {
+      "name": "Third-party Libraries",
+      "description": "Only use libraries listed in package.json unless approved. Prefer Shadcn/ui for UI components."
+    },
+    {
+      "name": "Documentation",
+      "description": "All exported functions, components, and hooks must have JSDoc comments. Update README.md for any significant feature or configuration changes."
+    }
+  ]
+}

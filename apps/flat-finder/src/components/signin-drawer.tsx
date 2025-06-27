@@ -63,7 +63,10 @@ export function SigninDrawer({
           <GoogleIcon />
           Sign in with Google
         </Button>
-        <ScreenLoader isVisible={true} className="h-full absolute top-0 left-0" />
+        <ScreenLoader
+          isVisible={isSocialPending}
+          className="h-full absolute top-0 left-0"
+        />
       </div>
 
       <div className="w-full flex flex-col items-center gap-1">
