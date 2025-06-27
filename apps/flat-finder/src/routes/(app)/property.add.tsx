@@ -346,7 +346,7 @@ function RouteComponent() {
             )}
           />
           <Button type="submit" className="w-full" disabled={isPending || isUploading}>
-            <ScreenLoader isVisible={isPending} />
+            <ScreenLoader isVisible={isPending || isUploading} />
             {isUploading && <Loader2 className="size-4 animate-spin" />}
             Submit
           </Button>

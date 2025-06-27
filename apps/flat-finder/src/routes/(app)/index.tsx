@@ -22,6 +22,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer'
 import { PROPERTY_LOCATIONS } from '@/lib/locations'
 import { PropertyCardSkeleton } from '@/components/property-card.skekleton'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -37,6 +38,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
+import { SigninDrawer } from '@/components/signin-drawer'
 
 export const Route = createFileRoute('/(app)/')({
   component: App,
@@ -127,79 +129,86 @@ function App() {
             <Search className="size-5" />
           </Button>
           <AlertDialog>
-            <DropdownMenu dir="ltr">
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-full px-3">
-                  <Avatar>
-                    <AvatarImage src={session.data?.user.image ?? ''} />
-                    <AvatarFallback className="text-sm">
-                      {getNameInitials(session.data?.user.name ?? '')}
-                    </AvatarFallback>
-                  </Avatar>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-fit" align="end" alignOffset={8}>
-                <DropdownMenuLabel className="text-muted-foreground">
-                  My Account
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup className="*:p-2">
-                  <DropdownMenuItem asChild>
-                    <Button
-                      className="w-full justify-start"
-                      variant="ghost"
-                      onClick={() => {
-                        router.navigate({ to: '/settings' })
-                      }}
-                    >
-                      Settings
-                    </Button>
-                  </DropdownMenuItem>
-                  {!isUserLoggedIn && (
-                    <DropdownMenuItem disabled={session.isPending} asChild>
+            <Drawer>
+              <DropdownMenu dir="ltr">
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="h-full px-3">
+                    <Avatar>
+                      <AvatarImage src={session.data?.user.image ?? ''} />
+                      <AvatarFallback className="text-sm">
+                        {getNameInitials(session.data?.user.name ?? '')}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-fit" align="end" alignOffset={8}>
+                  <DropdownMenuLabel className="text-muted-foreground">
+                    My Account
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup className="*:p-2">
+                    <DropdownMenuItem asChild>
                       <Button
+                        className="w-full justify-start"
                         variant="ghost"
-                        className="justify-start w-full text-sm"
                         onClick={() => {
-                          router.navigate({ to: '/signin' })
+                          router.navigate({ to: '/settings' })
                         }}
                       >
-                        Sign in
+                        Settings
                       </Button>
                     </DropdownMenuItem>
-                  )}
-                  {isUserLoggedIn && (
-                    <AlertDialogTrigger asChild>
-                      <DropdownMenuItem disabled={session.isPending} asChild>
-                        <Button variant="ghost" className="justify-start w-full text-sm">
-                          Sign out
-                        </Button>
-                      </DropdownMenuItem>
-                    </AlertDialogTrigger>
-                  )}
-                </DropdownMenuGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action cannot be undone. You will be signed out of the app and
-                  unable to add new properties or favorites.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter className="gap-4">
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={async () => {
-                    await authClient.signOut()
-                    queryClient.invalidateQueries({ queryKey: ['session'] })
-                  }}
-                >
-                  Continue
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
+                    {!isUserLoggedIn && (
+                      <DrawerTrigger asChild>
+                        <DropdownMenuItem asChild>
+                          <Button
+                            variant="ghost"
+                            className="justify-start w-full text-sm"
+                          >
+                            Sign in
+                          </Button>
+                        </DropdownMenuItem>
+                      </DrawerTrigger>
+                    )}
+                    {isUserLoggedIn && (
+                      <AlertDialogTrigger asChild>
+                        <DropdownMenuItem asChild>
+                          <Button
+                            variant="ghost"
+                            className="justify-start w-full text-sm"
+                          >
+                            Sign out
+                          </Button>
+                        </DropdownMenuItem>
+                      </AlertDialogTrigger>
+                    )}
+                  </DropdownMenuGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. You will be signed out of the app and
+                    unable to add new properties or favorites.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter className="gap-4">
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={async () => {
+                      await authClient.signOut()
+                      queryClient.invalidateQueries({ queryKey: ['session'] })
+                    }}
+                  >
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+              <DrawerContent>
+                <SigninDrawer />
+              </DrawerContent>
+            </Drawer>
           </AlertDialog>
         </>
       ),
