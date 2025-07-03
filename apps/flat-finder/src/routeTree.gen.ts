@@ -11,8 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SigninRouteImport } from './routes/signin'
 import { Route as appRouteRouteImport } from './routes/(app)/route'
-import { Route as appIndexRouteImport } from './routes/(app)/index'
 import { Route as appSettingsRouteImport } from './routes/(app)/settings'
+import { Route as apphomeRouteRouteImport } from './routes/(app)/(home)/route'
+import { Route as apphomeIndexRouteImport } from './routes/(app)/(home)/index'
 import { Route as appPropertyAddRouteImport } from './routes/(app)/property.add'
 import { Route as appPropertyIdRouteImport } from './routes/(app)/property.$id'
 
@@ -25,15 +26,19 @@ const appRouteRoute = appRouteRouteImport.update({
   id: '/(app)',
   getParentRoute: () => rootRouteImport,
 } as any)
-const appIndexRoute = appIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => appRouteRoute,
-} as any)
 const appSettingsRoute = appSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
   getParentRoute: () => appRouteRoute,
+} as any)
+const apphomeRouteRoute = apphomeRouteRouteImport.update({
+  id: '/(home)',
+  getParentRoute: () => appRouteRoute,
+} as any)
+const apphomeIndexRoute = apphomeIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => apphomeRouteRoute,
 } as any)
 const appPropertyAddRoute = appPropertyAddRouteImport.update({
   id: '/property/add',
@@ -47,7 +52,7 @@ const appPropertyIdRoute = appPropertyIdRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof appIndexRoute
+  '/': typeof apphomeIndexRoute
   '/signin': typeof SigninRoute
   '/settings': typeof appSettingsRoute
   '/property/$id': typeof appPropertyIdRoute
@@ -56,32 +61,34 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/signin': typeof SigninRoute
   '/settings': typeof appSettingsRoute
-  '/': typeof appIndexRoute
   '/property/$id': typeof appPropertyIdRoute
   '/property/add': typeof appPropertyAddRoute
+  '/': typeof apphomeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(app)': typeof appRouteRouteWithChildren
   '/signin': typeof SigninRoute
+  '/(app)/(home)': typeof apphomeRouteRouteWithChildren
   '/(app)/settings': typeof appSettingsRoute
-  '/(app)/': typeof appIndexRoute
   '/(app)/property/$id': typeof appPropertyIdRoute
   '/(app)/property/add': typeof appPropertyAddRoute
+  '/(app)/(home)/': typeof apphomeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths: '/' | '/signin' | '/settings' | '/property/$id' | '/property/add'
   fileRoutesByTo: FileRoutesByTo
-  to: '/signin' | '/settings' | '/' | '/property/$id' | '/property/add'
+  to: '/signin' | '/settings' | '/property/$id' | '/property/add' | '/'
   id:
     | '__root__'
     | '/(app)'
     | '/signin'
+    | '/(app)/(home)'
     | '/(app)/settings'
-    | '/(app)/'
     | '/(app)/property/$id'
     | '/(app)/property/add'
+    | '/(app)/(home)/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -105,19 +112,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof appRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(app)/': {
-      id: '/(app)/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof appIndexRouteImport
-      parentRoute: typeof appRouteRoute
-    }
     '/(app)/settings': {
       id: '/(app)/settings'
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof appSettingsRouteImport
       parentRoute: typeof appRouteRoute
+    }
+    '/(app)/(home)': {
+      id: '/(app)/(home)'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof apphomeRouteRouteImport
+      parentRoute: typeof appRouteRoute
+    }
+    '/(app)/(home)/': {
+      id: '/(app)/(home)/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof apphomeIndexRouteImport
+      parentRoute: typeof apphomeRouteRoute
     }
     '/(app)/property/add': {
       id: '/(app)/property/add'
@@ -136,16 +150,28 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface apphomeRouteRouteChildren {
+  apphomeIndexRoute: typeof apphomeIndexRoute
+}
+
+const apphomeRouteRouteChildren: apphomeRouteRouteChildren = {
+  apphomeIndexRoute: apphomeIndexRoute,
+}
+
+const apphomeRouteRouteWithChildren = apphomeRouteRoute._addFileChildren(
+  apphomeRouteRouteChildren,
+)
+
 interface appRouteRouteChildren {
+  apphomeRouteRoute: typeof apphomeRouteRouteWithChildren
   appSettingsRoute: typeof appSettingsRoute
-  appIndexRoute: typeof appIndexRoute
   appPropertyIdRoute: typeof appPropertyIdRoute
   appPropertyAddRoute: typeof appPropertyAddRoute
 }
 
 const appRouteRouteChildren: appRouteRouteChildren = {
+  apphomeRouteRoute: apphomeRouteRouteWithChildren,
   appSettingsRoute: appSettingsRoute,
-  appIndexRoute: appIndexRoute,
   appPropertyIdRoute: appPropertyIdRoute,
   appPropertyAddRoute: appPropertyAddRoute,
 }
