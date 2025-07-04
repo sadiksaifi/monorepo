@@ -7,6 +7,7 @@ import { Toaster } from '@/components/ui/sonner'
 import { HeaderProvider } from '@/hooks/use-header'
 import OfflineOverlay from '@/components/OfflineOverlay'
 import UpdatePrompt from '@/components/update-prompt'
+import { BottomTabs } from '@/components/bottom-tabs'
 
 const persister = createSyncStoragePersister({
   storage: typeof window !== 'undefined' ? window.localStorage : undefined,
@@ -31,6 +32,7 @@ function RootRouteComponent() {
             <UpdatePrompt />
             <Toaster position="top-center" theme={theme} richColors />
             <Outlet />
+            <BottomTabs />
           </HeaderProvider>
         </ThemeProvider>
       </PersistQueryClientProvider>

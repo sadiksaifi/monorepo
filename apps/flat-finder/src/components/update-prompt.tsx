@@ -1,6 +1,8 @@
 import { useRegisterSW } from 'virtual:pwa-register/react'
 import { useEffect } from 'react'
 
+import { useMutation } from '@tanstack/react-query'
+import { Loader } from 'lucide-react'
 import { Button } from './ui/button'
 
 function UpdatePrompt() {
@@ -32,6 +34,15 @@ function UpdatePrompt() {
     return null
   }
 
+  const { isPending, mutate } = useMutation({
+    mutationFn: async () => {
+      await updateServiceWorker(true)
+    },
+    onSuccess: () => {
+      window.location.reload()
+    },
+  })
+
   return (
     <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
       <div className="bg-background border border-border rounded-lg p-6 shadow-lg max-w-sm mx-auto">
@@ -40,7 +51,8 @@ function UpdatePrompt() {
           <p className="text-sm text-muted-foreground mt-2 mb-4">
             A new version of the application is available and needs to be installed.
           </p>
-          <Button onClick={() => updateServiceWorker(true)} className="w-full">
+          <Button onClick={() => mutate()} className="w-full" disabled={isPending}>
+            {isPending && <Loader className="size-4" />}
             Update Now
           </Button>
         </div>

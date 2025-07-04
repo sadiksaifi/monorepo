@@ -101,7 +101,7 @@ export const Header = () => {
       className={cn(
         'flex items-center justify-between h-16 top-0 left-0',
         'fixed w-full z-30 border-b px-2',
-        'bg-background/40 backdrop-blur-md',
+        'bg-background',
       )}
     >
       <div className="flex items-center justify-between *:flex *:items-center *:flex-1 w-full *:h-full h-full">

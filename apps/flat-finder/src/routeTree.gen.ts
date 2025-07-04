@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SigninRouteImport } from './routes/signin'
 import { Route as appRouteRouteImport } from './routes/(app)/route'
 import { Route as appSettingsRouteImport } from './routes/(app)/settings'
+import { Route as appAlertsRouteImport } from './routes/(app)/alerts'
 import { Route as apphomeRouteRouteImport } from './routes/(app)/(home)/route'
 import { Route as apphomeIndexRouteImport } from './routes/(app)/(home)/index'
 import { Route as appPropertyAddRouteImport } from './routes/(app)/property.add'
@@ -29,6 +30,11 @@ const appRouteRoute = appRouteRouteImport.update({
 const appSettingsRoute = appSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => appRouteRoute,
+} as any)
+const appAlertsRoute = appAlertsRouteImport.update({
+  id: '/alerts',
+  path: '/alerts',
   getParentRoute: () => appRouteRoute,
 } as any)
 const apphomeRouteRoute = apphomeRouteRouteImport.update({
@@ -54,12 +60,14 @@ const appPropertyIdRoute = appPropertyIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof apphomeIndexRoute
   '/signin': typeof SigninRoute
+  '/alerts': typeof appAlertsRoute
   '/settings': typeof appSettingsRoute
   '/property/$id': typeof appPropertyIdRoute
   '/property/add': typeof appPropertyAddRoute
 }
 export interface FileRoutesByTo {
   '/signin': typeof SigninRoute
+  '/alerts': typeof appAlertsRoute
   '/settings': typeof appSettingsRoute
   '/property/$id': typeof appPropertyIdRoute
   '/property/add': typeof appPropertyAddRoute
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/(app)': typeof appRouteRouteWithChildren
   '/signin': typeof SigninRoute
   '/(app)/(home)': typeof apphomeRouteRouteWithChildren
+  '/(app)/alerts': typeof appAlertsRoute
   '/(app)/settings': typeof appSettingsRoute
   '/(app)/property/$id': typeof appPropertyIdRoute
   '/(app)/property/add': typeof appPropertyAddRoute
@@ -77,14 +86,27 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/signin' | '/settings' | '/property/$id' | '/property/add'
+  fullPaths:
+    | '/'
+    | '/signin'
+    | '/alerts'
+    | '/settings'
+    | '/property/$id'
+    | '/property/add'
   fileRoutesByTo: FileRoutesByTo
-  to: '/signin' | '/settings' | '/property/$id' | '/property/add' | '/'
+  to:
+    | '/signin'
+    | '/alerts'
+    | '/settings'
+    | '/property/$id'
+    | '/property/add'
+    | '/'
   id:
     | '__root__'
     | '/(app)'
     | '/signin'
     | '/(app)/(home)'
+    | '/(app)/alerts'
     | '/(app)/settings'
     | '/(app)/property/$id'
     | '/(app)/property/add'
@@ -117,6 +139,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof appSettingsRouteImport
+      parentRoute: typeof appRouteRoute
+    }
+    '/(app)/alerts': {
+      id: '/(app)/alerts'
+      path: '/alerts'
+      fullPath: '/alerts'
+      preLoaderRoute: typeof appAlertsRouteImport
       parentRoute: typeof appRouteRoute
     }
     '/(app)/(home)': {
@@ -164,6 +193,7 @@ const apphomeRouteRouteWithChildren = apphomeRouteRoute._addFileChildren(
 
 interface appRouteRouteChildren {
   apphomeRouteRoute: typeof apphomeRouteRouteWithChildren
+  appAlertsRoute: typeof appAlertsRoute
   appSettingsRoute: typeof appSettingsRoute
   appPropertyIdRoute: typeof appPropertyIdRoute
   appPropertyAddRoute: typeof appPropertyAddRoute
@@ -171,6 +201,7 @@ interface appRouteRouteChildren {
 
 const appRouteRouteChildren: appRouteRouteChildren = {
   apphomeRouteRoute: apphomeRouteRouteWithChildren,
+  appAlertsRoute: appAlertsRoute,
   appSettingsRoute: appSettingsRoute,
   appPropertyIdRoute: appPropertyIdRoute,
   appPropertyAddRoute: appPropertyAddRoute,

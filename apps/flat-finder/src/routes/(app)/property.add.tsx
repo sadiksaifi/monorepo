@@ -1,4 +1,4 @@
-import { Link, createFileRoute, useRouter } from '@tanstack/react-router'
+import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useForm } from 'react-hook-form'
@@ -23,7 +23,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { PropertyMediaUpload } from '@/components/property-media-upload'
 import { ScreenLoader } from '@/components/screen-loader'
-import { HeaderBackButton, useHeader } from '@/hooks/use-header'
+import { useHeader } from '@/hooks/use-header'
 import { PROPERTY_LOCATIONS } from '@/lib/locations'
 
 export const Route = createFileRoute('/(app)/property/add')({
@@ -58,12 +58,8 @@ function RouteComponent() {
   const trpc = useTRPC()
   const headerContent = useMemo(
     () => ({
-      left: <HeaderBackButton />,
-      center: (
-        <Button variant="ghost" asChild>
-          <Link to="/">Flat Finder</Link>
-        </Button>
-      ),
+      left: <div className="px-4 font-medium">Add</div>,
+      center: <></>,
       right: import.meta.env.DEV ? (
         <Button
           variant="ghost"
@@ -75,7 +71,18 @@ function RouteComponent() {
           <Settings2 className="size-5" />
         </Button>
       ) : (
-        <></>
+        <Button
+          variant="ghost"
+          className="h-full aspect-square"
+          onClick={() => {
+            toast.warning('Coming soon', {
+              description: 'Please be patient, we are working on it.',
+            })
+          }}
+        >
+          <Settings2 className="size-5" />
+          <span className="sr-only">Settings</span>
+        </Button>
       ),
     }),
     [],
@@ -151,15 +158,9 @@ function RouteComponent() {
           const transformedData = formSchema.parse(data)
           mutate(transformedData)
         })}
-        className="p-4 mt-18"
+        className="p-4 my-18 mb-24"
       >
         <div className="flex flex-col gap-6">
-          <div>
-            <h1 className="text-2xl font-bold">Add Property</h1>
-            <p className="text-muted-foreground">
-              Please fill all the required fields correctly!
-            </p>
-          </div>
           <FormField
             control={form.control}
             name="propertyName"

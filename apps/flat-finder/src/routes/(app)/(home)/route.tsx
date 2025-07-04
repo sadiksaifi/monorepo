@@ -98,11 +98,6 @@ function RouteComponent() {
         </div>
       ) : (
         <>
-          <Button variant="ghost" className="h-full" asChild>
-            <Link to="/property/add">
-              <Plus className="size-6" />
-            </Link>
-          </Button>
           <Button
             variant="ghost"
             className="h-full"
@@ -129,17 +124,6 @@ function RouteComponent() {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup className="*:p-2">
-                    <DropdownMenuItem asChild>
-                      <Button
-                        className="w-full justify-start"
-                        variant="ghost"
-                        onClick={() => {
-                          router.navigate({ to: '/settings' })
-                        }}
-                      >
-                        Settings
-                      </Button>
-                    </DropdownMenuItem>
                     {!isUserLoggedIn && (
                       <DrawerTrigger asChild>
                         <DropdownMenuItem asChild>

@@ -1,6 +1,6 @@
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useMemo } from 'react'
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { ChevronRight, Heart, MapPin } from 'lucide-react'
 import { Fzf } from 'fzf'
 import { useSearchStore } from './-search'

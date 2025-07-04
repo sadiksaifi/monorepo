@@ -9,7 +9,7 @@ function RouteComponent() {
   return (
     <>
       <Header />
-      <div className="mt-16 min-h-[calc(100vh-8rem)] max-w-2xl mx-auto">
+      <div className="my-16 min-h-[calc(100vh-8rem)] max-w-2xl mx-auto">
         <Outlet />
       </div>
     </>
