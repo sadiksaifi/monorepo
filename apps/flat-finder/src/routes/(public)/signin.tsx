@@ -9,7 +9,7 @@ import { authClient } from '@/lib/auth-client'
 import { CLIENT_ORIGIN } from '@/lib/constants'
 import Logo from '/logo192.png'
 
-export const Route = createFileRoute('/signin')({
+export const Route = createFileRoute('/(public)/signin')({
   component: RouteComponent,
 })
 

@@ -9,8 +9,9 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SigninRouteImport } from './routes/signin'
 import { Route as appRouteRouteImport } from './routes/(app)/route'
+import { Route as publicSigninRouteImport } from './routes/(public)/signin'
+import { Route as publicInstallRouteImport } from './routes/(public)/install'
 import { Route as appSettingsRouteImport } from './routes/(app)/settings'
 import { Route as appAlertsRouteImport } from './routes/(app)/alerts'
 import { Route as apphomeRouteRouteImport } from './routes/(app)/(home)/route'
@@ -18,13 +19,18 @@ import { Route as apphomeIndexRouteImport } from './routes/(app)/(home)/index'
 import { Route as appPropertyAddRouteImport } from './routes/(app)/property.add'
 import { Route as appPropertyIdRouteImport } from './routes/(app)/property.$id'
 
-const SigninRoute = SigninRouteImport.update({
-  id: '/signin',
+const appRouteRoute = appRouteRouteImport.update({
+  id: '/(app)',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const publicSigninRoute = publicSigninRouteImport.update({
+  id: '/(public)/signin',
   path: '/signin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const appRouteRoute = appRouteRouteImport.update({
-  id: '/(app)',
+const publicInstallRoute = publicInstallRouteImport.update({
+  id: '/(public)/install',
+  path: '/install',
   getParentRoute: () => rootRouteImport,
 } as any)
 const appSettingsRoute = appSettingsRouteImport.update({
@@ -59,16 +65,18 @@ const appPropertyIdRoute = appPropertyIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof apphomeIndexRoute
-  '/signin': typeof SigninRoute
   '/alerts': typeof appAlertsRoute
   '/settings': typeof appSettingsRoute
+  '/install': typeof publicInstallRoute
+  '/signin': typeof publicSigninRoute
   '/property/$id': typeof appPropertyIdRoute
   '/property/add': typeof appPropertyAddRoute
 }
 export interface FileRoutesByTo {
-  '/signin': typeof SigninRoute
   '/alerts': typeof appAlertsRoute
   '/settings': typeof appSettingsRoute
+  '/install': typeof publicInstallRoute
+  '/signin': typeof publicSigninRoute
   '/property/$id': typeof appPropertyIdRoute
   '/property/add': typeof appPropertyAddRoute
   '/': typeof apphomeIndexRoute
@@ -76,10 +84,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(app)': typeof appRouteRouteWithChildren
-  '/signin': typeof SigninRoute
   '/(app)/(home)': typeof apphomeRouteRouteWithChildren
   '/(app)/alerts': typeof appAlertsRoute
   '/(app)/settings': typeof appSettingsRoute
+  '/(public)/install': typeof publicInstallRoute
+  '/(public)/signin': typeof publicSigninRoute
   '/(app)/property/$id': typeof appPropertyIdRoute
   '/(app)/property/add': typeof appPropertyAddRoute
   '/(app)/(home)/': typeof apphomeIndexRoute
@@ -88,26 +97,29 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/signin'
     | '/alerts'
     | '/settings'
+    | '/install'
+    | '/signin'
     | '/property/$id'
     | '/property/add'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/signin'
     | '/alerts'
     | '/settings'
+    | '/install'
+    | '/signin'
     | '/property/$id'
     | '/property/add'
     | '/'
   id:
     | '__root__'
     | '/(app)'
-    | '/signin'
     | '/(app)/(home)'
     | '/(app)/alerts'
     | '/(app)/settings'
+    | '/(public)/install'
+    | '/(public)/signin'
     | '/(app)/property/$id'
     | '/(app)/property/add'
     | '/(app)/(home)/'
@@ -115,23 +127,31 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   appRouteRoute: typeof appRouteRouteWithChildren
-  SigninRoute: typeof SigninRoute
+  publicInstallRoute: typeof publicInstallRoute
+  publicSigninRoute: typeof publicSigninRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/signin': {
-      id: '/signin'
-      path: '/signin'
-      fullPath: '/signin'
-      preLoaderRoute: typeof SigninRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/(app)': {
       id: '/(app)'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof appRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(public)/signin': {
+      id: '/(public)/signin'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof publicSigninRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(public)/install': {
+      id: '/(public)/install'
+      path: '/install'
+      fullPath: '/install'
+      preLoaderRoute: typeof publicInstallRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(app)/settings': {
@@ -213,7 +233,8 @@ const appRouteRouteWithChildren = appRouteRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   appRouteRoute: appRouteRouteWithChildren,
-  SigninRoute: SigninRoute,
+  publicInstallRoute: publicInstallRoute,
+  publicSigninRoute: publicSigninRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
