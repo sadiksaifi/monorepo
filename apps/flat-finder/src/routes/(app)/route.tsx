@@ -18,6 +18,7 @@ function RouteComponent() {
 
   useLayoutEffect(() => {
     if (
+      import.meta.env.PROD &&
       [PLATFORM.IOS, PLATFORM.IPADOS, PLATFORM.ANDROID].includes(pwaInfo.platform) &&
       !pwaInfo.isPWA
     ) {

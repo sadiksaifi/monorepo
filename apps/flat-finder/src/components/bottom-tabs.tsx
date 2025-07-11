@@ -61,7 +61,7 @@ export const BottomTabs = () => {
               type="button"
             >
               <Icon className="size-6" />
-              <span className="text-sm text-center">{tab.label}</span>
+              <span className="text-[10px] font-thin text-center">{tab.label}</span>
             </Button>
           </TabsPrimitive.Trigger>
         ))}
