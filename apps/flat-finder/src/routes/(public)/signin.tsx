@@ -70,7 +70,7 @@ function RouteComponent() {
             ) : (
               <GoogleIcon />
             )}
-            Sign in With Google
+            Continue with Google
           </Button>
         </div>
 

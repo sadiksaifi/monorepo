@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link, createFileRoute, useRouter } from '@tanstack/react-router'
-import { Heart, MapPin, MapPinned, Phone, Plus, Settings2, Share } from 'lucide-react'
+import { Heart, MapPin, MapPinned, Phone, Share } from 'lucide-react'
 import { toast } from 'sonner'
 import { useMemo, useState } from 'react'
 import { GoogleMap, Whatsapp } from '@/components/icons'
@@ -52,24 +52,24 @@ function RouteComponent() {
       ),
       right: (
         <>
-          <Button
-            variant="ghost"
-            className="h-full"
-            onClick={() => {
-              toast.warning('Coming soon', {
-                description: 'Please be patient, we are working on it.',
-              })
-            }}
-          >
-            <Settings2 className="size-5" />
-            <span className="sr-only">Settings</span>
-          </Button>
-          <Button variant="ghost" className="h-full" asChild>
-            <Link to="/property/add">
-              <Plus className="size-6" />
-              <span className="sr-only">Add Property</span>
-            </Link>
-          </Button>
+          {/* <Button */}
+          {/*   variant="ghost" */}
+          {/*   className="h-full" */}
+          {/*   onClick={() => { */}
+          {/*     toast.warning('Coming soon', { */}
+          {/*       description: 'Please be patient, we are working on it.', */}
+          {/*     }) */}
+          {/*   }} */}
+          {/* > */}
+          {/*   <Settings2 className="size-5" /> */}
+          {/*   <span className="sr-only">Settings</span> */}
+          {/* </Button> */}
+          {/* <Button variant="ghost" className="h-full" asChild> */}
+          {/*   <Link to="/property/add"> */}
+          {/*     <Plus className="size-6" /> */}
+          {/*     <span className="sr-only">Add Property</span> */}
+          {/*   </Link> */}
+          {/* </Button> */}
         </>
       ),
     }),

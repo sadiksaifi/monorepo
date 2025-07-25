@@ -61,7 +61,7 @@ export function SigninDrawer({
           onClick={() => mutate()}
         >
           <GoogleIcon />
-          Sign in with Google
+          Continue with Google
         </Button>
         <ScreenLoader
           isVisible={isSocialPending}
