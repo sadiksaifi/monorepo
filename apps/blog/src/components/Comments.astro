@@ -1,0 +1,149 @@
+---
+// Comments Component - Supports multiple commenting systems
+import { COMMENTS_CONFIG } from '@/lib/comments-config';
+
+const { system, giscus, disqus } = COMMENTS_CONFIG;
+---
+
+<div class="comments-section mt-12 pt-8 border-t border-border">
+  {system === 'giscus' && (
+    <div id="giscus-container" class="giscus-container">
+      <!-- Giscus will be loaded here -->
+    </div>
+  )}
+  
+
+  
+  {system === 'disqus' && (
+    <div class="disqus-container">
+      <div id="disqus_thread"></div>
+      <script is:inline>
+        (function() {
+          var d = document, s = d.createElement('script');
+          s.src = 'https://{disqus.shortname}.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', String(+new Date()));
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  )}
+  
+  {system === 'none' && (
+    <div class="no-comments text-center py-8 text-muted-foreground">
+      <p>Comments are disabled for this post.</p>
+    </div>
+  )}
+</div>
+
+<p class="text-sm text-muted-foreground mt-6">
+  💡 To edit or delete your comment, click on the GitHub link in the comment to go to the GitHub Discussions page.
+</p>
+
+<script is:inline>
+  // Global flags to prevent multiple initializations
+  if (!window.commentsInitialized) {
+    window.commentsInitialized = false;
+  }
+
+  function loadGiscus() {
+    const container = document.getElementById('giscus-container');
+    if (!container) return;
+    
+    // Clear existing content and any existing giscus iframe
+    container.innerHTML = '';
+    const existingIframe = document.querySelector('iframe[src*="giscus.app"]');
+    if (existingIframe) {
+      existingIframe.remove();
+    }
+    
+    // Get current theme
+    const isDark = document.documentElement.classList.contains('dark');
+    const theme = isDark ? 'dark' : 'light';
+    
+    // Create and append the script
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.setAttribute('data-repo', 'sadiksaifi/monorepo');
+    script.setAttribute('data-repo-id', 'R_kgDOJI9G9Q');
+    script.setAttribute('data-category', 'Announcements');
+    script.setAttribute('data-category-id', 'DIC_kwDOJI9G9c4Ctejz');
+    script.setAttribute('data-mapping', 'url');
+    script.setAttribute('data-strict', '0');
+    script.setAttribute('data-reactions-enabled', '0');
+    script.setAttribute('data-emit-metadata', '0');
+    script.setAttribute('data-input-position', 'bottom');
+    script.setAttribute('data-theme', theme);
+    script.setAttribute('data-lang', 'en');
+    script.setAttribute('crossorigin', 'anonymous');
+    script.async = true;
+    
+    container.appendChild(script);
+  }
+
+
+
+  function loadComments() {
+    // Load based on the configured system - hardcoded for now
+    loadGiscus();
+  }
+
+  // Load on initial page load
+  if (!window.commentsInitialized) {
+    loadComments();
+    window.commentsInitialized = true;
+  }
+
+  // Listen for navigation events
+  document.addEventListener('astro:after-swap', () => {
+    // Small delay to ensure DOM is ready
+    setTimeout(loadComments, 100);
+  });
+
+  // Listen for theme changes
+  document.addEventListener('astro:after-swap', () => {
+    // Re-setup theme change listener after navigation
+    setupThemeChangeListener();
+  });
+
+  function setupThemeChangeListener() {
+    // Listen for theme toggle clicks
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        // Small delay to let the theme change complete
+        setTimeout(loadComments, 100);
+      });
+    }
+  }
+
+  // Setup initial theme change listener
+  setupThemeChangeListener();
+</script>
+
+<style>
+  .comments-section {
+    max-width: 100%;
+  }
+  
+  .giscus-container,
+  .disqus-container {
+  }
+  
+  /* Ensure commenting systems respect color scheme */
+  .giscus-container {
+    color-scheme: light dark;
+  }
+  
+  :global(.dark) .giscus-container {
+    color-scheme: dark;
+  }
+  
+  :global(.dark) .disqus-container {
+    color-scheme: dark;
+  }
+  
+  .no-comments {
+    font-style: italic;
+  }
+</style> 
