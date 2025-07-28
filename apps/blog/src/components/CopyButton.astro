@@ -1,0 +1,123 @@
+---
+// CopyButton component for code blocks - simple text approach
+---
+
+<script>
+  // Copy button functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const codeBlocks = document.querySelectorAll('pre');
+    
+    codeBlocks.forEach((pre) => {
+      // Skip if already has copy button
+      if (pre.querySelector('.copy-button')) return;
+      
+      // Add group class for hover effects and make pre non-focusable
+      pre.classList.add('group', 'relative');
+      pre.setAttribute('tabindex', '-1');
+      
+      // Create copy button
+      const copyButton = document.createElement('button');
+      copyButton.className = 'copy-button absolute top-0 right-0 px-2 py-1 text-xs font-mono bg-gray-800/80 hover:bg-gray-700/90 text-gray-300 hover:text-white transition-colors duration-200 focus:outline-none z-10';
+      copyButton.textContent = 'Copy';
+      copyButton.title = 'Copy to clipboard';
+      copyButton.setAttribute('aria-label', 'Copy code to clipboard');
+      copyButton.setAttribute('type', 'button');
+      
+      // Add click handler
+      copyButton.addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const code = pre.querySelector('code');
+        const textToCopy = code ? code.textContent || '' : pre.textContent || '';
+        
+        if (!textToCopy.trim()) {
+          console.warn('No text content found to copy');
+          return;
+        }
+        
+        try {
+          await navigator.clipboard.writeText(textToCopy);
+          
+          // Show success state
+          copyButton.textContent = 'Copied!';
+          copyButton.classList.add('text-green-400');
+          copyButton.title = 'Copied!';
+          
+          // Reset after 2 seconds
+          setTimeout(() => {
+            copyButton.textContent = 'Copy';
+            copyButton.classList.remove('text-green-400');
+            copyButton.title = 'Copy to clipboard';
+          }, 2000);
+        } catch (err) {
+          console.error('Failed to copy text: ', err);
+          
+          // Fallback for older browsers
+          try {
+            const textArea = document.createElement('textarea');
+            textArea.value = textToCopy;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            const successful = document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            if (successful) {
+              // Show success state
+              copyButton.textContent = 'Copied!';
+              copyButton.classList.add('text-green-400');
+              copyButton.title = 'Copied!';
+              
+              // Reset after 2 seconds
+              setTimeout(() => {
+                copyButton.textContent = 'Copy';
+                copyButton.classList.remove('text-green-400');
+                copyButton.title = 'Copy to clipboard';
+              }, 2000);
+            } else {
+              throw new Error('execCommand copy failed');
+            }
+          } catch (fallbackErr) {
+            console.error('Fallback copy also failed: ', fallbackErr);
+            // Show error state briefly
+            copyButton.textContent = 'Failed';
+            copyButton.classList.add('text-red-400');
+            copyButton.title = 'Copy failed';
+            
+            setTimeout(() => {
+              copyButton.textContent = 'Copy';
+              copyButton.classList.remove('text-red-400');
+              copyButton.title = 'Copy to clipboard';
+            }, 2000);
+          }
+        }
+      });
+      
+      // Add keyboard support
+      copyButton.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          copyButton.click();
+        }
+      });
+      
+      // Make button focusable and add to tab order
+      copyButton.setAttribute('tabindex', '0');
+      
+      // Add focus styles for keyboard navigation
+      copyButton.addEventListener('focus', () => {
+        copyButton.classList.add('ring-2', 'ring-blue-500', 'ring-offset-2', 'ring-offset-gray-900');
+      });
+      
+      copyButton.addEventListener('blur', () => {
+        copyButton.classList.remove('ring-2', 'ring-blue-500', 'ring-offset-2', 'ring-offset-gray-900');
+      });
+      
+      pre.appendChild(copyButton);
+    });
+  });
+</script> 

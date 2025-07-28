@@ -5,6 +5,7 @@ import RootLayout from "@/layouts/RootLayout.astro";
 import Back from "@/components/back.astro";
 import Badge from "@/components/Badge.astro";
 import Comments from "@/components/Comments.astro";
+import CopyButton from "@/components/CopyButton.astro";
 import { Image } from "astro:assets";
 
 type Props = CollectionEntry<"blog">["data"];
@@ -49,4 +50,5 @@ const { title, description, tags, pubDate, image } = Astro.props;
     </div>
   </article>
   <Comments />
+  <CopyButton />
 </RootLayout>

@@ -56,6 +56,24 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
+  }
+}
+
+@layer components {
+  /* Code block copy button styles */
+  pre {
+    @apply relative;
+  }
+
+  .copy-button {
+    @apply z-10;
+  }
+
+  /* Ensure code blocks have proper spacing for the copy button */
+  pre:not(:has(.copy-button)) {
+    @apply pr-12;
   }
 }
