@@ -1,6 +1,6 @@
-import "../styles.css";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@workspace/ui/globals.css";
+import "../styles.css";
 import { Providers } from "@/lib/components/providers";
 import type { Metadata, Viewport } from "next/types";
 import { siteConfig } from "@/lib/config/site";

@@ -1,98 +1,115 @@
-import { buttonVariants } from "@workspace/ui/components/button";
-import { Separator } from "@workspace/ui/components/separator";
 import { cn } from "@workspace/ui/lib/utils";
 
-const techStackList = [
-  "Next.Js",
-  "React",
-  "Typescript",
-  "Javascript",
-  "Astro",
-  "SolidJS",
-  "Redux",
-  "TailwindCSS",
-  "Radix UI",
-  "HTML/CSS",
-  "GoLang",
-  "NodeJS",
-  "MySql",
-  "PostgreSQL",
-];
+type AboutSectionProps = React.HTMLAttributes<HTMLDivElement>;
 
-const TechStackLabel: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
-  children,
-  className,
-}) => (
-  <div
-    className={cn(
-      buttonVariants({ variant: "outline" }),
-      "cursor-pointer",
-      className,
-    )}
-  >
-    {children}
-  </div>
-);
-
-type AboutSectionProps = React.HTMLAttributes<HTMLDivElement>
-export const AboutSection: React.FC<AboutSectionProps> = ({
-  className,
-  ...props
-}) => {
+export const AboutSection: React.FC<AboutSectionProps> = ({ className, ...props }) => {
   return (
     <section
       id="about"
       className={cn(
-        "flex flex-col gap-16 xl:gap-32 justify-center items-center h-[calc(100vh-3.5rem)]",
+        "py-32 relative bg-muted dark:bg-muted/20 overflow-hidden",
         className,
       )}
       {...props}
     >
-      <article className="flex justify-center items-center flex-col gap-4 max-w-4xl">
-        <div className="flex flex-col gap-3 items-center justify-center">
-          <h2 className="font-bold tracking-tighter text-4xl relative bg-gradient-to-r from-primary to-muted-foreground bg-clip-text text-transparent">
-            About Me
-          </h2>
-          <Separator className="h-1.5 rounded-full w-14" />
-        </div>
-        <p className="text-[max(40px, min(4vw, 60px))] tracking-[-0.01] text-muted-foreground text-center">
-          Here you will find more information about me, what I do, and my
-          current skills mostly in terms of programming and technology.
-        </p>
-      </article>
-      <article className="flex flex-col xl:flex-row justify-between gap-y-8 gap-x-10 max-w-5xl">
-        <div className="xl:w-[50%] flex flex-col items-center xl:items-start xl:text-start text-center gap-4">
-          <div className="flex flex-col items-center xl:items-start gap-3">
-            <h3 className="font-bold tracking-tighter text-2xl relative bg-gradient-to-r from-primary to-muted-foreground bg-clip-text text-transparent">
-              Get to know me!
-            </h3>
-            <Separator className="h-1.5 rounded-full w-14" />
+      {/* Background Pattern */}
+      <div className="absolute inset-0 -z-10 opacity-5">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-muted-foreground/20" />
+      </div>
+
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 relative z-10">
+        {/* Section Header */}
+        <div className="text-center mb-24">
+          <div className="inline-flex items-center gap-3 mb-6">
+            <div className="w-12 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent" />
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight gradient-text">
+              About Me
+            </h2>
+            <div className="w-12 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent" />
           </div>
-          <p className="text-[max(40px, min(4vw, 60px))] tracking-[-0.01] text-muted-foreground">
-            I&apos;m a web developer based in India, I have a serious passion
-            for web development and I love to create websites and web
-            applications that are user-friendly and easy to use using the latest
-            technologies and best practices.
+        </div>
+
+        {/* Content with Mascot */}
+        <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
+          {/* Text Content */}
+          <div className="space-y-6 text-center lg:text-left">
+            <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+              I'm a{" "}
+              <span className="font-semibold text-primary">full-stack developer</span> who
+              builds impactful digital products using modern technologies. I love creating
+              end-to-end solutions—from robust backend architectures and APIs to polished,
+              user-centric frontend experiences.
+            </p>
+            <p className="text-sm md:text-base text-muted-foreground/80 leading-relaxed">
+              Based in India, I'm passionate about clean code, exceptional user
+              experiences, and innovative solutions that make a real difference. I'm
+              always open to new opportunities and love collaborating with strong teams to
+              drive product growth.
+            </p>
+          </div>
+
+          {/* Mascot/Illustration */}
+          <div className="relative flex justify-center lg:justify-end">
+            <div className="relative w-80 h-80">
+              {/* Main Developer Mascot */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="relative">
+                  {/* Head */}
+                  <div className="w-24 h-24 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full border-2 border-primary/30 flex items-center justify-center">
+                    <div className="w-16 h-16 bg-gradient-to-br from-primary/30 to-primary/20 rounded-full flex items-center justify-center">
+                      <div className="w-8 h-8 bg-primary/40 rounded-full flex items-center justify-center">
+                        <div className="w-4 h-4 bg-primary rounded-full"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Body */}
+                  <div className="w-32 h-40 bg-gradient-to-br from-muted-foreground/20 to-muted-foreground/10 rounded-2xl border-2 border-muted-foreground/30 mt-2 relative">
+                    {/* Arms */}
+                    <div className="absolute -left-4 top-8 w-6 h-16 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full border border-primary/30 transform -rotate-12"></div>
+                    <div className="absolute -right-4 top-8 w-6 h-16 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full border border-primary/30 transform rotate-12"></div>
+
+                    {/* Code Lines */}
+                    <div className="absolute top-4 left-4 right-4 space-y-1">
+                      <div className="h-1.5 bg-primary/30 rounded-full w-3/4"></div>
+                      <div className="h-1.5 bg-primary/20 rounded-full w-1/2"></div>
+                      <div className="h-1.5 bg-primary/40 rounded-full w-5/6"></div>
+                    </div>
+                  </div>
+
+                  {/* Floating Elements */}
+                  <div className="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full border border-primary/30 animate-pulse"></div>
+                  <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-gradient-to-br from-muted-foreground/20 to-muted-foreground/10 rounded-full border border-muted-foreground/30 animate-pulse delay-1000"></div>
+                  <div className="absolute top-1/2 -left-8 w-4 h-4 bg-gradient-to-br from-primary/30 to-primary/20 rounded-full border border-primary/40 animate-pulse delay-500"></div>
+                </div>
+              </div>
+
+              {/* Decorative Code Blocks */}
+              <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-background to-muted/50 rounded-lg border border-border/40 p-2 opacity-60">
+                <div className="space-y-1">
+                  <div className="h-1 bg-primary/40 rounded w-3/4"></div>
+                  <div className="h-1 bg-primary/30 rounded w-1/2"></div>
+                </div>
+              </div>
+
+              <div className="absolute bottom-0 left-0 w-20 h-12 bg-gradient-to-br from-background to-muted/50 rounded-lg border border-border/40 p-2 opacity-60">
+                <div className="space-y-1">
+                  <div className="h-1 bg-muted-foreground/40 rounded w-full"></div>
+                  <div className="h-1 bg-muted-foreground/30 rounded w-2/3"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Additional Bottom Content for Height */}
+        <div className="text-center space-y-6">
+          <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto" />
+          <p className="text-sm text-muted-foreground/60 max-w-md mx-auto">
+            Always learning, always building, always improving
           </p>
-          <p className="text-[max(40px, min(4vw, 60px))] tracking-[-0.01] text-muted-foreground">
-            I&apos;m open to any kind of web development opportunity, or if you
-            have any questions, feel free to contact me.
-          </p>
         </div>
-        <div className="xl:w-[50%] flex flex-col items-center xl:items-start xl:text-start text-center gap-4">
-          <div className="flex flex-col items-center xl:items-start gap-3">
-            <h3 className="font-bold tracking-tighter text-2xl relative bg-gradient-to-r from-primary to-muted-foreground bg-clip-text text-transparent">
-              Tech Stack
-            </h3>
-            <Separator className="h-1.5 rounded-full w-14" />
-          </div>
-          <div className="text-[max(40px, min(4vw, 60px))] justify-center xl:justify-start mt-1.5 tracking-[-0.01] text-muted-foreground flex gap-3 flex-wrap">
-            {techStackList.map((tech, index) => (
-              <TechStackLabel key={index}>{tech}</TechStackLabel>
-            ))}
-          </div>
-        </div>
-      </article>
+      </div>
     </section>
   );
 };

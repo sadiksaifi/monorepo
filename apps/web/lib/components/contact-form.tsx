@@ -16,12 +16,16 @@ import { Textarea } from "@workspace/ui/components/textarea";
 import { contactFormSchema } from "@/lib/validations/contact-form";
 import type { ContactForm as TContactForm } from "@/lib/validations/contact-form";
 
-import { Loader2 } from "lucide-react";
+import { Loader2, Send } from "lucide-react";
 import { sendEmail } from "../server/send-email";
-import { useTransition } from "react";
+import { ComponentPropsWithRef, useTransition } from "react";
 import { toast } from "sonner";
+import { cn } from "@workspace/ui/lib/utils";
 
-const ContactForm = () => {
+const ContactForm: React.FC<ComponentPropsWithRef<"form">> = ({
+  className,
+  ...props
+}) => {
   const [isPending, startTransition] = useTransition();
   const form = useForm<TContactForm>({
     resolver: zodResolver(contactFormSchema),
@@ -50,56 +54,92 @@ const ContactForm = () => {
   return (
     <Form {...form}>
       <form
-        id="contact"
-        className="space-y-8 p-8 w-[90%] rounded-lg border max-w-5xl"
+        className={cn("w-full space-y-6", className)}
         onSubmit={form.handleSubmit(onSubmit)}
+        {...props}
       >
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input placeholder="John Doe" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+        {/* Form Header */}
+        <div className="text-center space-y-2">
+          <h3 className="text-xl font-semibold tracking-tight group-hover:text-primary transition-colors duration-200">
+            Send a Message
+          </h3>
+          <p className="text-sm text-muted-foreground">I'd love to hear from you!</p>
+        </div>
+
+        {/* Form Fields */}
+        <div className="space-y-4">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-medium">Name</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="John Doe"
+                    className="h-10 text-sm border-border/50 focus:border-primary/50 transition-colors duration-200"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-medium">Email</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="mail@example.com"
+                    className="h-10 text-sm border-border/50 focus:border-primary/50 transition-colors duration-200"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="message"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-medium">Message</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Tell me about your project or just say hello..."
+                    className="min-h-[120px] text-sm border-border/50 focus:border-primary/50 transition-colors duration-200 resize-none"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        {/* Submit Button */}
+        <Button
+          type="submit"
+          disabled={isPending}
+          className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-medium transition-all duration-200 hover-lift"
+        >
+          {isPending ? (
+            <>
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              Sending...
+            </>
+          ) : (
+            <>
+              <Send className="w-4 h-4 mr-2" />
+              Send Message
+            </>
           )}
-        />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="mail@example.com" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="message"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Message</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Type your message here"
-                  className="resize-none"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" disabled={isPending}>
-          {isPending && <Loader2 className="animate-spin size-4" />}
-          Submit
         </Button>
       </form>
     </Form>

@@ -23,18 +23,22 @@ export function NavLinks({ className, ...props }: React.HTMLAttributes<HTMLEleme
   }, [isClient]);
 
   return (
-    <nav className={cn("flex items-center space-x-4 lg:space-x-6", className)} {...props}>
+    <nav className={cn("flex items-center space-x-1", className)} {...props}>
       {siteConfig.links.navitems.map((item) => (
         <a
           key={item.name}
           href={item.uri}
-          className={`text-sm font-medium transition-colors hover:text-primary ${
+          className={cn(
+            "relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 hover:bg-muted/80",
             hash === item.uri || (hash === "" && item.name === "Home")
-              ? "text-primary"
-              : "text-muted-foreground"
-          }`}
+              ? "text-primary bg-primary/10"
+              : "text-muted-foreground hover:text-foreground",
+          )}
         >
           {item.name}
+          {(hash === item.uri || (hash === "" && item.name === "Home")) && (
+            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-primary rounded-full" />
+          )}
         </a>
       ))}
     </nav>
