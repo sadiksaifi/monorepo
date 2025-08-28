@@ -38,12 +38,58 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Primary Meta Tags */}
+        <title>{siteConfig.title}</title>
+        <meta name="title" content={siteConfig.title} />
+        <meta name="description" content={siteConfig.description} />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="canonical" href={siteConfig.url} />
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={siteConfig.url} />
+        <meta property="og:title" content={siteConfig.title} />
+        <meta property="og:description" content={siteConfig.description} />
+        <meta property="og:image" content={siteConfig.ogImage} />
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={siteConfig.url} />
+        <meta name="twitter:title" content={siteConfig.title} />
+        <meta name="twitter:description" content={siteConfig.description} />
+        <meta name="twitter:image" content={siteConfig.ogImage} />
+        {/* Structured Data: Person & Website */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Sadik Saifi",
+              url: siteConfig.url,
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: siteConfig.title,
+              url: siteConfig.url,
+            }),
+          }}
+        />
+      </head>
       <body
         className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
+        role="document"
       >
         <Providers>
           <Navbar />
-          {children}
+          <main id="main-content" tabIndex={-1}>
+            {children}
+          </main>
           <Footer />
         </Providers>
       </body>
