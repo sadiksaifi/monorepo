@@ -23,7 +23,8 @@ mac-menu is a modern, native macOS implementation of fuzzy finding, inspired by 
 ### Quick Install
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/sadiksaifi/mac-menu/main/install.sh | bash
+brew tap sadiksaifi/mac-menu https://github.com/sadiksaifi/mac-menu
+brew install mac-menu
 ```
 
 ### Manual Installation
@@ -32,7 +33,7 @@ curl -sSL https://raw.githubusercontent.com/sadiksaifi/mac-menu/main/install.sh 
 # Clone and build
 git clone https://github.com/sadiksaifi/mac-menu.git
 cd mac-menu
-make
+make build
 sudo make install
 ```
 
