@@ -28,16 +28,25 @@ Most developers work with Markdown daily - READMEs, documentation, notes, change
 - **Directory support** - Preview all Markdown files in a folder
 - **Live reload server** - Watch files and auto-refresh on changes
 - **Respects .gitignore** - Automatically skips ignored files
+- **Auto-updates** - Get notified when new versions are available
 - **Cross-platform** - Works on macOS, Linux, and Windows
 - **Zero configuration** - Just install and use
 
 ## Installation
 
-### Using Homebrew (Recommended for macOS)
+### Using Homebrew (macOS)
 
 ```bash
 brew install sadiksaifi/tap/mdp
 ```
+
+### Using Curl (macOS/Linux)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/sadiksaifi/mdp/main/scripts/install.sh | sh
+```
+
+This installs mdp to `~/.local/bin` and automatically configures your PATH.
 
 ### From Source
 
@@ -45,6 +54,22 @@ brew install sadiksaifi/tap/mdp
 git clone https://github.com/sadiksaifi/mdp.git
 cd mdp
 make install
+```
+
+## Upgrading
+
+mdp automatically checks for updates and notifies you when a new version is available.
+
+### Homebrew
+
+```bash
+brew upgrade sadiksaifi/tap/mdp
+```
+
+### Curl Installation
+
+```bash
+mdp upgrade
 ```
 
 ## Usage
@@ -215,9 +240,13 @@ fi
 Install mdp today and simplify your Markdown workflow:
 
 ```bash
+# macOS (Homebrew)
 brew install sadiksaifi/tap/mdp
+
+# macOS/Linux (Curl)
+curl -fsSL https://raw.githubusercontent.com/sadiksaifi/mdp/main/scripts/install.sh | sh
 ```
 
-Or check out the [GitHub repository](https://github.com/sadiksaifi/mdp) for more installation options and to contribute to the project.
+Check out the [GitHub repository](https://github.com/sadiksaifi/mdp) for more options and to contribute to the project.
 
 Happy writing!
